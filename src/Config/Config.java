@@ -1,4 +1,5 @@
 package Config;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.nio.file.Path;
@@ -16,7 +17,10 @@ public class Config {
         FILES_PROJECTS_WEB.put("style", ".css");
         FILES_PROJECTS_WEB.put("js", ".js");
     }
-    public static final Path DIRETORIO = Paths.get("C:\\Users\\gustavoquitto-ieg\\OneDrive - Instituto J&F\\Área de Trabalho\\Projetcs\\Projects");
+
+    public static final HashMap<String, ArrayList<String>> ProjectStutures = new HashMap<>();
+    public static final Path DIRETORIO_PYTHON = Paths.get("C:\\Users\\gustavoquitto-ieg\\OneDrive - Instituto J&F\\Área de Trabalho\\Projetcs\\Projects");
+    public static final Path DIRETORIO_CPP = Paths.get("C:\\Users\\gustavoquitto-ieg\\OneDrive - Instituto J&F\\Área de Trabalho\\Projetcs\\Projects");
     public static final Path DIRETORIO_WEB = Paths.get("C:\\Users\\gustavoquitto-ieg\\OneDrive - Instituto J&F\\Área de Trabalho\\Projetcs\\Tech\\Web\\DS1\\HTML");
     public static final String MESSAGE_SCRIPT = "#Project created successfully!";
 }
