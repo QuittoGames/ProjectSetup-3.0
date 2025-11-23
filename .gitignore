@@ -1,0 +1,209 @@
+# ==========================
+#   PYTHON PADRÃO
+# ==========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pdb
+*.pym
+*.pyi
+*.pyz
+*.whl
+
+# Bytecode
+__pycache__/
+**/__pycache__/
+
+# ==========================
+#   AMBIENTES PYTHON
+# ==========================
+
+# Virtual envs
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+python_env/
+pip-wheel-metadata/
+
+# Pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Poetry
+.poetry/
+poetry.lock
+
+# Pipenv
+Pipfile.lock
+
+# PyInstaller
+*.manifest
+*.spec
+*.dll
+*.so
+
+# ==========================
+#   LOGS, TEMP, CACHE
+# ==========================
+
+*.log
+*.tmp
+*.temp
+*.cache
+.cache/
+*.bak
+*.swp
+*.swo
+*.old
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.cache/
+.pytest_cache/
+
+# ==========================
+#   COMPILAÇÃO / BUILD
+# ==========================
+
+build/
+dist/
+develop-eggs/
+.eggs/
+*.egg-info/
+*.egg
+sdist/
+MANIFEST
+
+# ==========================
+#   TESTES & COVERAGE
+# ==========================
+
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.pyre/
+hypothesis/
+.pyre_check/
+.pytype/
+
+# ==========================
+#   DOCUMENTAÇÃO / APPS
+# ==========================
+
+docs/_build/
+site/
+mkdocs.yml
+
+# ==========================
+#   PROJETO COREOS / GENERATOR
+# ==========================
+
+# Bases de código
+bases/
+basesCodes/
+base_codes/
+base_codes_json/
+data/data_diretory.txt
+
+# Projetos gerados
+Projects/
+Generated/
+output/
+generated_projects/
+
+# Configs dinâmicos
+config.json
+*.config.json
+
+# ==========================
+#   BANCOS / ARQUIVOS SENSÍVEIS
+# ==========================
+
+*.db
+*.sqlite
+*.sqlite3
+*.key
+*.pem
+*.certificate
+*.crt
+*.csr
+
+# ==========================
+#   IDEs / EDITORES
+# ==========================
+
+# VSCode
+.vscode/
+.history/
+.settings/
+*.code-workspace
+
+# JetBrains / PyCharm
+.idea/
+*.iml
+out/
+
+# Sublime
+*.sublime-workspace
+*.sublime-project
+
+# Eclipse / PyDev
+.project
+.pydevproject
+
+# ==========================
+#   SISTEMAS OPERACIONAIS
+# ==========================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Linux
+*~
+.nfs*
+
+# ==========================
+#   DOCKER / CONTAINERS
+# ==========================
+
+docker-compose.override.yml
+.docker/
+docker/
+tmp/
+
+# ==========================
+#   OUTROS
+# ==========================
+
+# Arquivos de editor temporários
+*.tmp
+*.orig
+*.rej
+
+# Arquivos de compressão descartáveis
+*.zip
+*.tar
+*.tar.gz
+
+# Qualquer arquivo gerado automaticamente
+generated/
+auto/
+runtime/
+cache/
+temp/
