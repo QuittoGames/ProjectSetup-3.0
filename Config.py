@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 from pathlib import Path
 import os
-from modules.Languages import PythonProject
 
 @dataclass
-class data:
+class Config:
     modules_local = ["data","modules","Intefaces","Languages","Enums"]
     Debug:str = False
 

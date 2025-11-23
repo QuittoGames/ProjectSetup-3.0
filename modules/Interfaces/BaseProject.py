@@ -2,24 +2,30 @@ from dataclasses import dataclass
 import os
 import json
 from pathlib import Path
-from data import data
+from Config import Config
+import re
 
 @dataclass
 class BaseProject:
     language = None
-    basestruture:dict = None
+    basestruture:dict = None | dict
     special:bool = False
 
     def create(self,path:Path):
         if self.special:
             pass
 
-        os.path.join(path.absolute())
-
-        for file,code in self.basestruture.items():
+        # Try exec the open json for set value.
+        if self.basestruture is None:
+            try:
+                self.openBaseCodeJson()
+            except Exception as e:
+                raise RuntimeError(f"Base structure not available and couldn't be loaded: {e}")
+        
+        for file, code in self.basestruture.items():
             full_path = path / file
 
-            if full_path.suffix == "":
+            if not re.match(r".+\..+$", str(full_path)):
                 full_path.mkdir(parents=True, exist_ok=True)
                 continue
 
@@ -28,18 +34,15 @@ class BaseProject:
             with full_path.open("w", encoding="UTF-8") as fileInProject:
                 fileInProject.write(code)
             
-            
-    @classmethod
-    def openBaseCodeJson(cls) -> None:
-        if not os.path.exists(data.basesCodesPath):
+    def openBaseCodeJson(self) -> None:
+        if not os.path.exists(Config.basesCodesPath):
             raise ModuleNotFoundError("Diretory of base codes in json files not found")
             
-        projectPath:Path = data.basesCodesPath / f"{cls.language.value}.json"
+        projectPath:Path = Config.basesCodesPath / f"{self.language.value}.json"
 
         if not os.path.isfile(projectPath):
-            print(projectPath.absolute)
-            raise FileNotFoundError(f"Json file of {cls.language.value} not found")
+            raise FileNotFoundError(f"Json file of {self.language.value} not found")
         
         with open(projectPath,"r+",encoding="UTF-8") as file:
-            cls.basestruture = json.load(file)
+            self.basestruture = json.load(file)
             

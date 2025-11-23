@@ -2,7 +2,7 @@
 import os
 import platform
 from dataclasses import dataclass
-from data import data
+from Config import Config
 import subprocess
 import sys
 
@@ -23,10 +23,10 @@ class tool:
             print(f"Erro Na Verificaçao De Modulos, Erro: {E}")
             return
         
-    async def add_path_modules(data_local:data):
-        if data.modules_local == None:return
+    async def add_path_modules(data_local:Config):
+        if Config.modules_local == None:return
         try:
-            for i in data.modules_local:
+            for i in Config.modules_local:
                 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), i)))
                 if data_local.Debug:print(f"Module_local: {i}")
             return
