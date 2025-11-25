@@ -9,7 +9,7 @@ data_local = Config()
 def Start():
     tool.menu()
     print("test")
-    Projecttest = PythonProject(special=False)
+    Projecttest = PythonProject()
     Projecttest.openBaseCodeJson()
     Projecttest.create(Path(r"D:\Projects\Python\ProjectSetup-3.0\test"))
 

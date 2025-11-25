@@ -16,7 +16,7 @@ class ProjectType(Enum):
     PHP         = ".php"
     DART        = ".dart"
     LUA         = ".lua"
-    ROBLOX_LUA  = ".luau"   # recomendado
+    ROBLOX_LUA  = ".luau"
     R           = ".r"
     HASKELL     = ".hs"
     ELIXIR      = ".ex"

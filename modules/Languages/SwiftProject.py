@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class SwiftProject(BaseProject):
     language = ProjectType.SWIFT
     basestruture = {}
-    special = False

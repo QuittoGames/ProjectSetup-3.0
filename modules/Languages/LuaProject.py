@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class LuaProject(BaseProject):
     language = ProjectType.LUA
     basestruture = {}
-    special = False

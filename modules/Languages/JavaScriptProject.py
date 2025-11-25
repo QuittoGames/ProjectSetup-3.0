@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class JavaScriptProject(BaseProject):
     language = ProjectType.JAVASCRIPT
     basestruture = {}
-    special = False

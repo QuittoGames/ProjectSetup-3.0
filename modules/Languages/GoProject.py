@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class GoProject(BaseProject):
     language = ProjectType.GO
     basestruture = {}
-    special = False

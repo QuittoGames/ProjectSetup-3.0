@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class CSharpProject(BaseProject):
     language = ProjectType.CSHARP
     basestruture = {}
-    special = False

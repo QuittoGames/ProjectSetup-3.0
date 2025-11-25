@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class RobloxLuaProject(BaseProject):
     language = ProjectType.ROBLOX_LUA
     basestruture = {}
-    special = False

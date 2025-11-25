@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class TypeScriptProject(BaseProject):
     language = ProjectType.TYPESCRIPT
     basestruture = {}
-    special = False

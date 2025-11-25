@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class ShellProject(BaseProject):
     language = ProjectType.SHELL
     basestruture = {}
-    special = False

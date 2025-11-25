@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class ZigProject(BaseProject):
     language = ProjectType.ZIG
     basestruture = {}
-    special = False

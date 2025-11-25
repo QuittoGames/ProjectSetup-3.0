@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class RubyProject(BaseProject):
     language = ProjectType.RUBY
     basestruture = {}
-    special = False

@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class RustProject(BaseProject):
     language = ProjectType.RUST
     basestruture = {}
-    special = False

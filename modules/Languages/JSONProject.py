@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class JSONProject(BaseProject):
     language = ProjectType.JSON
     basestruture = {}
-    special = False

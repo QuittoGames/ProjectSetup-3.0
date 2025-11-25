@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class AssemblyProject(BaseProject):
     language = ProjectType.ASSEMBLY
     basestruture = {}
-    special = False

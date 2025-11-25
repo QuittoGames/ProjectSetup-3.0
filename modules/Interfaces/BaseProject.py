@@ -9,21 +9,20 @@ import re
 class BaseProject:
     language = None
     basestruture:dict = None | dict
-    special:bool = False
 
-    def create(self,path:Path):
-        if self.special:
-            pass
-
+    def create(self,path:Path,name:str):
         # Try exec the open json for set value.
         if self.basestruture is None:
             try:
                 self.openBaseCodeJson()
             except Exception as e:
                 raise RuntimeError(f"Base structure not available and couldn't be loaded: {e}")
-        
+            
+        project_path = path / name
+        project_path.mkdir(parents=True, exist_ok=True)
+
         for file, code in self.basestruture.items():
-            full_path = path / file
+            full_path = project_path / file
 
             if not re.match(r".+\..+$", str(full_path)):
                 full_path.mkdir(parents=True, exist_ok=True)
@@ -38,7 +37,7 @@ class BaseProject:
         if not os.path.exists(Config.basesCodesPath):
             raise ModuleNotFoundError("Diretory of base codes in json files not found")
             
-        projectPath:Path = Config.basesCodesPath / f"{self.language.value}.json"
+        projectPath: Path = Config.basesCodesPath / f"{self.language.name.lower()}.json"
 
         if not os.path.isfile(projectPath):
             raise FileNotFoundError(f"Json file of {self.language.value} not found")

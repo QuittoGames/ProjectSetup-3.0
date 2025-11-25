@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class ElixirProject(BaseProject):
     language = ProjectType.ELIXIR
     basestruture = {}
-    special = False

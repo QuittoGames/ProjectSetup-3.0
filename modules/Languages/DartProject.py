@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class DartProject(BaseProject):
     language = ProjectType.DART
     basestruture = {}
-    special = False

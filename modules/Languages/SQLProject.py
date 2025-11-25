@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class SQLProject(BaseProject):
     language = ProjectType.SQL
     basestruture = {}
-    special = False

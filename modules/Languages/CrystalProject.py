@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class CrystalProject(BaseProject):
     language = ProjectType.CRYSTAL
     basestruture = {}
-    special = False

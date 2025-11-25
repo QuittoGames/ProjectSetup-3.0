@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class RProject(BaseProject):
     language = ProjectType.R
     basestruture = {}
-    special = False

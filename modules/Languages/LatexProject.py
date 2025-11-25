@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class LatexProject(BaseProject):
     language = ProjectType.TEX
     basestruture = {}
-    special = False

@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class CSSProject(BaseProject):
     language = ProjectType.CSS
     basestruture = {}
-    special = False

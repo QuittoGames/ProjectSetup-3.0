@@ -6,4 +6,4 @@ from ..Enums.ProjectType import ProjectType
 class PythonProject(BaseProject):
     language = ProjectType.PYTHON
     basestruture = {}
-    special = False
+

@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class ScalaProject(BaseProject):
     language = ProjectType.SCALA
     basestruture = {}
-    special = False

@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class HaskellProject(BaseProject):
     language = ProjectType.HASKELL
     basestruture = {}
-    special = False

@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class YAMLProject(BaseProject):
     language = ProjectType.YAML
     basestruture = {}
-    special = False

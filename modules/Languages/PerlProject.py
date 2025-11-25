@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class PerlProject(BaseProject):
     language = ProjectType.PERL
     basestruture = {}
-    special = False

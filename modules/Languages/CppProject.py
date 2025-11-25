@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class CppProject(BaseProject):
     language = ProjectType.CPP
     basestruture = {}
-    special = False

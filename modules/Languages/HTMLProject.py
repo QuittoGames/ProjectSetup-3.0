@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class HTMLProject(BaseProject): #Need create web Project Type
     language = ProjectType.HTML
     basestruture = {}
-    special = True

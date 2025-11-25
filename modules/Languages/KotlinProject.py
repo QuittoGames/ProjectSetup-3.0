@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class KotlinProject(BaseProject):
     language = ProjectType.KOTLIN
     basestruture = {}
-    special = False

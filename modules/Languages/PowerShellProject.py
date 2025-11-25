@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class PowerShellProject(BaseProject):
     language = ProjectType.POWERSHELL
     basestruture = {}
-    special = False

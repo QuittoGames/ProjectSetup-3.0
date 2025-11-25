@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class JavaProject(BaseProject):
     language = ProjectType.JAVA
     basestruture = {}
-    special = False

@@ -6,4 +6,3 @@ from ..Enums.ProjectType import ProjectType
 class PHPProject(BaseProject):
     language = ProjectType.PHP
     basestruture = {}
-    special = False
