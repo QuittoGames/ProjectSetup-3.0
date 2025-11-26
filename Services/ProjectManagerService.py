@@ -1,11 +1,40 @@
-# from dataclasses import dataclass
+from dataclasses import dataclass
+from Config import Config
+from modules.DataMap.project_map import ProjectMaps
+from pathlib import Path
 
-# @dataclass
-# class ProjectManagerService:
-#     @staticmethod
-#     def create_project(name, language):
-#         if language not in PROJECTS:
-#             raise ValueError("Language not supported.")
+# Yes i need to create the service for my self code
 
-#         project_class = PROJECTS[language]
-#         return project_class.create(name)
+# - ProjectManagerService
+#   - Intefaces Modules For Project
+#    - DataMap Create
+
+#OBS: Is possible you use the classic servicce with BaseProject Classs more is the same for you one python lib
+
+@dataclass
+class ProjectManagerService:
+    @staticmethod
+    def create_project(name:str, language:str,path:Path):
+
+        if not name:
+            raise ValueError("Project name cannot be empty.")
+
+        if not language:
+            raise ValueError("Language cannot be empty.")
+
+        if path is None:
+            raise ValueError("Project path must be provided.")
+
+        if not path.exists():
+            raise FileNotFoundError(f"Path does not exist: {path}")
+
+        if not path.is_dir():
+            raise NotADirectoryError(f"Path is not a directory: {path}")
+
+        try:        
+            ProjectLocal = ProjectMaps.project_map[language.lower()]()
+            ProjectLocal.openBaseCodeJson() # Not Nessesary more is safely
+            project_path = path if path else Config.DIRETORIO
+            ProjectLocal.create(path=project_path,name = name)
+        except Exception as E:
+            print(f"[ERROR] Errro in createe the project, Erro: {E  }")

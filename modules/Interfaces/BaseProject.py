@@ -44,4 +44,4 @@ class BaseProject:
         
         with open(projectPath,"r+",encoding="UTF-8") as file:
             self.basestruture = json.load(file)
-            
+        
