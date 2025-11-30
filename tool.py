@@ -5,6 +5,9 @@ from dataclasses import dataclass
 from Config import Config
 import subprocess
 import sys
+from rich.console import Console
+from rich.panel import Panel
+from rich.box import ROUNDED
 
 @dataclass
 class tool:
@@ -36,6 +39,15 @@ class tool:
         
     def menu():
         tool.clear_screen()
-        print("_"*30 + "ProjectSetup-3.0" + "_"*30)
+        console = Console()
+        console.print(
+            Panel(
+                "[bold cyan]ProjectSetup 3.0[/bold cyan]",
+                border_style="cyan",
+                box=ROUNDED,
+                width=60,
+                padding=(1, 2)
+            )
+    )
 
     #Project created successfully!

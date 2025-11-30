@@ -8,7 +8,7 @@ import re
 @dataclass
 class BaseProject:
     language = None
-    basestruture:dict = None | dict
+    basestruture:dict | None = None
 
     def create(self,path:Path,name:str):
         # Try exec the open json for set value.

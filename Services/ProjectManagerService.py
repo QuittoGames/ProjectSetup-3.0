@@ -37,4 +37,21 @@ class ProjectManagerService:
             project_path = path if path else Config.DIRETORIO
             ProjectLocal.create(path=project_path,name = name)
         except Exception as E:
-            print(f"[ERROR] Errro in createe the project, Erro: {E  }")
+            print(f"[ERROR] Errro in createe the project, Erro: {E}")
+
+    @staticmethod
+    def get_base_structure(language:str):
+        if not language:
+            raise ValueError("Language cannot be empty.")
+
+        try:        
+            ProjectLocal = ProjectMaps.project_map[language.lower()]()
+            ProjectLocal.openBaseCodeJson() # Not Nessesary more is safely
+            return ProjectLocal.basestruture
+        except Exception as E:
+            raise RuntimeError(f"Error retrieving base structure: {E}")
+        
+    @staticmethod
+    def list_supported_languages() -> list[str]:
+        return list(ProjectMaps.project_map.keys())
+    
