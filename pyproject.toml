@@ -1,0 +1,15 @@
+[project]
+name = "projectsetup3"
+version = "1.0.0"
+description = "PS3 Project Setup"
+requires-python = ">=3.14"
+
+dependencies = ["rich"]
+
+[project.scripts]
+ps3cli = "projectsetup3.cli:main"
+ps3 = "projectsetup3.index:main"
+
+[tool.setuptools.packages.find]
+where = ["projectsetup3"]
+include = ["projectsetup3*"]
