@@ -2,6 +2,7 @@ pyproject.toml
 projectsetup3/Config.py
 projectsetup3/__init__.py
 projectsetup3/__main__.py
+projectsetup3/cli.py
 projectsetup3/index.py
 projectsetup3/tool.py
 projectsetup3.egg-info/PKG-INFO
@@ -12,11 +13,9 @@ projectsetup3.egg-info/requires.txt
 projectsetup3.egg-info/top_level.txt
 projectsetup3/Fonts/__init__.py
 projectsetup3/Services/ArrowsService.py
+projectsetup3/Services/CLIService.py
 projectsetup3/Services/ProjectManagerService.py
 projectsetup3/Services/__init__.py
-projectsetup3/build/lib/Services/ArrowsService.py
-projectsetup3/build/lib/Services/ProjectManagerService.py
-projectsetup3/build/lib/Services/__init__.py
 projectsetup3/modules/__init__.py
 projectsetup3/modules/Class/Icons.py
 projectsetup3/modules/Class/__init__.py

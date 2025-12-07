@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 import json
 from pathlib import Path
-from Config import Config
+from projectsetup3.Config import Config
 import re
 
 @dataclass

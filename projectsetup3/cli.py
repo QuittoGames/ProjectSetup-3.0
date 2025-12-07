@@ -1,4 +1,4 @@
-from Services.CLIService import CLIService
+from projectsetup3.Services.CLIService import CLIService
 
 def main():
     service = CLIService()

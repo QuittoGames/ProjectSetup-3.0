@@ -2,7 +2,7 @@
 import os
 import platform
 from dataclasses import dataclass
-from Config import Config
+from projectsetup3.Config import Config
 import subprocess
 import sys
 from rich.console import Console
