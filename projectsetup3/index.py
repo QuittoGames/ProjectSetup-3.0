@@ -36,6 +36,7 @@ bg_dark = "black"                # Fundo escuro
 config = Config()
 console = Console()
 
+
 # =======================================================
 # HELPERS VISUAIS
 # =======================================================
