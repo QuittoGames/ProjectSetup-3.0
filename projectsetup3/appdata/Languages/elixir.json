@@ -1,0 +1,11 @@
+{
+    ".gitignore": "# The directory Mix will write compiled artifacts to\n/_build/\n\n# If you run \"mix test --cover\", coverage assets end up here\n/cover/\n\n# The directory Mix downloads your dependencies sources to\n/deps/\n\n# Where third-party dependencies like ExDoc output generated docs\n/doc/\n\n# Ignore .fetch files in case you like to edit your project deps locally\n/.fetch\n\n# If the VM crashes, it generates a dump, let's ignore it too\nerl_crash.dump\n\n# Also ignore archive artifacts (built via \"mix archive.build\")\n*.ez\n\n# Temporary files\n*.swp\n*.swo\n*~\n\n# Ignore package tarball\nproject-*.tar\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "lib/project.ex": "defmodule Project do\n  @moduledoc \"\"\"\n  Documentation for `Project`.\n  \"\"\"\n\n  def main do\n    IO.puts(\"Hello, World!\")\n  end\nend",
+
+    "lib/data/data.ex": "defmodule Data do\n  @moduledoc \"\"\"\n  Data module\n  \"\"\"\nend",
+
+    "lib/tool/tool.ex": "defmodule Tool do\n  @moduledoc \"\"\"\n  Tool module\n  \"\"\"\nend",
+
+    "mix.exs": "defmodule Project.MixProject do\n  use Mix.Project\n\n  def project do\n    [\n      app: :project,\n      version: \"1.0.0\",\n      elixir: \"~> 1.15\",\n      start_permanent: Mix.env() == :prod,\n      deps: deps()\n    ]\n  end\n\n  def application do\n    [\n      extra_applications: [:logger]\n    ]\n  end\n\n  defp deps do\n    [\n      # Add your dependencies here\n    ]\n  end\nend"
+}

@@ -50,7 +50,6 @@ class tool:
                 padding=(1, 2)
             )
     )
-        
 
     def get_sys_info():
         """Coleta informações do sistema."""
@@ -62,4 +61,15 @@ class tool:
             "date": datetime.now().strftime("%d/%m/%Y")
         }
 
-            #Project created successfully!
+    def type_to_extension(project_type: str) -> str:
+        """Converte o nome do tipo de projeto para sua extensão de arquivo.
+        
+        Args:
+            project_type: Nome do tipo de projeto (ex: 'python', 'javascript')
+            
+        Returns:
+            Extensão do arquivo (ex: '.py', '.js'). Retorna '.txt' se não encontrado.
+        """
+        return Config.PROJECT_TYPE_TO_EXTENSION.get(project_type.lower(), ".txt")
+
+        #Project created successfully!

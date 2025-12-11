@@ -1,8 +1,0 @@
-﻿from dataclasses import dataclass
-from ..Interfaces.BaseProject import BaseProject
-from ..Enums.ProjectType import ProjectType
-
-@dataclass
-class SQLProject(BaseProject):
-    language = ProjectType.SQL
-    basestruture = {}

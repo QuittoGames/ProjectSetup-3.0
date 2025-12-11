@@ -1,0 +1,11 @@
+{
+    ".gitignore": "# History files\n.Rhistory\n.Rapp.history\n\n# Session Data files\n.RData\n.RDataTmp\n\n# User-specific files\n.Ruserdata\n\n# RStudio files\n.Rproj.user/\n*.Rproj\n\n# OAuth2 token\n.httr-oauth\n\n# knitr and R markdown\n*.utf8.md\n*.knit.md\n\n# R Environment Variables\n.Renviron\n.Rprofile\n\n# pkgdown site\ndocs/\n\n# Translation temp files\npo/*~\n\n# RStudio Connect folder\nrsconnect/\n\n# IDE\n.vscode/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "main.R": "# Load modules\nsource('data/data.R')\nsource('tool/tool.R')\n\nprint('Hello, World!')\n\n# Create instances\ntool <- Tool$new()\ndata <- Data$new()",
+
+    "data/data.R": "# Data class\nData <- R6::R6Class(\n  \"Data\",\n  public = list(\n    initialize = function() {\n      # Constructor\n    }\n  )\n)",
+
+    "tool/tool.R": "# Tool class\nTool <- R6::R6Class(\n  \"Tool\",\n  public = list(\n    initialize = function() {\n      # Constructor\n    }\n  )\n)",
+
+    "DESCRIPTION": "Package: project\nTitle: R Project Created by ProjectSetup\nVersion: 1.0.0\nAuthors@R: person(\"Quitto\", email = \"your.email@example.com\", role = c(\"aut\", \"cre\"))\nDescription: R project structure.\nLicense: MIT\nEncoding: UTF-8\nRoxygenize: list(markdown = TRUE)\nImports:\n    R6"
+}

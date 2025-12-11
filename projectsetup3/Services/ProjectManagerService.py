@@ -1,21 +1,17 @@
 from dataclasses import dataclass
 from projectsetup3.Config import Config
-from projectsetup3.modules.DataMap.project_map import ProjectMaps
+from projectsetup3.modules.Interfaces.BaseProject import BaseProject
+from projectsetup3.modules.Enums.ProjectType import ProjectType
 from pathlib import Path
-
-# Yes i need to create the service for my self code
-
-# - ProjectManagerService
-#   - Intefaces Modules For Project
-#    - DataMap Create
-
-#OBS: Is possible you use the classic servicce with BaseProject Classs more is the same for you one python lib
+import os
 
 @dataclass
 class ProjectManagerService:
+    """Serviço para gerenciar criação de projetos"""
+    
     @staticmethod
-    def create_project(name:str, language:str,path:Path):
-
+    def create_project(name: str, language: str, path: Path):
+        """Cria um novo projeto usando BaseProject"""
         if not name:
             raise ValueError("Project name cannot be empty.")
 
@@ -31,27 +27,28 @@ class ProjectManagerService:
         if not path.is_dir():
             raise NotADirectoryError(f"Path is not a directory: {path}")
 
-        try:        
-            ProjectLocal = ProjectMaps.project_map[language.lower()]()
-            ProjectLocal.openBaseCodeJson() # Not Nessesary more is safely
-            project_path = path if path else Config.dispatch_path(language)
-            ProjectLocal.create(path=project_path,name = name)
-        except Exception as E:
-            print(f"[ERROR] Errro in createe the project, Erro: {E}")
+        try:
+            project = BaseProject()
+            project.setLanguage(ProjectType(language))
+            project.openBaseCodeJson()
+            project.create(path=path, name=name)
+        except Exception as e:
+            print(f"[ERROR] Error creating project: {e}")
+            raise
 
     @staticmethod
     def get_base_structure(language:str):
         if not language:
             raise ValueError("Language cannot be empty.")
 
-        try:        
-            ProjectLocal = ProjectMaps.project_map[language.lower()]()
-            ProjectLocal.openBaseCodeJson() # Not Nessesary more is safely
-            return ProjectLocal.basestruture
+        try: 
+            project = BaseProject()
+            project.setLanguage(ProjectType(language))
+            project.openBaseCodeJson() # Not Nessesary more is safely
+            return project.basestruture
         except Exception as E:
             raise RuntimeError(f"Error retrieving base structure: {E}")
         
     @staticmethod
     def list_supported_languages() -> list[str]:
-        return list(ProjectMaps.project_map.keys())
-    
+        return [project_type.value for project_type in ProjectType]
