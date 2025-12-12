@@ -1,0 +1,5 @@
+{
+    ".gitignore": "# OCaml\n_build/\n*.cmi\n*.cmo\n*.cmx\n*.o\n*.exe\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main.ml": "print_endline \"Hello, World!\"\n"
+}

@@ -10,7 +10,7 @@ from projectsetup3.Services.ProjectManagerService import ProjectManagerService
 from rich.console import Console
 from rich.table import Table
 
-# ps3cli <path:str> <type:str> <name:str>
+# ps3cli <path:str> <type:str> <name:str> <gitRepoLink:str>(Opicional)
 # ps3cli list <path:str> -> Return Projects In Path 
 # ps3cli -> Main Code
 
@@ -44,6 +44,7 @@ class CLIService:
             path = Path(argv[1]) if len(argv) > 1 else Config.DIRETORIO
             typeProject = argv[2] if len(argv) > 2 and argv[2] else "python"
             name = argv[3] if len(argv) > 3 and argv[3] else "BaseProject"
+            gitRepoLink = argv[4] if len(argv) > 4 and argv[4] else None 
 
             if not path.exists():
                 print(f"[ERROR] O caminho não existe: {path}")
@@ -52,8 +53,12 @@ class CLIService:
             if not path.is_dir():
                 print("[ERROR] O caminho precisa ser um diretório válido")
                 return
+            
+            if gitRepoLink and data_local.GitAvaliable and (not tool.verifyURL(url = gitRepoLink)):
+                print(f"[ERROR] O URL nao e valida: {path}")
+                return
                         
-            ProjectManagerService.create_project(name=name,language=typeProject,path=path)
+            ProjectManagerService.create_project(name=name,language=typeProject,path=path,gitRepoLink=gitRepoLink)
         except ValueError as VE:
             print(f"[ERROR] Value Not Found , Erro: {VE}")
         except NotADirectoryError as NAD:

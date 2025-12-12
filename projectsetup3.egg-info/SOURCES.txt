@@ -4,6 +4,7 @@ projectsetup3/__init__.py
 projectsetup3/__main__.py
 projectsetup3/cli.py
 projectsetup3/index.py
+projectsetup3/setup.py
 projectsetup3/tool.py
 projectsetup3.egg-info/PKG-INFO
 projectsetup3.egg-info/SOURCES.txt

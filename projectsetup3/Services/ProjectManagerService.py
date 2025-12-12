@@ -2,15 +2,15 @@ from dataclasses import dataclass
 from projectsetup3.Config import Config
 from projectsetup3.modules.Interfaces.BaseProject import BaseProject
 from projectsetup3.modules.Enums.ProjectType import ProjectType
+from projectsetup3.tool import tool
 from pathlib import Path
-import os
 
 @dataclass
 class ProjectManagerService:
     """Serviço para gerenciar criação de projetos"""
     
     @staticmethod
-    def create_project(name: str, language: str, path: Path):
+    def create_project(name: str, language: str, path: Path, gitRepoLink:str | None = None):
         """Cria um novo projeto usando BaseProject"""
         if not name:
             raise ValueError("Project name cannot be empty.")
@@ -26,12 +26,15 @@ class ProjectManagerService:
 
         if not path.is_dir():
             raise NotADirectoryError(f"Path is not a directory: {path}")
+        
+        if not tool.verifyURL(gitRepoLink):
+            raise ValueError(f"Invalid git repository URL: {gitRepoLink}")
 
         try:
             project = BaseProject()
             project.setLanguage(ProjectType(language))
             project.openBaseCodeJson()
-            project.create(path=path, name=name)
+            project.create(path=path, name=name,gitRepoLink=gitRepoLink)
         except Exception as e:
             print(f"[ERROR] Error creating project: {e}")
             raise

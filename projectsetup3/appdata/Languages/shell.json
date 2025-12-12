@@ -1,0 +1,5 @@
+{
+    ".gitignore": "# Logs\n*.log\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main.sh": "#!/usr/bin/env sh\nset -eu\n\necho \"Hello, World!\"\n"
+}

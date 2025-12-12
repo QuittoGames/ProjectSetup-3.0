@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from projectsetup3.Config import Config
 from projectsetup3.modules.Enums.ProjectType import ProjectType
+from projectsetup3.tool import tool
 import re
 
 @dataclass
@@ -11,7 +12,7 @@ class BaseProject:
     language = None
     basestruture:dict | None = None
 
-    def create(self,path:Path,name:str):
+    def create(self,path:Path,name:str, gitRepoLink:str | None = None):
         # Try exec the open json for set value.
         if self.basestruture is None:
             try:
@@ -36,6 +37,9 @@ class BaseProject:
 
             with full_path.open("w", encoding="UTF-8") as fileInProject:
                 fileInProject.write(code)
+
+        if Config.GitAvaliable and gitRepoLink:
+            tool.init_git_repository(gitRepoLink)
             
     def openBaseCodeJson(self) -> None:
         if not os.path.exists(Config.basesCodesPath):

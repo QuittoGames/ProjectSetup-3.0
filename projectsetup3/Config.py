@@ -19,80 +19,63 @@ class Config:
 
     BASECODEEDITOR:str = "vscode"
 
-    Fonts: Path = BASE / "Fonts" if os.path.exists(BASE/ "Fonts") else None
+    GitAvaliable:bool = False  
 
-    PROJECT_TYPE_TO_EXTENSION = {
-        "python": ".py",
-        "javascript": ".js",
-        "typescript": ".ts",
-        "java": ".java",
-        "cpp": ".cpp",
-        "c": ".c",
-        "html": ".html",
-        "css": ".css",
-        "php": ".php",
-        "ruby": ".rb",
-        "go": ".go",
-        "rust": ".rs",
-        "swift": ".swift",
-        "kotlin": ".kt",
-        "csharp": ".cs",
-        "web": ".html"
-    }
+    Fonts: Path = BASE / "Fonts" if os.path.exists(BASE/ "Fonts") else None
 
     PROJECT_TYPES = {
         "Python": {
             "files": ["requirements.txt", "pyproject.toml"],
-            "extensions": [".py"]
+            "extensions": [".py"],
         },
         "Node/JS": {
             "files": ["package.json"],
-            "extensions": [".js", ".ts", ".tsx"]
+            "extensions": [".js", ".ts", ".tsx"],
         },
         "Java": {
             "files": ["pom.xml"],
-            "extensions": [".java"]
+            "extensions": [".java"],
         },
         "Rust": {
             "files": ["Cargo.toml"],
-            "extensions": [".rs"]
+            "extensions": [".rs"],
         },
         "C++": {
             "files": [],
-            "extensions": [".cpp", ".cc", ".cxx", ".hpp", ".h"]
+            "extensions": [".cpp", ".cc", ".cxx", ".hpp", ".h"],
         },
         "C": {
             "files": [],
-            "extensions": [".c", ".h"]
+            "extensions": [".c", ".h"],
         },
         "Go": {
             "files": [],
-            "extensions": [".go"]
+            "extensions": [".go"],
         },
         "C#": {
             "files": [],
-            "extensions": [".cs", ".csproj"]
+            "extensions": [".cs", ".csproj"],
         },
         "Ruby": {
             "files": [],
-            "extensions": [".rb"]
+            "extensions": [".rb"],
         },
         "Lua": {
             "files": [],
-            "extensions": [".lua"]
+            "extensions": [".lua"],
         },
         "Shell": {
             "files": [],
-            "extensions": [".sh", ".bash"]
+            "extensions": [".sh", ".bash"],
         },
         "YAML": {
             "files": [],
-            "extensions": [".yaml", ".yml"]
+            "extensions": [".yaml", ".yml"],
         },
         "Web": {
             "files": [],
-            "extensions": [".html", ".css"]
-        }
+            "extensions": [".html", ".css"],
+        },
     }
 
     @staticmethod

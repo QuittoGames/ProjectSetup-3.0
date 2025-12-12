@@ -3,12 +3,14 @@ import os
 import platform
 from dataclasses import dataclass
 from projectsetup3.Config import Config
+from modules.Enums.ProjectType import ProjectType
 import subprocess
 import sys
 from rich.console import Console
 from rich.panel import Panel
 from rich.box import ROUNDED
 from datetime import datetime
+import re
 
 @dataclass
 class tool:
@@ -62,14 +64,53 @@ class tool:
         }
 
     def type_to_extension(project_type: str) -> str:
-        """Converte o nome do tipo de projeto para sua extensão de arquivo.
-        
-        Args:
-            project_type: Nome do tipo de projeto (ex: 'python', 'javascript')
-            
-        Returns:
-            Extensão do arquivo (ex: '.py', '.js'). Retorna '.txt' se não encontrado.
-        """
-        return Config.PROJECT_TYPE_TO_EXTENSION.get(project_type.lower(), ".txt")
+        try:
+            return ProjectType[project_type.upper()].value
+        except KeyError:
+            return ".txt"
 
-        #Project created successfully!
+    #Project created successfully!
+
+    def init_git_repository(link: str) -> None:
+        try:
+            # init (caso ainda não exista)
+            if not os.path.isdir(".git"):
+                subprocess.run(["git", "init"], check=True)
+
+            # configura remote origin (cria ou atualiza)
+            remotes = subprocess.run(
+                ["git", "remote"],
+                check=True,
+                capture_output=True,
+                text=True
+            ).stdout.split()
+
+            if "origin" in remotes:
+                subprocess.run(["git", "remote", "set-url", "origin", link], check=True)
+            else:
+                subprocess.run(["git", "remote", "add", "origin", link], check=True)
+
+            # add/commit inicial (se tiver arquivos)
+            subprocess.run(["git", "add", "-A"], check=True)
+
+            status = subprocess.run(
+                ["git", "status", "--porcelain"],
+                check=True,
+                capture_output=True,
+                text=True
+            ).stdout.strip()
+
+            if status:
+                subprocess.run(["git", "commit", "-m", "Initial commit"], check=True)
+
+            # tenta definir branch main e fazer push (não falha se não der)
+            subprocess.run(["git", "branch", "-M", "main"], check=False)
+            subprocess.run(["git", "push", "-u", "origin", "main"], check=False)
+
+        except subprocess.CalledProcessError as e:
+            print(f"Erro ao executar git: {e}")
+        except Exception as e:
+            print(f"Erro ao iniciar repositorio git: {e}")
+
+    def verifyURL(url:str) -> bool:
+        return bool(re.match(r'^https://(github\.com|gitlab\.com|bitbucket\.org)/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+(\.git)?$', url))

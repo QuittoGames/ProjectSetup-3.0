@@ -1,0 +1,5 @@
+{
+    ".gitignore": "# Luau\n*.log\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main.luau": "print(\"Hello, World!\")\n"
+}
