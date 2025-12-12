@@ -13,9 +13,9 @@ class Config:
 
     basesCodesPath: Path = appdata / "PROJECTSETUP-3.O" / "Languages"
 
-    DIRETORIO: Path = Path.home() / "Projects" / "Python"
-    DIRETORIO_WEB: Path = Path.home() / "Projects" / "Web"
-    DIRETORIO_CPP: Path = Path.home() / "Projects" / "Cpp"
+    DIRETORIO: Path = Path("D:/Projects/Python")
+    DIRETORIO_WEB: Path = Path("D:/Projects/Web")
+    DIRETORIO_CPP: Path = Path("D:/Projects/C++")
 
     Fonts: Path = BASE / "Fonts" if os.path.exists(BASE/ "Fonts") else None
 

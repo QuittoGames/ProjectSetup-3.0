@@ -1,5 +1,5 @@
-from modules.Interfaces.BaseProject import BaseProject
-from modules.Enums.ProjectType import ProjectType
+from projectsetup3.modules.Interfaces.BaseProject import BaseProject
+from projectsetup3.modules.Enums.ProjectType import ProjectType
 from pathlib import Path
 
 class ProjectMaps:
