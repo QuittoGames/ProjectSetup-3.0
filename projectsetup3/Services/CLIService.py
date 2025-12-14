@@ -6,11 +6,12 @@ from pathlib import Path
 from projectsetup3.tool import tool
 from projectsetup3.Config import Config
 from projectsetup3.Services.ProjectManagerService import ProjectManagerService
+from projectsetup3.modules.Class.Icons import Icons
 
 from rich.console import Console
 from rich.table import Table
 
-# ps3cli <path:str> <type:str> <name:str> <gitRepoLink:str>(Opicional)
+# ps3cli <path:str> <type:str> <name:str> <gitRepoLink:str>(Opicional) 
 # ps3cli list <path:str> -> Return Projects In Path 
 # ps3cli -> Main Code
 
@@ -41,6 +42,7 @@ class CLIService:
     def startProject(self, argv):
         try:
             # Add agoritmo for if one value is none the outher values iis this value modify the command stuture
+            # Futuramente colcoar argparse
             path = Path(argv[1]) if len(argv) > 1 else Config.DIRETORIO
             typeProject = argv[2] if len(argv) > 2 and argv[2] else "python"
             name = argv[3] if len(argv) > 3 and argv[3] else "BaseProject"
@@ -83,26 +85,39 @@ class CLIService:
         projects = [p for p in path.iterdir() if p.is_dir()]
 
         console = Console()
-        table = Table(title=f"Projetos em: {path}", show_header=True, header_style="bold blue")
+        table = Table(
+            title=f"📂 Projetos em: [bold yellow]{path}[/]", 
+            show_header=True, 
+            header_style="bold white",
+            border_style="bright_blue",
+            expand=True,
+            box=None,
+            show_lines=True
+        )
 
-        table.add_column("Nome", style="cyan", no_wrap=True)
-        table.add_column("Tipo", style="green")
-        table.add_column("Caminho Completo", style="dim")
+        table.add_column("Nome", style="bold cyan", no_wrap=True)
+        table.add_column("Tipo", style="green", justify="center")
+        table.add_column("Caminho Completo", style="italic dim")
 
         for project in projects:
             project_type = "Desconhecido"
             files = list(project.iterdir())
             
+            # Detecta tipo baseado em arquivos específicos
             for ptype, rules in Config.PROJECT_TYPES.items():
                 if any((project / f).exists() for f in rules["files"]):
-                    project_type = ptype
+                    project_type = ptype.capitalize()
                     break
-                # Verifica extensões
-                if any(f.suffix in rules["extensions"] for f in files):
-                    project_type = ptype
-                    break
-            
-            table.add_row(f"📁 {project.name}", project_type, str(project.resolve()))
+                
+            # Verifica extensões se não encontrou por arquivo
+            if project_type == "Desconhecido":
+                for ptype, rules in Config.PROJECT_TYPES.items():
+                    if any(f.suffix in rules["extensions"] for f in files if f.is_file()):
+                        project_type = ptype.capitalize()
+                        break
+                    
+            icon = Icons.getIconProject(project_type)
+            table.add_row(f"{icon} {project.name}", f"[bold]{project_type}[/]", str(project.resolve()))
 
         console.print(table)
 
