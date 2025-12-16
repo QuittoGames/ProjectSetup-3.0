@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from projectsetup3.Config import Config
-from projectsetup3.modules.Interfaces.BaseProject import BaseProject
+from projectsetup3.modules.Class.BaseProject import BaseProject
 from projectsetup3.modules.Enums.ProjectType import ProjectType
 from projectsetup3.tool import tool
 from pathlib import Path
@@ -10,7 +10,7 @@ class ProjectManagerService:
     """Serviço para gerenciar criação de projetos"""
     
     @staticmethod
-    def create_project(name: str, language: str, path: Path, gitRepoLink:str | None = None):
+    def create_project(name: str, language: str, path: Path, gitRepoLink:str | None = None ):
         """Cria um novo projeto usando BaseProject"""
         if not name:
             raise ValueError("Project name cannot be empty.")

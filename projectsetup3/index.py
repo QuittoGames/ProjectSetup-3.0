@@ -3,8 +3,6 @@ import asyncio
 import time
 from datetime import datetime
 import sys
-import platform
-import getpass
 import os
 
 from rich.console import Console
