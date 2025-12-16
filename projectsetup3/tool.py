@@ -132,4 +132,5 @@ class tool:
 
 
     def verifyURL(url:str) -> bool:
+        if url is None:return False
         return bool(re.match(r'^https://(github\.com|gitlab\.com|bitbucket\.org)/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+(\.git)?$', url))

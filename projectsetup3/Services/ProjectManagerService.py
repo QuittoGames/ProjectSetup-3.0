@@ -27,7 +27,7 @@ class ProjectManagerService:
         if not path.is_dir():
             raise NotADirectoryError(f"Path is not a directory: {path}")
         
-        if not tool.verifyURL(gitRepoLink):
+        if Config.GitAvaliable and gitRepoLink and not tool.verifyURL(gitRepoLink):
             raise ValueError(f"Invalid git repository URL: {gitRepoLink}")
 
         try:

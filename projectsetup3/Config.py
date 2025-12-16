@@ -21,6 +21,10 @@ class Config:
 
     GitAvaliable:bool = False  
 
+    HistoryAvaliable:bool = True
+
+    if HistoryAvaliable:baseDiretoryHistory:Path = appdata / "PROJECTSETUP-3.O" / "History"
+
     Fonts: Path = BASE / "Fonts" if os.path.exists(BASE/ "Fonts") else None
 
     PROJECT_TYPES = {

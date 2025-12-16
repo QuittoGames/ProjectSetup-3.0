@@ -56,8 +56,8 @@ class CLIService:
                 print("[ERROR] O caminho precisa ser um diretório válido")
                 return
             
-            if gitRepoLink and data_local.GitAvaliable and (not tool.verifyURL(url = gitRepoLink)):
-                print(f"[ERROR] O URL nao e valida: {path}")
+            if data_local.GitAvaliable and gitRepoLink and (not tool.verifyURL(url = gitRepoLink)):
+                print(f"[ERROR] O URL nao e valida: {gitRepoLink}")
                 return
                         
             ProjectManagerService.create_project(name=name,language=typeProject,path=path,gitRepoLink=gitRepoLink)
@@ -88,16 +88,18 @@ class CLIService:
         table = Table(
             title=f"📂 Projetos em: [bold yellow]{path}[/]", 
             show_header=True, 
-            header_style="bold white",
+            header_style="bold white on blue",
             border_style="bright_blue",
             expand=True,
             box=None,
-            show_lines=True
+            padding=(0, 2),
+            show_lines=False
         )
 
         table.add_column("Nome", style="bold cyan", no_wrap=True)
-        table.add_column("Tipo", style="green", justify="center")
-        table.add_column("Caminho Completo", style="italic dim")
+        table.add_column("Tipo", style="green", justify="left")
+        table.add_column("Git", style="magenta", justify="center")
+        table.add_column("Caminho Completo", style="italic white")
 
         for project in projects:
             project_type = "Desconhecido"
@@ -115,9 +117,22 @@ class CLIService:
                     if any(f.suffix in rules["extensions"] for f in files if f.is_file()):
                         project_type = ptype.capitalize()
                         break
-                    
+
+            # Verifica se o projeto tem Git
+            isGit = (project / ".git").exists()
+            git_status = "✅" if isGit else "❌"
+            
+            # Define estilo da linha baseado no Git
+            row_style = "on #152b15" if isGit else None  # Fundo verde muito escuro/sutil para projetos com Git
+              
             icon = Icons.getIconProject(project_type)
-            table.add_row(f"{icon} {project.name}", f"[bold]{project_type}[/]", str(project.resolve()))
+            table.add_row(
+                f"{icon} {project.name}", 
+                f"[bold]{project_type}[/]", 
+                f"{git_status}",
+                str(project.resolve()),
+                style=row_style
+            )
 
         console.print(table)
 

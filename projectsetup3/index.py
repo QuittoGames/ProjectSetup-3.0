@@ -414,7 +414,8 @@ def create_project_interactive():
         )
         console.print(Align.center(success_panel))
         console.print()
-        input(f"\n{' ' * 30}[{text_dim}] Enter para continuar...[/]")
+        console.print(Align.center(f"[{text_dim}]Pressione Enter para continuar...[/]"))
+        input(f"{' ' * 45}")
         
     except Exception as e:
         console.print()
