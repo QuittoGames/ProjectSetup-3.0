@@ -360,7 +360,7 @@ def create_project_interactive():
         console.print(Align.center(Text.assemble(
             ("Confirmar criação? [", text_dim),
             ("Y", success_color),
-            ("/", text_dim),
+            ("/", text_dim),a
             ("N", warning_color),
             ("]", text_dim)
         )))
