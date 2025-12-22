@@ -1,0 +1,5 @@
+{
+    ".gitignore": "# Crystal\n/.crystal/\n/.shards/\n/bin/\nlib/\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main.cr": "puts \"Hello, World!\"\n"
+}

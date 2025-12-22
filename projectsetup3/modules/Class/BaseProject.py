@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from projectsetup3.Config import Config
 from projectsetup3.modules.Enums.ProjectType import ProjectType
+from projectsetup3.tool import tool
+import datetime
 import re
 
 @dataclass
@@ -11,7 +13,7 @@ class BaseProject:
     language = None
     basestruture:dict | None = None
 
-    def create(self,path:Path,name:str):
+    def create(self,path:Path,name:str, gitRepoLink:str | None = None):
         # Try exec the open json for set value.
         if self.basestruture is None:
             try:
@@ -36,7 +38,31 @@ class BaseProject:
 
             with full_path.open("w", encoding="UTF-8") as fileInProject:
                 fileInProject.write(code)
-            
+
+        if Config.GitAvaliable and gitRepoLink:
+            tool.init_git_repository(gitRepoLink)
+
+        if Config.HistoryAvaliable:
+            DataJsonPath = Config.baseDiretoryHistory / "history.json"
+            if not os.path.exists(DataJsonPath):
+                history = {"projects": []}
+            else:
+                with DataJsonPath.open("r", encoding="UTF-8") as f:
+                    history = json.load(f)
+
+            history["projects"].append({
+                "name": name,
+                "language": self.language.value if self.language else None,
+                "path": str(project_path.resolve()),
+                "git": bool(gitRepoLink),
+                "gitRepo": gitRepoLink,
+                "created_at": datetime.datetime.now().isoformat()
+        })
+
+            DataJsonPath.parent.mkdir(parents=True, exist_ok=True)
+            with DataJsonPath.open("w", encoding="UTF-8") as f:
+                json.dump(history, f, indent=4)
+
     def openBaseCodeJson(self) -> None:
         if not os.path.exists(Config.basesCodesPath):
             raise ModuleNotFoundError("Diretory of base codes in json files not found")
@@ -46,8 +72,11 @@ class BaseProject:
         if not os.path.isfile(projectPath):
             raise FileNotFoundError(f"Json file of {self.language.value} not found")
         
-        with open(projectPath,"r+",encoding="UTF-8") as file:
-            self.basestruture = json.load(file)
+        try:
+            with open(projectPath,"r",encoding="UTF-8") as file:
+                self.basestruture = json.load(file)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON in {projectPath}: {e}")
 
     def setLanguage(self,language:ProjectType):
         self.language = language

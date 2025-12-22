@@ -1,0 +1,5 @@
+{
+    ".gitignore": "# .NET\n/bin/\n/obj/\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/Program.fs": "open System\n\n[<EntryPoint>]\nlet main _ =\n    printfn \"Hello, World!\"\n    0\n"
+}

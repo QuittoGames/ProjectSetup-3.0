@@ -1,0 +1,5 @@
+{
+    ".gitignore": "# Build\n*.o\n*.obj\n*.exe\n*.out\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main.asm": "; Minimal ASM placeholder\n; Choose assembler/linker depending on platform\n\nsection .text\n    global _start\n\n_start:\n    ; exit(0) for Linux x86_64\n    mov rax, 60\n    xor rdi, rdi\n    syscall\n"
+}

@@ -19,80 +19,195 @@ class Config:
 
     BASECODEEDITOR:str = "vscode"
 
+    GitAvaliable:bool = False  
+
+    HistoryAvaliable:bool = True
+
+    if HistoryAvaliable:baseDiretoryHistory:Path = appdata / "PROJECTSETUP-3.O" / "History"
+
     Fonts: Path = BASE / "Fonts" if os.path.exists(BASE/ "Fonts") else None
 
-    PROJECT_TYPE_TO_EXTENSION = {
-        "python": ".py",
-        "javascript": ".js",
-        "typescript": ".ts",
-        "java": ".java",
-        "cpp": ".cpp",
-        "c": ".c",
-        "html": ".html",
-        "css": ".css",
-        "php": ".php",
-        "ruby": ".rb",
-        "go": ".go",
-        "rust": ".rs",
-        "swift": ".swift",
-        "kotlin": ".kt",
-        "csharp": ".cs",
-        "web": ".html"
-    }
-
     PROJECT_TYPES = {
-        "Python": {
+        "PYTHON": {
             "files": ["requirements.txt", "pyproject.toml"],
-            "extensions": [".py"]
+            "extensions": [".py"],
         },
-        "Node/JS": {
+        "JAVA": {
+            "files": ["pom.xml", "build.gradle", "build.gradle.kts"],
+            "extensions": [".java"],
+        },
+        "CSHARP": {
+            "files": ["*.csproj", "*.sln"],
+            "extensions": [".cs", ".csproj"],
+        },
+        "JAVASCRIPT": {
             "files": ["package.json"],
-            "extensions": [".js", ".ts", ".tsx"]
+            "extensions": [".js"],
         },
-        "Java": {
-            "files": ["pom.xml"],
-            "extensions": [".java"]
+        "TYPESCRIPT": {
+            "files": ["package.json", "tsconfig.json"],
+            "extensions": [".ts"],
         },
-        "Rust": {
+        "GO": {
+            "files": ["go.mod"],
+            "extensions": [".go"],
+        },
+        "RUST": {
             "files": ["Cargo.toml"],
-            "extensions": [".rs"]
+            "extensions": [".rs"],
         },
-        "C++": {
-            "files": [],
-            "extensions": [".cpp", ".cc", ".cxx", ".hpp", ".h"]
+        "CPP": {
+            "files": ["CMakeLists.txt", "Makefile"],
+            "extensions": [".cpp", ".hpp"],
         },
         "C": {
-            "files": [],
-            "extensions": [".c", ".h"]
+            "files": ["Makefile", "CMakeLists.txt"],
+            "extensions": [".c"],
         },
-        "Go": {
-            "files": [],
-            "extensions": [".go"]
+        "SWIFT": {
+            "files": ["Package.swift"],
+            "extensions": [".swift"],
         },
-        "C#": {
-            "files": [],
-            "extensions": [".cs", ".csproj"]
+        "KOTLIN": {
+            "files": ["build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts"],
+            "extensions": [".kt"],
         },
-        "Ruby": {
-            "files": [],
-            "extensions": [".rb"]
+        "RUBY": {
+            "files": ["Gemfile"],
+            "extensions": [".rb"],
         },
-        "Lua": {
-            "files": [],
-            "extensions": [".lua"]
+        "PHP": {
+            "files": ["composer.json"],
+            "extensions": [".php"],
         },
-        "Shell": {
+        "DART": {
+            "files": ["pubspec.yaml"],
+            "extensions": [".dart"],
+        },
+        "LUA": {
             "files": [],
-            "extensions": [".sh", ".bash"]
+            "extensions": [".lua"],
+        },
+        "ROBLOX_LUA": {
+            "files": [],
+            "extensions": [".luau"],
+        },
+        "R": {
+            "files": ["DESCRIPTION", "renv.lock"],
+            "extensions": [".r"],
+        },
+        "HASKELL": {
+            "files": ["stack.yaml", "*.cabal"],
+            "extensions": [".hs"],
+        },
+        "ELIXIR": {
+            "files": ["mix.exs"],
+            "extensions": [".ex"],
+        },
+        "SCALA": {
+            "files": ["build.sbt"],
+            "extensions": [".scala"],
+        },
+        "PERL": {
+            "files": ["cpanfile", "Makefile.PL"],
+            "extensions": [".pl"],
+        },
+        "SHELL": {
+            "files": [],
+            "extensions": [".sh"],
+        },
+        "POWERSHELL": {
+            "files": [],
+            "extensions": [".ps1"],
+        },
+        "JSON": {
+            "files": [],
+            "extensions": [".json"],
         },
         "YAML": {
             "files": [],
-            "extensions": [".yaml", ".yml"]
+            "extensions": [".yaml"],
         },
-        "Web": {
+        "MARKDOWN": {
             "files": [],
-            "extensions": [".html", ".css"]
-        }
+            "extensions": [".md"],
+        },
+        "TEX": {
+            "files": [],
+            "extensions": [".tex"],
+        },
+        "ASSEMBLY": {
+            "files": [],
+            "extensions": [".asm"],
+        },
+        "V": {
+            "files": ["v.mod"],
+            "extensions": [".v"],
+        },
+        "ZIG": {
+            "files": ["build.zig"],
+            "extensions": [".zig"],
+        },
+        "CRYSTAL": {
+            "files": ["shard.yml"],
+            "extensions": [".cr"],
+        },
+        "TOML": {
+            "files": [],
+            "extensions": [".toml"],
+        },
+        "INI": {
+            "files": [],
+            "extensions": [".ini"],
+        },
+        "DOCKERFILE": {
+            "files": ["Dockerfile"],
+            "extensions": ["Dockerfile"],
+        },
+        "MAKEFILE": {
+            "files": ["Makefile"],
+            "extensions": ["Makefile"],
+        },
+        "GROOVY": {
+            "files": ["build.gradle", "build.gradle.kts"],
+            "extensions": [".groovy"],
+        },
+        "COFFEESCRIPT": {
+            "files": ["package.json"],
+            "extensions": [".coffee"],
+        },
+        "ELM": {
+            "files": ["elm.json"],
+            "extensions": [".elm"],
+        },
+        "FSHARP": {
+            "files": ["*.fsproj", "*.sln"],
+            "extensions": [".fs"],
+        },
+        "OCAML": {
+            "files": ["dune", "opam"],
+            "extensions": [".ml"],
+        },
+        "CLOJURE": {
+            "files": ["project.clj", "deps.edn"],
+            "extensions": [".clj"],
+        },
+        "HAXE": {
+            "files": ["*.hxml"],
+            "extensions": [".hx"],
+        },
+        "RACKET": {
+            "files": [],
+            "extensions": [".rkt"],
+        },
+        "SQL": {
+            "files": [],
+            "extensions": [".sql"],
+        },
+        "WEB": {
+            "files": ["index.html","style.css","js.js","script.js"],
+            "extensions": [".html",".css",".js"],
+        },
     }
 
     @staticmethod

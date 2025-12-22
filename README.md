@@ -1,0 +1,375 @@
+<div align="center">
+
+# 🚀 ProjectSetup 3.0
+
+**Gerador automático de estruturas de projetos para 40+ linguagens**
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Rich](https://img.shields.io/badge/UI-Rich-cyan.svg)](https://github.com/Textualize/rich)
+
+Cria a estrutura base dos seus projetos automaticamente.  
+Personalizável via JSON, funciona no terminal.
+
+[Instalação](#-instalação) • [Como usar](#-como-usar) • [Linguagens](#-linguagens-suportadas) • [Personalizar](#-personalize-seus-templates)
+
+</div>
+
+---
+
+## 💡 O que é?
+
+Uma ferramenta CLI que automatiza a criação de projetos. Você define templates em JSON e ela cria toda a estrutura pra você.
+
+**Exemplo:**
+```bash
+ps3cli . python meu-projeto
+```
+
+Isso cria automaticamente:
+```
+meu-projeto/
+├── src/
+│   ├── index.py
+│   ├── tool.py
+│   └── data.py
+├── .gitignore
+└── README.md
+```
+
+---
+
+## ⚡ Por que usar?
+
+- Poupa tempo na criação de projetos novos
+- Estrutura organizada desde o início
+- Templates personalizáveis
+- Suporte para várias linguagens
+- Interface visual no terminal
+
+---
+
+## 🚀 Instalação
+
+```bash
+git clone https://github.com/QuittoGames/ProjectSetup-3.0.git
+cd ProjectSetup-3.0/projectsetup3
+pip install -r requirements/requirements.txt
+```
+
+---
+
+## 💻 Como usar
+
+### Via CLI
+
+```bash
+# Sintaxe: ps3cli <path> <linguagem> <nome>
+ps3cli . python meu-app
+ps3cli D:/Projects javascript minha-api
+ps3cli . rust game
+```
+
+### Interface Visual
+
+```bash
+python -m projectsetup3
+```
+
+Abre um menu interativo com navegação por setas.
+
+### Via Python
+
+```python
+from projectsetup3.Services.ProjectManagerService import ProjectManagerService
+from pathlib import Path
+
+ProjectManagerService.create_project(
+    name="meu-projeto",
+    language="python",
+    path=Path("./projetos")
+)
+```
+
+---
+
+## 🌐 Linguagens Suportadas (40+)
+
+<details open>
+<summary><b>🔥 Linguagens Populares</b></summary>
+
+- 🐍 **Python** - requirements.txt, src/, .gitignore
+- 🟨 **JavaScript** - package.json, node_modules/, ESLint
+- 🔷 **TypeScript** - tsconfig.json, dist/, tipos
+- ☕ **Java** - Maven/Gradle, src/main/java/
+- 🦀 **Rust** - Cargo.toml, src/main.rs
+- 🐹 **Go** - go.mod, estrutura idiomática
+- 💎 **Ruby** - Gemfile, estrutura Rails
+- 🐘 **PHP** - composer.json, Laravel/Symfony
+- 🍎 **Swift** - Package.swift, iOS/macOS
+- 🟣 **C#** - .csproj, .sln, .NET
+- ➕ **C/C++** - CMakeLists.txt, Makefile
+
+</details>
+
+<details>
+<summary><b>Ver todas as 40+ linguagens</b></summary>
+
+- Assembly, Clojure, CoffeeScript, Crystal, Dart
+- Dockerfile, Elixir, Elm, F#, Groovy
+- Haskell, Haxe, INI, Kotlin, Lua
+- Makefile, Markdown, OCaml, Perl, PowerShell
+- R, Racket, Roblox Lua, Scala, Shell
+- SQL, TeX, TOML, V, Web, YAML, Zig
+
+</details>
+
+---
+
+## 🎨 Personalize seus Templates
+
+Cada linguagem tem um arquivo JSON que define a estrutura do projeto.
+
+**Exemplo:** `python.json`
+
+```json
+{
+    ".gitignore": "__pycache__/\n*.pyc\nvenv/",
+    "src/index.py": "print('Hello World')",
+    "README.md": "# Meu Projeto"
+}
+```
+
+Quando você roda o comando, ele:
+1. Lê o JSON da linguagem
+2. Cria cada arquivo com o conteúdo especificado
+3. Organiza nas pastas corretas
+
+---
+
+## 🔧 Adicionando um Novo Tipo de Projeto
+
+### Passo 1: Crie o Template JSON
+
+Crie um arquivo em `appdata/Languages/nome.json`:
+
+```json
+{
+    ".gitignore": "node_modules/\n.env",
+    
+    "src/server.js": "const express = require('express');\nconst app = express();\n\napp.listen(3000);",
+    
+    "src/routes/users.js": "const router = require('express').Router();\n\nmodule.exports = router;",
+    
+    "package.json": "{\n  \"name\": \"___PROJECTNAME__\",\n  \"version\": \"1.0.0\"\n}",
+    
+    ".env.example": "PORT=3000\nDB_URL=mongodb://localhost"
+}
+```
+
+**Dicas do JSON:**
+- Use `/` para criar pastas: `"src/routes/users.js"` cria `src/routes/`
+- Use `___PROJECTNAME__` para substituir pelo nome do projeto
+- Arquivos sem `/` vão para a raiz do projeto
+
+### Passo 2: Registre no Sistema
+
+Edite `modules/Enums/ProjectType.py` e adicione seu tipo:
+
+```python
+class ProjectType(Enum):
+    PYTHON = ".py"
+    JAVA = ".java"
+    # ... outros tipos ...
+    
+    # Adicione aqui:
+    MINHA_API = ".js"  # ou extensão relevante
+```
+
+**Importante:** O nome no Enum deve corresponder ao nome do arquivo JSON (em minúsculas).
+
+### Passo 3: Teste
+
+```bash
+ps3cli . minha_api meu-projeto
+```
+
+### Exemplo Completo: Adicionando Svelte
+
+**1. Crie:** `appdata/Languages/svelte.json`
+```json
+{
+    ".gitignore": "node_modules/\n.svelte-kit/\nbuild/",
+    "src/routes/+page.svelte": "<h1>Hello Svelte!</h1>",
+    "svelte.config.js": "export default {};",
+    "package.json": "{\n  \"name\": \"___PROJECTNAME__\",\n  \"type\": \"module\"\n}"
+}
+```
+
+**2. Registre:** Em `ProjectType.py`
+```python
+SVELTE = ".svelte"
+```
+
+**3. Use:**
+```bash
+ps3cli . svelte meu-app-svelte
+```
+
+---
+
+## 📚 Exemplos Rápidos
+
+### Python
+
+```bash
+ps3cli . python data-science
+```
+```
+data-science/
+├── src/
+│   ├── index.py
+│   ├── tool.py
+│   └── data.py
+├── .gitignore
+└── README.md
+```
+
+### JavaScript/Node.js
+
+```bash
+ps3cli . javascript minha-api
+```
+```
+minha-api/
+├── index.js
+├── package.json
+└── .gitignore
+```
+
+### TypeScript
+
+```bash
+ps3cli . typescript react-app
+```
+```
+react-app/
+├── src/
+│   └── index.ts
+├── package.json
+├── tsconfig.json
+└── .gitignore
+```
+
+### Rust
+
+```bash
+ps3cli . rust cli-tool
+```
+```
+cli-tool/
+├── src/
+│   └── main.rs
+├── Cargo.toml
+└── .gitignore
+```
+
+---
+
+## 📖 Casos de Uso
+
+**Prototipagem:**
+```bash
+ps3cli . python prototipo-ia
+```
+
+**Projetos maiores:**
+```bash
+ps3cli D:/Projects/Java java sistema-vendas
+```
+
+**Aprendizado:**
+```bash
+ps3cli . rust aprendendo-rust
+```
+
+**Scripts:**
+```bash
+ps3cli . python automacao
+```
+
+---
+
+## ⚙️ Configuração
+
+Edite `Config.py` para personalizar:
+
+```python
+DIRETORIO = Path("D:/MeusProjetos/Python")
+DIRETORIO_WEB = Path("D:/MeusProjetos/Web")
+BASECODEEDITOR = "vscode"
+```
+
+---
+
+## 🛠️ Comandos Úteis
+
+```bash
+# Criar projeto
+ps3cli <path> <linguagem> <nome> [git-repo]
+
+# Exemplos
+ps3cli . python meu-app                    # No diretório atual
+ps3cli D:/Projects python meu-app          # Path específico
+ps3cli . python app https://github.com/... # Com Git
+
+# Ver todas as linguagens
+python -m projectsetup3
+
+# Listar projetos existentes
+ps3cli list py      # Projetos Python
+ps3cli list web     # Projetos Web
+ps3cli list .       # Diretório atual
+```
+
+---
+
+## 🤝 Contribuir
+
+Para adicionar uma linguagem:
+
+1. Fork o projeto
+2. Crie `appdata/Languages/sua-linguagem.json`
+3. Teste com `ps3cli . sua-linguagem teste`
+4. Pull Request
+
+---
+
+## 📝 Licença
+
+MIT License
+
+---
+
+## 👤 Autor
+
+**QuittoGames**  
+GitHub: [@QuittoGames](https://github.com/QuittoGames)
+
+---
+
+##  Créditos
+
+- [Rich](https://github.com/Textualize/rich) - Interface no terminal
+- Comunidade Python
+
+---
+
+<div align="center">
+
+**[🔝 Voltar ao Topo](#-projectsetup-30)**
+
+> **“E tudo o que fizerem, seja em palavra ou em ação, façam em nome do Senhor Jesus.”**  
+> — *Colossenses 3:17*
+
+</div>

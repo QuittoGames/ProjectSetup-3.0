@@ -1,2 +1,1 @@
-rich
-asynciq 
+rich>=13.0.0 

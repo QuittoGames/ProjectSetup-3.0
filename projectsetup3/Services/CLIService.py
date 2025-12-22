@@ -6,11 +6,12 @@ from pathlib import Path
 from projectsetup3.tool import tool
 from projectsetup3.Config import Config
 from projectsetup3.Services.ProjectManagerService import ProjectManagerService
+from projectsetup3.modules.Class.Icons import Icons
 
 from rich.console import Console
 from rich.table import Table
 
-# ps3cli <path:str> <type:str> <name:str>
+# ps3cli <path:str> <type:str> <name:str> <gitRepoLink:str>(Opicional) 
 # ps3cli list <path:str> -> Return Projects In Path 
 # ps3cli -> Main Code
 
@@ -41,9 +42,11 @@ class CLIService:
     def startProject(self, argv):
         try:
             # Add agoritmo for if one value is none the outher values iis this value modify the command stuture
+            # Futuramente colcoar argparse
             path = Path(argv[1]) if len(argv) > 1 else Config.DIRETORIO
             typeProject = argv[2] if len(argv) > 2 and argv[2] else "python"
             name = argv[3] if len(argv) > 3 and argv[3] else "BaseProject"
+            gitRepoLink = argv[4] if len(argv) > 4 and argv[4] else None 
 
             if not path.exists():
                 print(f"[ERROR] O caminho não existe: {path}")
@@ -52,8 +55,12 @@ class CLIService:
             if not path.is_dir():
                 print("[ERROR] O caminho precisa ser um diretório válido")
                 return
+            
+            if data_local.GitAvaliable and gitRepoLink and (not tool.verifyURL(url = gitRepoLink)):
+                print(f"[ERROR] O URL nao e valida: {gitRepoLink}")
+                return
                         
-            ProjectManagerService.create_project(name=name,language=typeProject,path=path)
+            ProjectManagerService.create_project(name=name,language=typeProject,path=path,gitRepoLink=gitRepoLink)
         except ValueError as VE:
             print(f"[ERROR] Value Not Found , Erro: {VE}")
         except NotADirectoryError as NAD:
@@ -78,26 +85,54 @@ class CLIService:
         projects = [p for p in path.iterdir() if p.is_dir()]
 
         console = Console()
-        table = Table(title=f"Projetos em: {path}", show_header=True, header_style="bold blue")
+        table = Table(
+            title=f"📂 Projetos em: [bold yellow]{path}[/]", 
+            show_header=True, 
+            header_style="bold white on blue",
+            border_style="bright_blue",
+            expand=True,
+            box=None,
+            padding=(0, 2),
+            show_lines=False
+        )
 
-        table.add_column("Nome", style="cyan", no_wrap=True)
-        table.add_column("Tipo", style="green")
-        table.add_column("Caminho Completo", style="dim")
+        table.add_column("Nome", style="bold cyan", no_wrap=True)
+        table.add_column("Tipo", style="green", justify="left")
+        table.add_column("Git", style="magenta", justify="center")
+        table.add_column("Caminho Completo", style="italic white")
 
         for project in projects:
             project_type = "Desconhecido"
             files = list(project.iterdir())
             
+            # Detecta tipo baseado em arquivos específicos
             for ptype, rules in Config.PROJECT_TYPES.items():
                 if any((project / f).exists() for f in rules["files"]):
-                    project_type = ptype
+                    project_type = ptype.capitalize()
                     break
-                # Verifica extensões
-                if any(f.suffix in rules["extensions"] for f in files):
-                    project_type = ptype
-                    break
+                
+            # Verifica extensões se não encontrou por arquivo
+            if project_type == "Desconhecido":
+                for ptype, rules in Config.PROJECT_TYPES.items():
+                    if any(f.suffix in rules["extensions"] for f in files if f.is_file()):
+                        project_type = ptype.capitalize()
+                        break
+
+            # Verifica se o projeto tem Git
+            isGit = (project / ".git").exists()
+            git_status = "✅" if isGit else "❌"
             
-            table.add_row(f"📁 {project.name}", project_type, str(project.resolve()))
+            # Define estilo da linha baseado no Git
+            row_style = "on #152b15" if isGit else None  # Fundo verde muito escuro/sutil para projetos com Git
+              
+            icon = Icons.getIconProject(project_type)
+            table.add_row(
+                f"{icon} {project.name}", 
+                f"[bold]{project_type}[/]", 
+                f"{git_status}",
+                str(project.resolve()),
+                style=row_style
+            )
 
         console.print(table)
 
