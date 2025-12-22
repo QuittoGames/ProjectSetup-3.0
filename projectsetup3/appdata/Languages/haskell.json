@@ -1,0 +1,13 @@
+{
+    ".gitignore": "# Stack\n.stack-work/\nstack.yaml.lock\n\n# Cabal\ndist/\ndist-*/\ncabal-dev/\n.cabal-sandbox/\ncabal.sandbox.config\ncabal.config\n*.prof\n*.aux\n*.hp\n*.eventlog\n\n# GHC\n*.o\n*.hi\n*.chi\n*.chs.h\n*.dyn_o\n*.dyn_hi\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "app/Main.hs": "module Main where\n\nimport Data.Data\nimport Tool.Tool\n\nmain :: IO ()\nmain = do\n    putStrLn \"Hello, World!\"",
+
+    "src/Data/Data.hs": "module Data.Data where\n\n-- Your data module",
+
+    "src/Tool/Tool.hs": "module Tool.Tool where\n\n-- Your tool module",
+
+    "package.yaml": "name: project\nversion: 1.0.0\ngithub: \"user/project\"\nlicense: BSD3\nauthor: \"Quitto\"\nmaintainer: \"your.email@example.com\"\n\ndependencies:\n- base >= 4.7 && < 5\n\nlibrary:\n  source-dirs: src\n\nexecutables:\n  project-exe:\n    main: Main.hs\n    source-dirs: app\n    ghc-options:\n    - -threaded\n    - -rtsopts\n    - -with-rtsopts=-N\n    dependencies:\n    - project",
+
+    "stack.yaml": "resolver: lts-21.25\n\npackages:\n- .\n\nextra-deps: []"
+}

@@ -1,0 +1,9 @@
+{
+    ".gitignore": "# Dependencies\nnode_modules/\n\n# Build outputs\ndist/\nbuild/\n*.min.js\n*.min.css\n\n# Logs\nlogs/\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\n\n# Environment\n.env\n.env.local\n.env.development.local\n.env.test.local\n.env.production.local\n\n# Cache\n.cache/\n.parcel-cache/\n.next/\n.nuxt/\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\nThumbs.db\n\n# Testing\ncoverage/\n.nyc_output/\n",
+
+    "index.html": "<!DOCTYPE html>\n<html lang=\"pt-br\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title></title>\n    <link rel=\"stylesheet\" href=\"style.css\"> <!-- Referência ao CSS -->\n    <script src=\"js.js\"></script> <!-- Referência ao JavaScript -->\n</head>\n<body>\n    <footer>\n        <p>&copy; 2025 - Desenvolvido por Quitto</p>\n    </footer>\n\n</body>\n</html>",
+
+    "style.css": ":root {\n    /* Tons de azul base modernos */\n    --color-primary: #1e40af;     /* Azul escuro */\n    --color-secondary: #3b82f6;   /* Azul médio (moderno) */\n    --color-accent: #60a5fa;      /* Azul claro para destaque */\n    \n    /* Tons neutros e de fundo */\n    --color-bg: #f9fafb;\n    --color-surface: #ffffff;\n    --color-text: #1f2937;        /* Quase preto */\n    --color-muted: #6b7280;       /* Cinza para texto secundário */\n}\n\nbody {\n    margin: 0;\n    padding: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}",
+
+    "js.js": "// JavaScript code\nconsole.log('Hello, World!');\n\n// DOM Content Loaded\ndocument.addEventListener('DOMContentLoaded', function() {\n    console.log('Page loaded!');\n});"
+}

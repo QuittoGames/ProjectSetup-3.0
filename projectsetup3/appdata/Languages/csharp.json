@@ -1,0 +1,7 @@
+{
+    ".gitignore": "# Build results\n[Dd]ebug/\n[Dd]ebugPublic/\n[Rr]elease/\n[Rr]eleases/\nx64/\nx86/\n[Ww][Ii][Nn]32/\n[Aa][Rr][Mm]/\n[Aa][Rr][Mm]64/\nbld/\n[Bb]in/\n[Oo]bj/\n[Ll]og/\n[Ll]ogs/\n\n# Visual Studio\n.vs/\n*.suo\n*.user\n*.userosscache\n*.sln.docstates\n*.userprefs\n\n# Rider\n.idea/\n\n# Files built by Visual Studio\n*.pidb\n*.svclog\n*.scc\n\n# NuGet Packages\n*.nupkg\n*.snupkg\npackages/\n\n# Test Results\n[Tt]est[Rr]esult*/\n[Bb]uild[Ll]og.*\n*.trx\n*.coverage\n*.coveragexml\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "Program.cs": "using System;\n\nnamespace Project\n{\n    class Program\n    {\n        static void Main(string[] args)\n        {\n            Console.WriteLine(\"Hello, World!\");\n        }\n    }\n}",
+
+    "Project.csproj": "<Project Sdk=\"Microsoft.NET.Sdk\">\n\n  <PropertyGroup>\n    <OutputType>Exe</OutputType>\n    <TargetFramework>net8.0</TargetFramework>\n    <ImplicitUsings>enable</ImplicitUsings>\n    <Nullable>enable</Nullable>\n  </PropertyGroup>\n\n</Project>"
+}

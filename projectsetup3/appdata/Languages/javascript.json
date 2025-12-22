@@ -1,0 +1,7 @@
+{
+    ".gitignore": "# Dependencies\nnode_modules/\n\n# Logs\nlogs/\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\npnpm-debug.log*\n\n# Runtime data\npids/\n*.pid\n*.seed\n*.pid.lock\n\n# Directory for instrumented libs\nlib-cov/\n\n# Coverage directory\ncoverage/\n*.lcov\n\n# nyc test coverage\n.nyc_output/\n\n# Build\ndist/\nbuild/\n\n# Environment\n.env\n.env.local\n.env.*.local\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "index.js": "// Main entry point\nconsole.log('Hello, World!');\n\nfunction main() {\n    // Your code here\n}\n\nif (require.main === module) {\n    main();\n}\n\nmodule.exports = { main };",
+
+    "package.json": "{\n  \"name\": \"project\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Project created by ProjectSetup\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"start\": \"node index.js\",\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n  },\n  \"keywords\": [],\n  \"author\": \"Quitto\",\n  \"license\": \"ISC\",\n  \"dependencies\": {\n  }\n}"
+}

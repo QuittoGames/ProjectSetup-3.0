@@ -41,22 +41,6 @@ console = Console()
 # HELPERS VISUAIS
 # =======================================================
 
-def get_sys_info():
-    """Coleta informações do sistema (multiplataforma e sem erros)."""
-
-    try:
-        user = getpass.getuser()
-    except Exception:
-        user = "User"
-
-    return {
-        "os": platform.system(),
-        "py_ver": sys.version.split()[0],
-        "user": user,
-        "time": datetime.now().strftime("%H:%M:%S"),
-        "date": datetime.now().strftime("%d/%m/%Y")
-    }
-
 def draw_main_dashboard():
     """Dashboard principal com design moderno e minimalista."""
     tool.clear_screen()
@@ -277,7 +261,8 @@ def create_project_interactive():
     console.print()
     console.print(Align.center(f"[{text_dim}]Linguagem (python/web/lua) [padrão: python][/]"))
     console.print()
-    type_project = input(f"{' ' * 32}▸ ").strip().lower() or "python"
+    raw_type = input(f"{' ' * 32}▸ ").strip().lower() or "python"
+    type_project = tool.type_to_extension(raw_type)
     
     # Path (mesma tela)
     console.print()
@@ -358,18 +343,20 @@ def create_project_interactive():
             return
         
         console.print()
-        with console.status(f"[{success_color}]▸ Criando projeto...[/]", spinner="dots"):
+        console.print(Align.center(f"[{success_color}]▸ Criando projeto...[/]"))
+        with console.status("", spinner="dots"):
             ProjectManagerService.create_project(name=name, language=type_project, path=path)
-            time.sleep(0.5)
+            time.sleep(1)
         
         tool.clear_screen()
         console.print()
         success_panel = Panel(
             Align.center(Text.assemble(
                 (f"✓ Projeto '{name}' criado com sucesso!\n\n", success_color),
-                ("📂 Abrir no VS Code\n", accent_color),
-                (f"vscode://file/{path/name}", text_dim)
+                (f"📂 Abrir no {Config.BASECODEEDITOR}\n", accent_color),
+                (f"{Config.get_editor_link(Config.BASECODEEDITOR,path)}, text_dim")
             )),
+            
             title=f"[{theme_color}]Sucesso[/]",
             border_style=theme_color,
             box=ROUNDED,
@@ -378,7 +365,7 @@ def create_project_interactive():
         )
         console.print(Align.center(success_panel))
         console.print()
-        input(f"\n{' ' * 30}[{text_dim}]Enter para continuar...[/]")
+        input(f"\n{' ' * 30}[{text_dim}] Enter para continuar...[/]")
         
     except Exception as e:
         console.print()
@@ -459,6 +446,9 @@ async def main():
         console.print(f"[bold red]ERRO CRÍTICO[/]: {e}")
         sys.exit(1)
 
+def run():
+    """Entry point síncrono para console_scripts"""
+    asyncio.run(main())
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    run()

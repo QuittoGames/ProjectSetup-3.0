@@ -3,6 +3,7 @@ import os
 import json
 from pathlib import Path
 from projectsetup3.Config import Config
+from projectsetup3.modules.Enums.ProjectType import ProjectType
 import re
 
 @dataclass
@@ -24,6 +25,9 @@ class BaseProject:
         for file, code in self.basestruture.items():
             full_path = project_path / file
 
+            if "___PROJECTNAME__" in code:
+                code = code.replace("___PROJECTNAME__",name)
+
             if not re.match(r".+\..+$", str(full_path)):
                 full_path.mkdir(parents=True, exist_ok=True)
                 continue
@@ -44,4 +48,7 @@ class BaseProject:
         
         with open(projectPath,"r+",encoding="UTF-8") as file:
             self.basestruture = json.load(file)
+
+    def setLanguage(self,language:ProjectType):
+        self.language = language
         

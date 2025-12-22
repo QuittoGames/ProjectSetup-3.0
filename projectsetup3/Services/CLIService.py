@@ -41,14 +41,9 @@ class CLIService:
     def startProject(self, argv):
         try:
             # Add agoritmo for if one value is none the outher values iis this value modify the command stuture
-            path = Path(argv[1]) if len(argv) > 1 else None
+            path = Path(argv[1]) if len(argv) > 1 else Config.DIRETORIO
             typeProject = argv[2] if len(argv) > 2 and argv[2] else "python"
             name = argv[3] if len(argv) > 3 and argv[3] else "BaseProject"
-
-            if not path:
-                print("[ERROR] É necessário passar o caminho do projeto")
-                subprocess.run("echo É necessário passar o caminho do projeto")
-                return
 
             if not path.exists():
                 print(f"[ERROR] O caminho não existe: {path}")
@@ -88,74 +83,19 @@ class CLIService:
         table.add_column("Nome", style="cyan", no_wrap=True)
         table.add_column("Tipo", style="green")
         table.add_column("Caminho Completo", style="dim")
-        
-        #Refactor for dict
+
         for project in projects:
             project_type = "Desconhecido"
-
-            files = list(project.iterdir())  # evita iterar várias vezes
-
-            # Python
-            if (
-                (project / "requirements.txt").exists()
-                or (project / "pyproject.toml").exists()
-                or any(f.suffix == ".py" for f in files)
-            ):
-                project_type = "Python"
-
-            # Node / JavaScript / TypeScript
-            elif (project / "package.json").exists() or any(
-                f.suffix in {".js", ".ts", ".tsx"} for f in files
-            ):
-                project_type = "Node/JS"
-
-            # Java
-            elif (project / "pom.xml").exists() or any(
-                f.suffix == ".java" for f in files
-            ):
-                project_type = "Java"
-
-            # Rust
-            elif (project / "Cargo.toml").exists() or any(
-                f.suffix == ".rs" for f in files
-            ):
-                project_type = "Rust"
-
-            # C++
-            elif any(f.suffix in {".cpp", ".cc", ".cxx", ".hpp", ".h"} for f in files):
-                project_type = "C++"
-
-            # C
-            elif any(f.suffix in {".c", ".h"} for f in files):
-                project_type = "C"
-
-            # Go
-            elif any(f.suffix == ".go" for f in files):
-                project_type = "Go"
-
-            # C#
-            elif any(f.suffix in {".cs", ".csproj"} for f in files):
-                project_type = "C#"
-
-            # Ruby
-            elif any(f.suffix == ".rb" for f in files):
-                project_type = "Ruby"
-
-            # Lua (inclui Roblox Lua)
-            elif any(f.suffix == ".lua" for f in files):
-                project_type = "Lua"
-
-            # Shell / Bash
-            elif any(f.suffix in {".sh", ".bash"} for f in files):
-                project_type = "Shell"
-
-            # YAML
-            elif any(f.suffix in {".yaml", ".yml"} for f in files):
-                project_type = "YAML"
-
-            # Web / HTML / CSS
-            elif any(f.suffix in {".html", ".css"} for f in files):
-                project_type = "Web"
+            files = list(project.iterdir())
+            
+            for ptype, rules in Config.PROJECT_TYPES.items():
+                if any((project / f).exists() for f in rules["files"]):
+                    project_type = ptype
+                    break
+                # Verifica extensões
+                if any(f.suffix in rules["extensions"] for f in files):
+                    project_type = ptype
+                    break
             
             table.add_row(f"📁 {project.name}", project_type, str(project.resolve()))
 
