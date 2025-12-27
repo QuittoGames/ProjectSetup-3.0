@@ -29,6 +29,9 @@ class BaseProject:
 
             if "___PROJECTNAME__" in code:
                 code = code.replace("___PROJECTNAME__",name)
+            
+            if "__PROJECTNAME__" in file:
+                file = file.replace("___PROJECTNAME__",name)
 
             if not re.match(r".+\..+$", str(full_path)):
                 full_path.mkdir(parents=True, exist_ok=True)
