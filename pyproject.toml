@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "projectsetup3"
-version = "1.0.0"
+version = "1.0.3"
 description = "Gerador automático de estruturas de projetos para 40+ linguagens"
 readme = "README.md"
-requires-python = ">=3.wdswdswds10"
+requires-python = ">=3.10"
 license = "MIT"
 keywords = ["project", "generator", "template", "boilerplate", "scaffold"]
 
