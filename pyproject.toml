@@ -7,15 +7,10 @@ name = "projectsetup3"
 version = "1.0.0"
 description = "Gerador automático de estruturas de projetos para 40+ linguagens"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.wdswdswds10"
 license = "MIT"
 keywords = ["project", "generator", "template", "boilerplate", "scaffold"]
-authors = [
-    {name = "QuittoGames", email = "quittogames@example.com"}
-]
-maintainers = [
-    {name = "QuittoGames", email = "quittogames@example.com"}
-]
+
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
