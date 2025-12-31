@@ -1,7 +1,6 @@
 from pathlib import Path
 import asyncio
 import time
-from datetime import datetime
 import sys
 import os
 
@@ -19,6 +18,7 @@ from Config import Config
 from Services.ArrowsService import ArrrowsService
 from Services.ProjectManagerService import ProjectManagerService
 from modules.Class.Icons import Icons
+from Services.InstallService import InstallService
 
 # =======================================================
 # TEMA MODERNO - AZUL E PRETO (Inspirado NeoVim)
@@ -361,7 +361,7 @@ def create_project_interactive():
         console.print(Align.center(Text.assemble(
             ("Confirmar criação? [", text_dim),
             ("Y", success_color),
-            ("/", text_dim),a
+            ("/", text_dim),
             ("N", warning_color),
             ("]", text_dim)
         )))
@@ -400,18 +400,24 @@ def create_project_interactive():
         
         tool.clear_screen()
         console.print()
+
+        editor_link = Config.get_editor_link(Config.BASECODEEDITOR, path / name)
+
+        success_text = Text()
+        success_text.append(f"✓ Projeto '{name}' criado com sucesso!\n\n", style=success_color)
+        success_text.append(f"📂 Abrir no {Config.BASECODEEDITOR}\n", style=accent_color)
+        link_text = Text(editor_link, style=text_dim)
+        link_text.stylize(f"link {editor_link}")
+        success_text.append_text(link_text)
+        success_text.append("\n", style=text_dim)
+
         success_panel = Panel(
-            Align.center(Text.assemble(
-                (f"✓ Projeto '{name}' criado com sucesso!\n\n", success_color),
-                (f"📂 Abrir no {Config.BASECODEEDITOR}\n", accent_color),
-                (f"{Config.get_editor_link(Config.BASECODEEDITOR,path)}, text_dim")
-            )),
-            
+            Align.center(success_text),
             title=f"[{theme_color}]Sucesso[/]",
             border_style=theme_color,
             box=ROUNDED,
             padding=(1, 2),
-            width=60
+            width=60,
         )
         console.print(Align.center(success_panel))
         console.print()
@@ -487,6 +493,7 @@ async def main():
         
         cfg = Config()
         await tool.add_path_modules(cfg)
+        InstallService.install(config=cfg)
         
         if cfg.Debug:
             await tool.verify_modules()
