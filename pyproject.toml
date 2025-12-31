@@ -4,15 +4,49 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "projectsetup3"
-version = "1.0.0"
-description = "PS3 Project Setup"
+version = "1.0.3"
+description = "Gerador automático de estruturas de projetos para 40+ linguagens"
+readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["rich"]
+license = "MIT"
+keywords = ["project", "generator", "template", "boilerplate", "scaffold"]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "rich>=13.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/QuittoGames/ProjectSetup-3.0"
+Repository = "https://github.com/QuittoGames/ProjectSetup-3.0"
+Issues = "https://github.com/QuittoGames/ProjectSetup-3.0/issues"
 
 [project.scripts]
 ps3cli = "projectsetup3.cli:main"
 ps3 = "projectsetup3.index:main"
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["projectsetup3*"]
+
+[tool.setuptools.package-data]
+projectsetup3 = [
+    "appdata/**/*.json",
+    "appdata/**/*.md",
+    "Fonts/**/*",
+    "requirements/*.txt",
+    "LICENSE"
+]

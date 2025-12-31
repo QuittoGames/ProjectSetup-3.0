@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+recursive-include projectsetup3/appdata *.json
+recursive-include projectsetup3/appdata/Languages *.json *.md
+recursive-include projectsetup3/Fonts *
+include projectsetup3/requirements/requirements.txt

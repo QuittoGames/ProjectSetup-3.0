@@ -432,7 +432,7 @@ def create_project_interactive():
 # =======================================================
 # LOOP PRINCIPAL
 # =======================================================
-def Start():
+async def Start():
     while True:
         draw_main_dashboard()
         
@@ -452,7 +452,7 @@ def Start():
             if config.Debug:
                 make_simple_header("Diagnóstico")
                 console.print(f"[{theme_color}]Verificando dependências...[/]\n")
-                asyncio.run(tool.verify_modules())
+                await tool.verify_modules()
                 console.input(f"\n{' ' * 30}[{text_dim}]Enter para voltar...[/]")
             else:
                 console.print(Align.center(f"[{warning_color}]Debug desativado[/]"))
@@ -499,7 +499,7 @@ async def main():
             await tool.verify_modules()
         
         await asyncio.sleep(1.5)
-        Start()    
+        await Start()    
     except Exception as e:
         console.print(f"[bold red]ERRO CRÍTICO[/]: {e}")
         sys.exit(1)

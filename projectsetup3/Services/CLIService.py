@@ -7,6 +7,7 @@ from projectsetup3.tool import tool
 from projectsetup3.Config import Config
 from projectsetup3.Services.ProjectManagerService import ProjectManagerService
 from projectsetup3.modules.Class.Icons import Icons
+from projectsetup3.index import run
 
 from rich.console import Console
 from rich.table import Table
@@ -32,12 +33,11 @@ class CLIService:
             self.startProject(sys.argv)
             return
 
+        # Se não há argumentos, executa a interface interativa
         try:
-            root = Path(__file__).resolve().parent
-            script = root / ("ps3.bat" if os.name == "nt" else "ps3")
-            subprocess.run([sys.executable, script],shell=False)
-        except FileNotFoundError:
-            print("[ERROR] Entry script 'ps3' not found. Ensure 'ps3' or 'ps3.bat' exists in the project root")
+            run()
+        except Exception as e:
+            print(f"[ERROR] Falha ao iniciar interface interativa: {e}")
 
     def startProject(self, argv):
         try:

@@ -1,0 +1,88 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows-exe:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Debug list files
+        run: |
+          echo "ROOT:"
+          dir
+          echo "projectsetup3:"
+          dir projectsetup3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r projectsetup3/requirements/requirements.txt
+
+      - name: Build executable with PyInstaller
+        run: |
+          cd projectsetup3
+          python -m PyInstaller --clean projectsetup3.spec
+
+      - name: Upload Windows executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: ProjectSetup3-Windows
+          path: projectsetup3/dist/ProjectSetup3.exe
+
+  create-release:
+    needs: build-windows-exe
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Windows executable
+        uses: actions/download-artifact@v4
+        with:
+          name: ProjectSetup3-Windows
+          path: ./dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/ProjectSetup3.exe
+          body: |
+            ## 🚀 ProjectSetup 3.0 Release
+            
+            ### Windows Executable
+            Download `ProjectSetup3.exe` e execute diretamente - não precisa instalar Python!
+            
+            ### Instalação via pip
+            ```bash
+            pip install projectsetup3
+            ```
+            
+            ### Changelog
+            - Gerador automático de estruturas de projetos
+            - Suporte para 40+ linguagens
+            - Interface Rich no terminal
+            - Templates personalizáveis via JSON
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

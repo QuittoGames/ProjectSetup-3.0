@@ -43,7 +43,6 @@ Pipfile.lock
 
 # PyInstaller
 *.manifest
-*.spec
 *.dll
 *.so
 
