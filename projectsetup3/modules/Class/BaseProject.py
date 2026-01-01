@@ -60,7 +60,7 @@ class BaseProject:
                 "git": bool(gitRepoLink),
                 "gitRepo": gitRepoLink,
                 "created_at": datetime.datetime.now().isoformat()
-        })
+            })
 
             DataJsonPath.parent.mkdir(parents=True, exist_ok=True)
             with DataJsonPath.open("w", encoding="UTF-8") as f:

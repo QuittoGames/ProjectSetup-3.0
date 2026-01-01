@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from pathlib import Path
 import os
 import platform
+from urllib.parse import quote
 
 @dataclass
 class Config:
@@ -13,9 +14,9 @@ class Config:
 
     basesCodesPath: Path = appdata / "PROJECTSETUP-3.O" / "Languages"
 
-    DIRETORIO: Path = Path("D:/Projects/Python")
-    DIRETORIO_WEB: Path = Path("D:/Projects/Web")
-    DIRETORIO_CPP: Path = Path("D:/Projects/C++")
+    DIRETORIO: Path = Path("C:/Users/gustavoquitto-ieg/Project/Projects/Python")
+    DIRETORIO_WEB: Path = Path("C:/Users/gustavoquitto-ieg/Project/Projects/Web")
+    DIRETORIO_CPP: Path = Path("C:/Users/gustavoquitto-ieg/Project/Projects/C++")
 
     BASECODEEDITOR:str = "vscode"
 
@@ -223,14 +224,26 @@ class Config:
         return Path(Config.DIRETORIO)
     
     def get_editor_link(editor: str, project_path: Path) -> str:
+        # Normaliza para URI (especialmente no Windows):
+        # - caminho absoluto
+        # - barras "/" ao invés de "\\"
+        # - URL-encoding de espaços e caracteres especiais
+        resolved = Path(project_path).expanduser().resolve()
+        posix_path = resolved.as_posix()
+
+        if len(posix_path) >= 2 and posix_path[1] == ":":
+            posix_path = posix_path[0].lower() + posix_path[1:]
+
+        encoded_path = quote(posix_path, safe="/:=")
+
         editors = {
-            "vscode":   f"vscode://file/{project_path}",
-            "cursor":   f"cursor://file/{project_path}",
-            "vscodium": f"vscodium://file/{project_path}",
-            "sublime":  f"subl://open?url=file://{project_path}",
-            "pycharm":  f"pycharm://open?file={project_path}",
-            "idea":     f"idea://open?file={project_path}",
-            "webstorm": f"webstorm://open?file={project_path}",
+            "vscode":   f"vscode://file/{encoded_path}",
+            "cursor":   f"cursor://file/{encoded_path}",
+            "vscodium": f"vscodium://file/{encoded_path}",
+            "sublime":  f"subl://open?url=file://{encoded_path}",
+            "pycharm":  f"pycharm://open?file={encoded_path}",
+            "idea":     f"idea://open?file={encoded_path}",
+            "webstorm": f"webstorm://open?file={encoded_path}",
         }
 
-        return editors.get(editor.lower(), f"vscode://file/{project_path}")
+        return editors.get(editor.lower(), f"vscode://file/{encoded_path}")

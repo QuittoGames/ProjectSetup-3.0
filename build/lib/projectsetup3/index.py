@@ -16,11 +16,11 @@ from rich.tree import Tree
 from rich.padding import Padding
 from rich.align import Align
 
-from tool import tool
-from Config import Config
-from Services.ArrowsService import ArrrowsService
-from Services.ProjectManagerService import ProjectManagerService
-from modules.Class.Icons import Icons
+from projectsetup3.tool import tool
+from projectsetup3.Config import Config
+from projectsetup3.Services.ArrowsService import ArrrowsService
+from projectsetup3.Services.ProjectManagerService import ProjectManagerService
+from projectsetup3.modules.Class.Icons import Icons
 
 # =======================================================
 # TEMA MODERNO - AZUL E PRETO (Inspirado NeoVim)
@@ -35,6 +35,7 @@ bg_dark = "black"                # Fundo escuro
 
 config = Config()
 console = Console()
+
 
 # =======================================================
 # HELPERS VISUAIS

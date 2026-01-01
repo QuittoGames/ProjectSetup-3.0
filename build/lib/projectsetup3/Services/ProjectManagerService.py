@@ -1,6 +1,6 @@
 from dataclasses import dataclass
-from Config import Config
-from modules.DataMap.project_map import ProjectMaps
+from projectsetup3.Config import Config
+from projectsetup3.modules.DataMap.project_map import ProjectMaps
 from pathlib import Path
 
 # Yes i need to create the service for my self code
