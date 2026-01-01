@@ -36,6 +36,10 @@ class Config:
             "files": ["pom.xml", "build.gradle", "build.gradle.kts"],
             "extensions": [".java"],
         },
+        "SPRING": {
+            "files": ["pom.xml", "build.gradle", "build.gradle.kts", "application.properties", "application.yml"],
+            "extensions": [".java"],
+        },
         "CSHARP": {
             "files": ["*.csproj", "*.sln"],
             "extensions": [".cs", ".csproj"],

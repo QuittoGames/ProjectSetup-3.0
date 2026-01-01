@@ -55,7 +55,7 @@ def draw_main_dashboard():
         ("● ", success_color),
         (f"{info['user']}", accent_color)
     )
-    
+
     # Centro - Nome do app
     center_text = Text("PROJECT SETUP v3.0", style=f"bold {theme_color}")
     

@@ -27,6 +27,12 @@ class Icons:
             "ruby": "💎",
             "php": "🐘",
             "unity": "🎮",
+            "go": "🐹",
+            "swift": "🐦",
+            "kotlin": "🟣",
+            "docker": "🐳",
+            "markdown": "📝",
+            "md": "📝",
             "default": "📁"
         }
         return icons.get(project_type.lower(), icons["default"])

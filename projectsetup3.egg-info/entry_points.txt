@@ -1,3 +1,0 @@
-[console_scripts]
-ps3 = projectsetup3.index:main
-ps3cli = projectsetup3.cli:main
