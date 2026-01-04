@@ -13,12 +13,12 @@ from rich.tree import Tree
 from rich.padding import Padding
 from rich.align import Align
 
-from tool import tool
-from Config import Config
-from Services.ArrowsService import ArrrowsService
-from Services.ProjectManagerService import ProjectManagerService
-from modules.Class.Icons import Icons
-from Services.InstallService import InstallService
+from projectsetup3.tool import tool
+from projectsetup3.Config import Config
+from projectsetup3.Services.ArrowsService import ArrrowsService
+from projectsetup3.Services.ProjectManagerService import ProjectManagerService
+from projectsetup3.modules.Class.Icons import Icons
+from projectsetup3.Services.InstallService import InstallService
 
 # =======================================================
 # TEMA MODERNO - AZUL E PRETO (Inspirado NeoVim)
@@ -493,7 +493,9 @@ async def main():
         
         cfg = Config()
         await tool.add_path_modules(cfg)
-        InstallService.install(config=cfg)
+
+        if not InstallService.isIstall(cfg):
+            InstallService.install(config=cfg)
         
         if cfg.Debug:
             await tool.verify_modules()

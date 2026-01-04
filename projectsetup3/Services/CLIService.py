@@ -7,7 +7,6 @@ from projectsetup3.tool import tool
 from projectsetup3.Config import Config
 from projectsetup3.Services.ProjectManagerService import ProjectManagerService
 from projectsetup3.modules.Class.Icons import Icons
-from projectsetup3.index import run
 
 from rich.console import Console
 from rich.table import Table
@@ -35,6 +34,7 @@ class CLIService:
 
         # Se não há argumentos, executa a interface interativa
         try:
+            from projectsetup3.index import run
             run()
         except Exception as e:
             print(f"[ERROR] Falha ao iniciar interface interativa: {e}")

@@ -11,6 +11,7 @@ from rich.panel import Panel
 from rich.box import ROUNDED
 from datetime import datetime
 from pathlib import Path
+import shutil
 import re
 
 @dataclass
@@ -134,3 +135,20 @@ class tool:
     def verifyURL(url:str) -> bool:
         if url is None:return False
         return bool(re.match(r'^https://(github\.com|gitlab\.com|bitbucket\.org)/[A-Za-z0-9._-]+/[A-Za-z0-9._-]+(\.git)?$', url))
+    
+    def getIsntallCommand() -> str:
+        packageManeger = ""
+        managers = ["apt", "dnf", "pacman", "zypper", "apk"]  # apk = Alpine
+        for m in managers:
+            if shutil.which(m):
+                packageManeger = m 
+
+        install_cmds = {
+            "apt": lambda pkg: f"sudo apt update && sudo apt install -y {pkg}",
+            "dnf": lambda pkg: f"sudo dnf install -y {pkg}",
+            "pacman": lambda pkg: f"sudo pacman -Syu {pkg} --noconfirm",
+            "zypper": lambda pkg: f"sudo zypper install -y {pkg}",
+            "apk": lambda pkg: f"sudo apk add {pkg}",
+        }
+
+        return install_cmds.get(packageManeger)

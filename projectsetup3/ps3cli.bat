@@ -21,14 +21,14 @@ if errorlevel 1 (
 )
 
 REM Verifica se o ambiente virtual existe
-if exist "%SCRIPT_DIR%..\venv\Scripts\activate.bat" (
-    call "%SCRIPT_DIR%..\venv\Scripts\activate.bat" >nul 2>&1
+if exist "%SCRIPT_DIR%venv\Scripts\activate.bat" (
+    call "%SCRIPT_DIR%venv\Scripts\activate.bat" >nul 2>&1
 )
 
 REM Verifica se CLIService.py existe
-set "CLI_SCRIPT=%SCRIPT_DIR%Services\CLIService.py"
+set "CLI_SCRIPT=%SCRIPT_DIR%\Services\CLIService.py"
 if not exist "!CLI_SCRIPT!" (
-    echo [ERRO] CLIService.py nao encontrado em: %SCRIPT_DIR%Services\
+    echo [ERRO] CLIService.py nao encontrado em: %SCRIPT_DIR%projectsetup3\Services\
     exit /b 1
 )
 
