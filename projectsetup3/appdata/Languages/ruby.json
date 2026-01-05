@@ -7,5 +7,7 @@
 
     "tool/tool.rb": "class Tool\n  # Your tool class\nend",
 
-    "Gemfile": "source 'https://rubygems.org'\n\nruby '>= 3.0.0'\n\n# Add your gems here"
+    "Gemfile": "source 'https://rubygems.org'\n\nruby '>= 3.0.0'\n\n# Add your gems here",
+
+    "README.md": ""
 }

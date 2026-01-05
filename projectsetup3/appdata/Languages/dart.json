@@ -7,5 +7,7 @@
 
     "lib/tool/tool.dart": "class Tool {\n  // Your tool class\n}",
 
-    "pubspec.yaml": "name: project\ndescription: Dart project created by ProjectSetup\nversion: 1.0.0\n\nenvironment:\n  sdk: '>=3.0.0 <4.0.0'\n\ndependencies:\n  # Add your dependencies here\n\ndev_dependencies:\n  lints: ^3.0.0"
+    "pubspec.yaml": "name: project\ndescription: Dart project created by ProjectSetup\nversion: 1.0.0\n\nenvironment:\n  sdk: '>=3.0.0 <4.0.0'\n\ndependencies:\n  # Add your dependencies here\n\ndev_dependencies:\n  lints: ^3.0.0",
+
+    "README.md": ""
 }

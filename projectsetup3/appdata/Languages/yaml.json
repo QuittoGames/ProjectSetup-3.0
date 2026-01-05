@@ -1,3 +1,5 @@
 {
-    "config.yaml": "# Example YAML\napp:\n  name: __PROJECT_NAME__\n  version: 0.1.0\n"
+    "config.yaml": "# Example YAML\napp:\n  name: __PROJECT_NAME__\n  version: 0.1.0\n",
+
+    "README.md": ""
 }

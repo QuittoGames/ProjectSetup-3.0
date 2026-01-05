@@ -9,5 +9,7 @@
 
     "package.yaml": "name: project\nversion: 1.0.0\ngithub: \"user/project\"\nlicense: BSD3\nauthor: \"Quitto\"\nmaintainer: \"your.email@example.com\"\n\ndependencies:\n- base >= 4.7 && < 5\n\nlibrary:\n  source-dirs: src\n\nexecutables:\n  project-exe:\n    main: Main.hs\n    source-dirs: app\n    ghc-options:\n    - -threaded\n    - -rtsopts\n    - -with-rtsopts=-N\n    dependencies:\n    - project",
 
-    "stack.yaml": "resolver: lts-21.25\n\npackages:\n- .\n\nextra-deps: []"
+    "stack.yaml": "resolver: lts-21.25\n\npackages:\n- .\n\nextra-deps: []",
+
+    "README.md": ""
 }

@@ -5,5 +5,7 @@
 
     "style.css": ":root {\n    /* Tons de azul base modernos */\n    --color-primary: #1e40af;     /* Azul escuro */\n    --color-secondary: #3b82f6;   /* Azul médio (moderno) */\n    --color-accent: #60a5fa;      /* Azul claro para destaque */\n    \n    /* Tons neutros e de fundo */\n    --color-bg: #f9fafb;\n    --color-surface: #ffffff;\n    --color-text: #1f2937;        /* Quase preto */\n    --color-muted: #6b7280;       /* Cinza para texto secundário */\n}\n\nbody {\n    margin: 0;\n    padding: 0;\n    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}",
 
-    "js.js": "// JavaScript code\nconsole.log('Hello, World!');\n\n// DOM Content Loaded\ndocument.addEventListener('DOMContentLoaded', function() {\n    console.log('Page loaded!');\n});"
+    "js.js": "// JavaScript code\nconsole.log('Hello, World!');\n\n// DOM Content Loaded\ndocument.addEventListener('DOMContentLoaded', function() {\n    console.log('Page loaded!');\n});",
+
+    "README.md": ""
 }

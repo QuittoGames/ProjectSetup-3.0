@@ -5,6 +5,7 @@ from pathlib import Path
 from projectsetup3.Config import Config
 from projectsetup3.modules.Enums.ProjectType import ProjectType
 from projectsetup3.tool import tool
+from projectsetup3.Services.READMEService import READMEService
 import datetime
 import re
 
@@ -13,7 +14,7 @@ class BaseProject:
     language = None
     basestruture:dict | None = None
 
-    def create(self,path:Path,name:str, gitRepoLink:str | None = None):
+    def create(self,path:Path,name:str, gitRepoLink:str | None = None , content:str | None = None):
         # Try exec the open json for set value.
         if self.basestruture is None:
             try:
@@ -27,6 +28,9 @@ class BaseProject:
         for file, code in self.basestruture.items():
             full_path = project_path / file
 
+            if (Config.READMEAvaliable and Config.GitAvaliable) and file == "README":
+                code = READMEService.genereteREADME(content,name,self.language.value)
+                
             if "___PROJECTNAME__" in code:
                 code = code.replace("___PROJECTNAME__",name)
             

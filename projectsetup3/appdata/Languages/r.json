@@ -7,5 +7,7 @@
 
     "tool/tool.R": "# Tool class\nTool <- R6::R6Class(\n  \"Tool\",\n  public = list(\n    initialize = function() {\n      # Constructor\n    }\n  )\n)",
 
-    "DESCRIPTION": "Package: project\nTitle: R Project Created by ProjectSetup\nVersion: 1.0.0\nAuthors@R: person(\"Quitto\", email = \"your.email@example.com\", role = c(\"aut\", \"cre\"))\nDescription: R project structure.\nLicense: MIT\nEncoding: UTF-8\nRoxygenize: list(markdown = TRUE)\nImports:\n    R6"
+    "DESCRIPTION": "Package: project\nTitle: R Project Created by ProjectSetup\nVersion: 1.0.0\nAuthors@R: person(\"Quitto\", email = \"your.email@example.com\", role = c(\"aut\", \"cre\"))\nDescription: R project structure.\nLicense: MIT\nEncoding: UTF-8\nRoxygenize: list(markdown = TRUE)\nImports:\n    R6",
+
+    "README.md": ""
 }

@@ -7,5 +7,7 @@
 
     "src/main/scala/tool/Tool.scala": "package tool\n\nclass Tool {\n  // Your tool class\n}",
 
-    "build.sbt": "name := \"project\"\nversion := \"1.0.0\"\nscalaVersion := \"3.3.0\"\n\nlibraryDependencies ++= Seq(\n  // Add your dependencies here\n)"
+    "build.sbt": "name := \"project\"\nversion := \"1.0.0\"\nscalaVersion := \"3.3.0\"\n\nlibraryDependencies ++= Seq(\n  // Add your dependencies here\n)",
+
+    "README.md": ""
 }

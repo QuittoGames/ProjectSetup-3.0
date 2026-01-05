@@ -1,5 +1,7 @@
 {
     ".gitignore": "# Clojure\n/.cpcache/\n/target/\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
 
-    "src/core.clj": "(ns core)\n\n(println \"Hello, World!\")\n"
+    "src/core.clj": "(ns core)\n\n(println \"Hello, World!\")\n",
+
+    "README.md": ""
 }

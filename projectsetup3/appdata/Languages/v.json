@@ -1,5 +1,7 @@
 {
     ".gitignore": "# V build outputs\n*.exe\n*.out\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
 
-    "src/main.v": "fn main() {\n\tprintln('Hello, World!')\n}\n"
+    "src/main.v": "fn main() {\n\tprintln('Hello, World!')\n}\n",
+
+    "README.md": ""
 }

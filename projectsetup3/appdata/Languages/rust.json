@@ -3,5 +3,7 @@
 
     "src/main.rs": "fn main() {\n    println!(\"Hello, World!\");\n}",
 
-    "Cargo.toml": "[package]\nname = \"__PROJECT_NAME__\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\n"
+    "Cargo.toml": "[package]\nname = \"__PROJECT_NAME__\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[dependencies]\n",
+
+    "README.md": ""
 }

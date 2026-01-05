@@ -3,5 +3,7 @@
 
     "index.js": "// Main entry point\nconsole.log('Hello, World!');\n\nfunction main() {\n    // Your code here\n}\n\nif (require.main === module) {\n    main();\n}\n\nmodule.exports = { main };",
 
-    "package.json": "{\n  \"name\": \"project\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Project created by ProjectSetup\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"start\": \"node index.js\",\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n  },\n  \"keywords\": [],\n  \"author\": \"Quitto\",\n  \"license\": \"ISC\",\n  \"dependencies\": {\n  }\n}"
+    "package.json": "{\n  \"name\": \"project\",\n  \"version\": \"1.0.0\",\n  \"description\": \"Project created by ProjectSetup\",\n  \"main\": \"index.js\",\n  \"scripts\": {\n    \"start\": \"node index.js\",\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n  },\n  \"keywords\": [],\n  \"author\": \"Quitto\",\n  \"license\": \"ISC\",\n  \"dependencies\": {\n  }\n}",
+
+    "README.md": ""
 }

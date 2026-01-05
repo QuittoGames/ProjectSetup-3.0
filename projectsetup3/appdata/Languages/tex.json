@@ -1,3 +1,5 @@
 {
-    "main.tex": "\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage{lmodern}\n\n\\title{__PROJECT_NAME__}\n\\author{Quitto}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\nHello, World!\n\n\\end{document}\n"
+    "main.tex": "\\documentclass{article}\n\\usepackage[utf8]{inputenc}\n\\usepackage{lmodern}\n\n\\title{__PROJECT_NAME__}\n\\author{Quitto}\n\\date{\\today}\n\n\\begin{document}\n\\maketitle\n\nHello, World!\n\n\\end{document}\n",
+
+    "README.md": ""
 }

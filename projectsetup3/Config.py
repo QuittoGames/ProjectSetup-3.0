@@ -24,6 +24,8 @@ class Config:
 
     HistoryAvaliable:bool = True
 
+    READMEAvaliable:bool = True
+
     if HistoryAvaliable:baseDiretoryHistory:Path = appdata / "PROJECTSETUP-3.O" / "History"
 
     Fonts: Path = BASE / "Fonts" if os.path.exists(BASE/ "Fonts") else None

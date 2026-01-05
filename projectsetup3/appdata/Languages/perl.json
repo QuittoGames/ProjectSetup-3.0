@@ -5,5 +5,7 @@
 
     "lib/Data/Data.pm": "package Data::Data;\nuse strict;\nuse warnings;\n\nsub new {\n    my $class = shift;\n    my $self = {};\n    bless $self, $class;\n    return $self;\n}\n\n1;",
 
-    "lib/Tool/Tool.pm": "package Tool::Tool;\nuse strict;\nuse warnings;\n\nsub new {\n    my $class = shift;\n    my $self = {};\n    bless $self, $class;\n    return $self;\n}\n\n1;"
+    "lib/Tool/Tool.pm": "package Tool::Tool;\nuse strict;\nuse warnings;\n\nsub new {\n    my $class = shift;\n    my $self = {};\n    bless $self, $class;\n    return $self;\n}\n\n1;",
+
+    "README.md": ""
 }

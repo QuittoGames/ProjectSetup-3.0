@@ -5,5 +5,7 @@
 
     "data/data.lua": "local Data = {}\nData.__index = Data\n\nfunction Data.new()\n    local self = setmetatable({}, Data)\n    return self\nend\n\nreturn Data",
 
-    "tool/tool.lua": "local Tool = {}\nTool.__index = Tool\n\nfunction Tool.new()\n    local self = setmetatable({}, Tool)\n    return self\nend\n\nreturn Tool"
+    "tool/tool.lua": "local Tool = {}\nTool.__index = Tool\n\nfunction Tool.new()\n    local self = setmetatable({}, Tool)\n    return self\nend\n\nreturn Tool",
+
+    "README.md": ""
 }

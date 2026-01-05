@@ -7,5 +7,7 @@
 
     "tool/Tool.php": "<?php\n\nnamespace Tool;\n\nclass Tool\n{\n    // Your tool class\n}",
 
-    "composer.json": "{\n    \"name\": \"project/project\",\n    \"description\": \"PHP project created by ProjectSetup\",\n    \"type\": \"project\",\n    \"require\": {\n        \"php\": \">=8.0\"\n    },\n    \"autoload\": {\n        \"psr-4\": {\n            \"Data\\\\\": \"data/\",\n            \"Tool\\\\\": \"tool/\"\n        }\n    },\n    \"authors\": [\n        {\n            \"name\": \"Quitto\"\n        }\n    ]\n}"
+    "composer.json": "{\n    \"name\": \"project/project\",\n    \"description\": \"PHP project created by ProjectSetup\",\n    \"type\": \"project\",\n    \"require\": {\n        \"php\": \">=8.0\"\n    },\n    \"autoload\": {\n        \"psr-4\": {\n            \"Data\\\\\": \"data/\",\n            \"Tool\\\\\": \"tool/\"\n        }\n    },\n    \"authors\": [\n        {\n            \"name\": \"Quitto\"\n        }\n    ]\n}",
+
+    "README.md": ""
 }
