@@ -1,0 +1,5 @@
+{
+    "config.ini": "; Example INI\n[app]\nname=__PROJECT_NAME__\nversion=0.1.0\n",
+
+    "README.md": ""
+}

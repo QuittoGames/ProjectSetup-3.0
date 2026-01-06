@@ -20,7 +20,9 @@ class InstallService:
     
         Path(config.appdata / "PROJECTSETUP-3.O").parent.mkdir(parents=True, exist_ok=True)
         Path(config.appdata / "History").parent.mkdir(parents=True,exist_ok=True)
-        shutil.move(str(appdata_local), str(config.appdata))
+
+        dest = config.appdata / "PROJECTSETUP-3.O" / "Languages"
+        shutil.copytree(appdata_local, dest, dirs_exist_ok=True)
     
         InstallService.setEnv()
 
@@ -76,6 +78,8 @@ class InstallService:
                 'Move-Item repo\\ProjectSetup-3.0-main\\projectsetup3\\appdata\\Languages appdata\\Languages"'
             )
         else:
+            Path("appdata/Languages").mkdir(parents=True, exist_ok=True) if not os.path.exists("appdata/Languages") else None
+
             command = (
                 'curl -L https://github.com/QuittoGames/ProjectSetup-3.0/archive/refs/heads/main.zip -o repo.zip && '
                 'unzip -o repo.zip '

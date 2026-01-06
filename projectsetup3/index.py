@@ -111,43 +111,8 @@ def make_simple_header(title_str="Menu"):
     console.print()
 
 # =======================================================
-# MENU PRINCIPAL COM UX MELHORADA
+# DASHBOARD DO PROJETO
 # =======================================================
-def draw_menu_options():
-    options = [
-        f"{Icons.get_icon('new_project')} Novo Projeto",
-        f"{Icons.get_icon('modules')} Módulos",
-        f"{Icons.get_icon('settings')} Configurações",
-        f"{Icons.get_icon('exit')} Sair",
-    ]
-
-    console.print()
-
-    title = Panel(
-        Align.center(Text(" MENU PRINCIPAL ", style="bold cyan")),
-        box=ROUNDED,
-        border_style=text_dim,
-        width=70
-    )
-
-    console.print(Align.center(title))
-    console.print()
-
-    console.print(Align.center(
-        Text("Use ↑↓ para navegar | Enter para selecionar", style=text_dim)
-    ))
-    console.print()
-
-    # Captura da renderização do menu
-    with console.capture() as capture:
-        choice = ArrrowsService.arrow_menu(options)
-
-    menu_rendered = capture.get()
-
-    console.print(Align.center(menu_rendered))
-
-    return choice
-
 def dashboard_project(name: str, lang: str, path: Path, base: dict, path_color: str, git_repo_url: str | None = None):
     """
     Gera um painel com resumo e árvore de arquivos aninhada.
@@ -435,6 +400,12 @@ def create_project_interactive():
 async def Start():
     while True:
         draw_main_dashboard()
+        
+        # Instruções de navegação
+        console.print(Align.center(
+            Text("Use ↑↓ ou j/k para navegar | Enter para selecionar", style=text_dim)
+        ))
+        console.print()
         
         options = [
             "  Novo Projeto     ",

@@ -134,6 +134,12 @@ config.json
 *.crt
 *.csr
 
+# Environment variables
+.env
+.env.*
+!.env.example
+.envrc
+
 # ==========================
 #   IDEs / EDITORES
 # ==========================

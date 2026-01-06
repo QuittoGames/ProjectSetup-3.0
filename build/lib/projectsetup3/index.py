@@ -1,10 +1,7 @@
 from pathlib import Path
 import asyncio
 import time
-from datetime import datetime
 import sys
-import platform
-import getpass
 import os
 
 from rich.console import Console
@@ -21,6 +18,7 @@ from projectsetup3.Config import Config
 from projectsetup3.Services.ArrowsService import ArrrowsService
 from projectsetup3.Services.ProjectManagerService import ProjectManagerService
 from projectsetup3.modules.Class.Icons import Icons
+from projectsetup3.Services.InstallService import InstallService
 
 # =======================================================
 # TEMA MODERNO - AZUL E PRETO (Inspirado NeoVim)
@@ -41,22 +39,6 @@ console = Console()
 # HELPERS VISUAIS
 # =======================================================
 
-def get_sys_info():
-    """Coleta informações do sistema (multiplataforma e sem erros)."""
-
-    try:
-        user = getpass.getuser()
-    except Exception:
-        user = "User"
-
-    return {
-        "os": platform.system(),
-        "py_ver": sys.version.split()[0],
-        "user": user,
-        "time": datetime.now().strftime("%H:%M:%S"),
-        "date": datetime.now().strftime("%d/%m/%Y")
-    }
-
 def draw_main_dashboard():
     """Dashboard principal com design moderno e minimalista."""
     tool.clear_screen()
@@ -74,7 +56,7 @@ def draw_main_dashboard():
         ("● ", success_color),
         (f"{info['user']}", accent_color)
     )
-    
+
     # Centro - Nome do app
     center_text = Text("PROJECT SETUP v3.0", style=f"bold {theme_color}")
     
@@ -166,7 +148,7 @@ def draw_menu_options():
 
     return choice
 
-def dashboard_project(name: str, lang: str, path: Path, base: dict, path_color: str):
+def dashboard_project(name: str, lang: str, path: Path, base: dict, path_color: str, git_repo_url: str | None = None):
     """
     Gera um painel com resumo e árvore de arquivos aninhada.
     """
@@ -179,7 +161,16 @@ def dashboard_project(name: str, lang: str, path: Path, base: dict, path_color: 
     info_text.append(f"{lang.upper()}\n\n", style=accent_color)
     
     info_text.append("Caminho de Destino:\n", style=text_dim)
-    info_text.append(f"{path}\n", style=path_color) # Usa a cor passada (verde/vermelho)
+    info_text.append(f"{path}\n\n", style=path_color)
+    
+    # Adiciona informação do Git
+    info_text.append("Git:\n", style=text_dim)
+    if git_repo_url:
+        info_text.append("Ativo\n", style=success_color)
+        info_text.append("Repositório:\n", style=text_dim)
+        info_text.append(f"{git_repo_url}\n", style=accent_color)
+    else:
+        info_text.append("Desativado\n", style=warning_color)
 
     # --- Coluna da Direita: Árvore de Arquivos ---
     tree = Tree(f"[bold {theme_color}]📁 {name}[/]", guide_style=text_dim)
@@ -277,7 +268,8 @@ def create_project_interactive():
     console.print()
     console.print(Align.center(f"[{text_dim}]Linguagem (python/web/lua) [padrão: python][/]"))
     console.print()
-    type_project = input(f"{' ' * 32}▸ ").strip().lower() or "python"
+    raw_type = input(f"{' ' * 32}▸ ").strip().lower() or "python"
+    type_project = tool.type_to_extension(raw_type)
     
     # Path (mesma tela)
     console.print()
@@ -288,6 +280,28 @@ def create_project_interactive():
     raw_path = input(f"{' ' * 32}▸ ").strip()
     
     path = Path(raw_path) if raw_path else Config.dispatch_path(type_project)
+
+    gitRepoLink = None
+    if config.GitAvaliable:
+        console.print()
+        console.print(Align.center(f"[{text_dim}]Inicializar repositório Git?[/]"))
+        console.print(Align.center(f"[dim](Deixe em branco para pular)[/]"))
+        console.print()
+        
+        # Pergunta se quer usar Git
+        use_git = input(f"{' ' * 32}▸ [Y/n]: ").strip().lower()
+        
+        if use_git in ['y', 'yes', '']:
+            console.print()
+            console.print(Align.center(f"[{text_dim}]URL do repositório remoto: [/]"))
+            console.print(Align.center(f"[dim](Ex: https://github.com/user/repo.git)[/]"))
+            console.print()
+            gitRepoLink = input(f"{' ' * 32}▸ ").strip()
+            
+            if gitRepoLink:
+                console.print()
+                console.print(Align.center(f"[{success_color}]✓ Repositório configurado[/]"))
+                time.sleep(1)
     
     # Criação
     try:
@@ -309,9 +323,12 @@ def create_project_interactive():
             
         dir_panel = Panel(
             Align.center(Text.assemble(
-                ("Nome: ", text_dim), (f"{name}\n", theme_color),
-                ("Linguagem: ", text_dim), (f"{type_project.upper()}\n", accent_color),
-                ("Diretório: ",  tempValidPath), (f"{path}", tempValidPath),
+            ("Nome: ", text_dim), (f"{name}\n", theme_color),
+            ("Linguagem: ", text_dim), (f"{type_project.upper()}\n", accent_color),
+            ("Diretório: ",  tempValidPath), (f"{path}\n", tempValidPath),
+            ("Git: ", text_dim), 
+            (f"{'Ativo' if gitRepoLink else 'Desativado'}\n", success_color if gitRepoLink else warning_color),
+            (f"{gitRepoLink}" if gitRepoLink else "", accent_color if gitRepoLink else ""),
             )),
             title=f"[{theme_color}]Status[/]",
             border_style=theme_color,
@@ -333,7 +350,8 @@ def create_project_interactive():
             lang=type_project,
             path=path,
             base=base,
-            path_color=tempValidPath
+            path_color=tempValidPath,
+            git_repo_url=gitRepoLink
         )
         
         console.print(Align.center(project_dashboard))
@@ -353,32 +371,58 @@ def create_project_interactive():
         
         if confirm != "y":
             console.print()
-            console.print(Align.center(f"[{warning_color}]✘ Operação cancelada[/]"))
+
+            cancel_panel = Panel(
+                Align.center(
+                    Text.assemble(
+                        ("✘ OPERAÇÃO CANCELADA\n", f"bold {warning_color}"),
+                    )
+                ),
+                title=f"[bold {warning_color}]Cancelado[/]",
+                subtitle=f"[{text_dim}]Voltando ao menu...[/]",
+                border_style=warning_color,
+                box=ROUNDED,
+                padding=(1, 2),
+                width=60,
+            )
+
+            console.print(Align.center(cancel_panel))
+
+            console.print()
             time.sleep(1.5)
             return
         
         console.print()
-        with console.status(f"[{success_color}]▸ Criando projeto...[/]", spinner="dots"):
-            ProjectManagerService.create_project(name=name, language=type_project, path=path)
-            time.sleep(0.5)
+        console.print(Align.center(f"[{success_color}]▸ Criando projeto...[/]"))
+        with console.status("", spinner="dots"):
+            ProjectManagerService.create_project(name=name, language=type_project, path=path, gitRepoLink=gitRepoLink)
+            time.sleep(1)
         
         tool.clear_screen()
         console.print()
+
+        editor_link = Config.get_editor_link(Config.BASECODEEDITOR, path / name)
+
+        success_text = Text()
+        success_text.append(f"✓ Projeto '{name}' criado com sucesso!\n\n", style=success_color)
+        success_text.append(f"📂 Abrir no {Config.BASECODEEDITOR}\n", style=accent_color)
+        link_text = Text(editor_link, style=text_dim)
+        link_text.stylize(f"link {editor_link}")
+        success_text.append_text(link_text)
+        success_text.append("\n", style=text_dim)
+
         success_panel = Panel(
-            Align.center(Text.assemble(
-                (f"✓ Projeto '{name}' criado com sucesso!\n\n", success_color),
-                ("📂 Abrir no VS Code\n", accent_color),
-                (f"vscode://file/{path/name}", text_dim)
-            )),
+            Align.center(success_text),
             title=f"[{theme_color}]Sucesso[/]",
             border_style=theme_color,
             box=ROUNDED,
             padding=(1, 2),
-            width=60
+            width=60,
         )
         console.print(Align.center(success_panel))
         console.print()
-        input(f"\n{' ' * 30}[{text_dim}]Enter para continuar...[/]")
+        console.print(Align.center(f"[{text_dim}]Pressione Enter para continuar...[/]"))
+        input(f"{' ' * 45}")
         
     except Exception as e:
         console.print()
@@ -388,7 +432,7 @@ def create_project_interactive():
 # =======================================================
 # LOOP PRINCIPAL
 # =======================================================
-def Start():
+async def Start():
     while True:
         draw_main_dashboard()
         
@@ -408,7 +452,7 @@ def Start():
             if config.Debug:
                 make_simple_header("Diagnóstico")
                 console.print(f"[{theme_color}]Verificando dependências...[/]\n")
-                asyncio.run(tool.verify_modules())
+                await tool.verify_modules()
                 console.input(f"\n{' ' * 30}[{text_dim}]Enter para voltar...[/]")
             else:
                 console.print(Align.center(f"[{warning_color}]Debug desativado[/]"))
@@ -449,16 +493,22 @@ async def main():
         
         cfg = Config()
         await tool.add_path_modules(cfg)
+
+        if not InstallService.isIstall(cfg):
+            InstallService.install(config=cfg)
         
         if cfg.Debug:
             await tool.verify_modules()
         
         await asyncio.sleep(1.5)
-        Start()    
+        await Start()    
     except Exception as e:
         console.print(f"[bold red]ERRO CRÍTICO[/]: {e}")
         sys.exit(1)
 
+def run():
+    """Entry point síncrono para console_scripts"""
+    asyncio.run(main())
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    run()

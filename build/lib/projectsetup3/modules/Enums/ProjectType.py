@@ -50,4 +50,5 @@ class ProjectType(Enum):
     MOBILE = "mobile"
     GAME_DEV = "game_dev"
     SQL         = ".sql"
+    SPRING      = "spring"
     

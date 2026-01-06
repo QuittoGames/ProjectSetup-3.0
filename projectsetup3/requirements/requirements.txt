@@ -1,1 +1,4 @@
-rich>=13.0.0 
+rich>=13.0.0
+google-genai
+google
+python-dotenv>=1.0.0
