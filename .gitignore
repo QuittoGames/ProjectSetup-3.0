@@ -140,6 +140,10 @@ config.json
 !.env.example
 .envrc
 
+# SSH Keys
+*pub
+QuittoGamesGIT 
+
 # ==========================
 #   IDEs / EDITORES
 # ==========================

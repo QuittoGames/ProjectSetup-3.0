@@ -14,9 +14,9 @@ class Config:
 
     basesCodesPath: Path = appdata / "PROJECTSETUP-3.O" / "Languages"
 
-    DIRETORIO: Path = Path("C:/Users/gustavoquitto-ieg/Project/Projects/Python")
-    DIRETORIO_WEB: Path = Path("C:/Users/gustavoquitto-ieg/Project/Projects/Web")
-    DIRETORIO_CPP: Path = Path("C:/Users/gustavoquitto-ieg/Project/Projects/C++")
+    DIRETORIO: Path = Path("D:/Projects/Python")
+    DIRETORIO_WEB: Path = Path("D:/Projects/Web")
+    DIRETORIO_CPP: Path = Path("D:/Projects/C++")
 
     BASECODEEDITOR:str = "vscode"
 

@@ -4,8 +4,9 @@ import json
 from pathlib import Path
 from projectsetup3.Config import Config
 from projectsetup3.modules.Enums.ProjectType import ProjectType
-from projectsetup3.tool import tool
 from projectsetup3.Services.READMEService import READMEService
+from projectsetup3.Services.HistoryService import HistoryService
+from projectsetup3.tool import tool
 import datetime
 import re
 
@@ -25,17 +26,18 @@ class BaseProject:
         project_path = path / name
         project_path.mkdir(parents=True, exist_ok=True)
 
+        #Pass in basestruture for trade flag for name of project
+        updated_structure = {
+            file.replace("___PROJECTNAME__", name): code.replace("___PROJECTNAME__", name)
+            for file, code in self.basestruture.items()
+        }
+        self.basestruture = updated_structure
+
         for file, code in self.basestruture.items():
             full_path = project_path / file
 
             if (Config.READMEAvaliable and Config.GitAvaliable) and file == "README":
                 code = READMEService.genereteREADME(content,name,self.language.value)
-                
-            if "___PROJECTNAME__" in code:
-                code = code.replace("___PROJECTNAME__",name)
-            
-            if "__PROJECTNAME__" in file:
-                file = file.replace("___PROJECTNAME__",name)
 
             if not re.match(r".+\..+$", str(full_path)):
                 full_path.mkdir(parents=True, exist_ok=True)
@@ -50,13 +52,7 @@ class BaseProject:
             tool.init_git_repository(gitRepoLink)
 
         if Config.HistoryAvaliable:
-            DataJsonPath = Config.baseDiretoryHistory / "history.json"
-            if not os.path.exists(DataJsonPath):
-                history = {"projects": []}
-            else:
-                with DataJsonPath.open("r", encoding="UTF-8") as f:
-                    history = json.load(f)
-
+            history = HistoryService.getHistory()
             history["projects"].append({
                 "name": name,
                 "language": self.language.value if self.language else None,
@@ -66,9 +62,7 @@ class BaseProject:
                 "created_at": datetime.datetime.now().isoformat()
             })
 
-            DataJsonPath.parent.mkdir(parents=True, exist_ok=True)
-            with DataJsonPath.open("w", encoding="UTF-8") as f:
-                json.dump(history, f, indent=4)
+            HistoryService.run(history)
 
     def openBaseCodeJson(self) -> None:
         if not os.path.exists(Config.basesCodesPath):
