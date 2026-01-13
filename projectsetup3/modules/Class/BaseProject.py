@@ -36,8 +36,9 @@ class BaseProject:
         for file, code in self.basestruture.items():
             full_path = project_path / file
 
-            if (Config.READMEAvaliable and Config.GitAvaliable) and file == "README":
-                code = READMEService.genereteREADME(content,name,self.language.value)
+            # Gera README.md usando IA se READMEAvaliable estiver ativo e conteúdo foi fornecido
+            if Config.READMEAvaliable and content and file == "README.md":
+                code = READMEService.genereteREADME(content, name, self.language.value)
 
             if not re.match(r".+\..+$", str(full_path)):
                 full_path.mkdir(parents=True, exist_ok=True)

@@ -10,7 +10,7 @@ class ProjectManagerService:
     """Serviço para gerenciar criação de projetos"""
     
     @staticmethod
-    def create_project(name: str, language: str, path: Path, gitRepoLink:str | None = None ):
+    def create_project(name: str, language: str, path: Path, gitRepoLink:str | None = None, content:str | None = None):
         """Cria um novo projeto usando BaseProject"""
         if not name:
             raise ValueError("Project name cannot be empty.")
@@ -34,7 +34,7 @@ class ProjectManagerService:
             project = BaseProject()
             project.setLanguage(ProjectType(language))
             project.openBaseCodeJson()
-            project.create(path=path, name=name,gitRepoLink=gitRepoLink)
+            project.create(path=path, name=name, gitRepoLink=gitRepoLink, content=content)
         except Exception as e:
             print(f"[ERROR] Error creating project: {e}")
             raise

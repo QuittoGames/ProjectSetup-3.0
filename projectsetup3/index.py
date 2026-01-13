@@ -268,6 +268,71 @@ def create_project_interactive():
                 console.print(Align.center(f"[{success_color}]✓ Repositório configurado[/]"))
                 time.sleep(1)
     
+    # Coleta descrição do projeto se READMEAvaliable estiver ativo
+    projectDescription = None
+    if config.READMEAvaliable:
+        console.print()
+        
+        # Painel de introdução README
+        readme_intro = Text()
+        readme_intro.append("📝 Geração de README.md\n\n", style=f"bold {theme_color}")
+        readme_intro.append("Descreva o objetivo do seu projeto.\n", style=text_dim)
+        readme_intro.append("Isso será usado pela IA para gerar um README.md profissional.\n\n", style=text_dim)
+        readme_intro.append("Exemplo: ", style=text_dim)
+        readme_intro.append("'Um sistema de gerenciamento de projetos'", style=accent_color)
+        
+        readme_panel = Panel(
+            Align.center(readme_intro),
+            border_style=accent_color,
+            box=ROUNDED,
+            width=70,
+            padding=(1, 2)
+        )
+        
+        console.print(Align.center(readme_panel))
+        console.print()
+        console.print(Align.center(f"[dim](Deixe em branco para pular)[/]"))
+        console.print()
+        
+        projectDescription = input(f"{' ' * 32}▸ ").strip()
+        
+        if projectDescription:
+            console.print()
+            
+            success_readme_text = Text.assemble(
+                ("✓ ", success_color),
+                ("Descrição salva! README.md será gerado pela IA", text_main)
+            )
+            
+            success_readme_panel = Panel(
+                Align.center(success_readme_text),
+                border_style=success_color,
+                box=ROUNDED,
+                width=60,
+                padding=(0, 2)
+            )
+            
+            console.print(Align.center(success_readme_panel))
+            time.sleep(1.5)
+        else:
+            console.print()
+            
+            skip_readme_text = Text.assemble(
+                ("✘ ", warning_color),
+                ("README.md não será gerado", text_dim)
+            )
+            
+            skip_readme_panel = Panel(
+                Align.center(skip_readme_text),
+                border_style=text_dim,
+                box=ROUNDED,
+                width=60,
+                padding=(0, 2)
+            )
+            
+            console.print(Align.center(skip_readme_panel))
+            time.sleep(1)
+    
     # Criação
     try:
         tool.clear_screen()
@@ -293,10 +358,11 @@ def create_project_interactive():
             ("Diretório: ",  tempValidPath), (f"{path}\n", tempValidPath),
             ("Git: ", text_dim), 
             (f"{'Ativo' if gitRepoLink else 'Desativado'}\n", success_color if gitRepoLink else warning_color),
-            (f"{gitRepoLink}" if gitRepoLink else "", accent_color if gitRepoLink else ""),
+            (f"{gitRepoLink}\n" if gitRepoLink else "", accent_color if gitRepoLink else ""),
+            ("README IA: ", text_dim),
+            (f"{'Ativo' if projectDescription else 'Desativado'}", success_color if projectDescription else warning_color),
             )),
             title=f"[{theme_color}]Status[/]",
-            border_style=theme_color,
             box=ROUNDED,
             padding=(1, 2),
             width=60
@@ -360,7 +426,7 @@ def create_project_interactive():
         console.print()
         console.print(Align.center(f"[{success_color}]▸ Criando projeto...[/]"))
         with console.status("", spinner="dots"):
-            ProjectManagerService.create_project(name=name, language=type_project, path=path, gitRepoLink=gitRepoLink)
+            ProjectManagerService.create_project(name=name, language=type_project, path=path, gitRepoLink=gitRepoLink, content=projectDescription)
             time.sleep(1)
         
         tool.clear_screen()
