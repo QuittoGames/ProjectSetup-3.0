@@ -44,14 +44,14 @@ meu-projeto/
 
 ## ⚡ Por que usar?
 
-- ⚡ Poupa tempo na criação de projetos novos
-- 📁 Estrutura organizada desde o início
-- 🎨 Templates personalizáveis via JSON
-- 🌍 Suporte para 40+ linguagens
-- 💻 Interface visual no terminal
-- 🖥️ Launchers multiplataforma (Windows & Linux)
-- 📜 Histórico automático de projetos criados
-- 🤖 Geração inteligente de README com IA (BETA)
+- Poupa tempo na criação de projetos novos
+- Estrutura organizada desde o início
+- Templates personalizáveis via JSON
+- Suporte para 40+ linguagens
+- Interface visual no terminal
+- Launchers multiplataforma (Windows & Linux)
+- Histórico automático de projetos criados
+- Geração inteligente de README com IA (BETA)
 
 ---
 
@@ -124,19 +124,19 @@ ProjectManagerService.create_project(
 ## 🌐 Linguagens Suportadas (40+)
 
 <details open>
-<summary><b>🔥 Linguagens Populares</b></summary>
+<summary><b>Linguagens Populares</b></summary>
 
-- 🐍 **Python** - requirements.txt, src/, .gitignore
-- 🟨 **JavaScript** - package.json, node_modules/, ESLint
-- 🔷 **TypeScript** - tsconfig.json, dist/, tipos
-- ☕ **Java** - Maven/Gradle, src/main/java/
-- 🦀 **Rust** - Cargo.toml, src/main.rs
-- 🐹 **Go** - go.mod, estrutura idiomática
-- 💎 **Ruby** - Gemfile, estrutura Rails
-- 🐘 **PHP** - composer.json, Laravel/Symfony
-- 🍎 **Swift** - Package.swift, iOS/macOS
-- 🟣 **C#** - .csproj, .sln, .NET
-- ➕ **C/C++** - CMakeLists.txt, Makefile
+- **Python** - requirements.txt, src/, .gitignore
+- **JavaScript** - package.json, node_modules/, ESLint
+- **TypeScript** - tsconfig.json, dist/, tipos
+- **Java** - Maven/Gradle, src/main/java/
+- **Rust** - Cargo.toml, src/main.rs
+- **Go** - go.mod, estrutura idiomática
+- **Ruby** - Gemfile, estrutura Rails
+- **PHP** - composer.json, Laravel/Symfony
+- **Swift** - Package.swift, iOS/macOS
+- **C#** - .csproj, .sln, .NET
+- **C/C++** - CMakeLists.txt, Makefile
 
 </details>
 
@@ -246,15 +246,15 @@ ps3cli . svelte meu-app-svelte
 
 ---
 
-## 📚 Exemplos Rápidos
-
-### Python
+## 📚 Exemplo de Uso
 
 ```bash
-ps3cli . python data-science
+ps3cli . python meu-projeto
 ```
+
+Cria automaticamente:
 ```
-data-science/
+meu-projeto/
 ├── src/
 │   ├── index.py
 │   ├── tool.py
@@ -263,67 +263,16 @@ data-science/
 └── README.md
 ```
 
-### JavaScript/Node.js
-
-```bash
-ps3cli . javascript minha-api
-```
-```
-minha-api/
-├── index.js
-├── package.json
-└── .gitignore
-```
-
-### TypeScript
-
-```bash
-ps3cli . typescript react-app
-```
-```
-react-app/
-├── src/
-│   └── index.ts
-├── package.json
-├── tsconfig.json
-└── .gitignore
-```
-
-### Rust
-
-```bash
-ps3cli . rust cli-tool
-```
-```
-cli-tool/
-├── src/
-│   └── main.rs
-├── Cargo.toml
-└── .gitignore
-```
-
 ---
 
 ## 📖 Casos de Uso
 
-**Prototipagem:**
 ```bash
+# Prototipagem rápida
 ps3cli . python prototipo-ia
-```
 
-**Projetos maiores:**
-```bash
+# Projetos em diretórios específicos
 ps3cli D:/Projects/Java java sistema-vendas
-```
-
-**Aprendizado:**
-```bash
-ps3cli . rust aprendendo-rust
-```
-
-**Scripts:**
-```bash
-ps3cli . python automacao
 ```
 
 ---
@@ -377,93 +326,70 @@ HistoryAvaliable = True
 
 ### 🤖 Geração Automática de README com IA (BETA)
 
-**⚠️ ATENÇÃO:** Esta feature está em **BETA** e requer configuração manual.
+> **⚠️ OBS:** Esta feature ainda **NÃO está integrada no ps3cli**. Por enquanto, a geração de README com IA só funciona através da **interface visual** (`python -m projectsetup3`).
 
-#### Como Funciona
+**ATENÇÃO:** Feature em desenvolvimento e requer configuração manual.
 
-O ProjectSetup pode gerar automaticamente um README.md profissional usando a API do Google Gemini.
+#### O que faz?
 
-#### Requisitos
+Gera automaticamente um README.md profissional usando a API do Google Gemini, incluindo badges, descrição, instalação, uso e estrutura do projeto.
 
-1. **API Key do Google Gemini**
-   - Obtenha sua chave em: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+#### Configuração
 
-2. **Arquivo `.env` configurado**
+**1. Obtenha uma API Key do Google Gemini**
+   - Acesse: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+   - Crie e copie sua chave
 
-#### Configuração Passo a Passo
+**2. Configure o arquivo `.env`**
 
-**1. Ative a feature no `Config.py`:**
-```python
-READMEAvaliable = True
-```
-
-**2. Crie o arquivo `.env` dentro da pasta `projectsetup3/`:**
-
-> **⚠️ OBS IMPORTANTE:** O arquivo `.env` deve estar localizado em:  
-> `ProjectSetup-3.0/projectsetup3/.env`
-
-**3. Adicione sua API Key no `.env`:**
+Crie o arquivo `.env` em `projectsetup3/`:
 ```env
 GEMINI_API_KEY=sua_chave_api_aqui
 ```
 
-**Exemplo de `.env`:**
-```env
-# Google Gemini API Configuration
-GEMINI_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+> **⚠️ IMPORTANTE:** O arquivo `.env` deve estar em `ProjectSetup-3.0/projectsetup3/`
+
+**3. Ative a feature no `Config.py`:**
+```python
+READMEAvaliable = True
 ```
 
 #### Como Usar
 
-Quando você cria um projeto com esta feature ativa, o sistema:
-
-1. Pergunta se você quer gerar um README automaticamente
-2. Solicita uma breve descrição do projeto
-3. Usa a IA para gerar um README.md completo e profissional
-
-**Exemplo de uso:**
+Execute a interface visual:
 ```bash
-ps3cli . python meu-projeto-ia
-# Sistema pergunta: "Gerar README automaticamente? (s/n)"
-# Você responde: s
-# Sistema pergunta: "Descreva seu projeto:"
-# Você responde: "Uma API REST para gerenciar tarefas"
-# README.md é gerado automaticamente!
+python -m projectsetup3
 ```
+
+Durante a criação do projeto:
+1. O sistema pergunta se você quer gerar README automaticamente
+2. Você fornece uma breve descrição do projeto
+3. A IA gera um README.md completo e profissional
 
 #### Conteúdo Gerado
 
-O README gerado inclui:
-- ✅ Título com emoji
-- ✅ Badges (linguagem, versão, licença)
-- ✅ Descrição profissional
-- ✅ Seção de funcionalidades
-- ✅ Instalação e uso
-- ✅ Estrutura de pastas
-- ✅ Tecnologias utilizadas
-- ✅ Como contribuir
-- ✅ Licença MIT
+O README inclui automaticamente:
+- Título e badges (linguagem, versão, licença)
+- Descrição profissional baseada no seu input
+- Seções de funcionalidades, instalação e uso
+- Estrutura de pastas e tecnologias
+- Guia de contribuição e licença MIT
 
 #### Limitações
 
-⚠️ **Esta feature NÃO está disponível em builds .exe**  
-Apenas funciona quando executado via Python source code.
+⚠️ **Não disponível em builds .exe** - Funciona apenas via código fonte Python  
+⚠️ **Modelo padrão:** `gemini-2.5-flash` (personalize em `Services/GeminiClient.py`)
 
-**Modelos disponíveis:**
-- Padrão: `gemini-2.5-flash`
-- Personalize em: `Services/GeminiClient.py`
+#### Problemas Comuns
 
-#### Troubleshooting
-
-**Erro: "GEMINI_API_KEY não encontrada no .env"**
-- Verifique se o arquivo `.env` está em `projectsetup3/.env`
-- Confirme que a chave está no formato: `GEMINI_API_KEY=sua_chave`
-- Não use aspas na chave
+**Erro: "GEMINI_API_KEY não encontrada"**
+- Confirme que o `.env` está em `projectsetup3/.env`
+- Verifique o formato: `GEMINI_API_KEY=sua_chave` (sem aspas)
 
 **Erro: "Resposta vazia do Gemini"**
-- Verifique sua conexão com a internet
-- Confirme que a API Key é válida
-- Verifique se não excedeu o limite de requisições
+- Verifique sua conexão com internet
+- Valide se a API Key é válida
+- Confirme se não excedeu o limite de requisições gratuitas
 
 ---
 
@@ -471,11 +397,11 @@ Apenas funciona quando executado via Python source code.
 
 O ProjectSetup 3.0 inclui scripts de inicialização para Windows e Linux que:
 
-- ✅ Detectam e validam Python 3.8+
-- ✅ Ativam ambiente virtual automaticamente (se existir)
-- ✅ Instalam dependências automaticamente
-- ✅ Configuram o ambiente corretamente
-- ✅ Tratam erros de forma elegante
+- Detectam e validam Python 3.8+
+- Ativam ambiente virtual automaticamente (se existir)
+- Instalam dependências automaticamente
+- Configuram o ambiente corretamente
+- Tratam erros de forma elegante
 
 ### 🪟 Windows - `ps3.bat`
 
@@ -527,22 +453,13 @@ chmod +x ps3.sh  # Apenas na primeira vez
 [INFO] Iniciando ProjectSetup 3.0...
 ```
 
-### 🔧 Recursos dos Launchers
+### Recursos
 
-**Tratamento de Erros:**
-- Validação de Python instalado
-- Verificação de arquivos necessários
-- Mensagens claras de erro
-- Códigos de saída apropriados
-
-**Flexibilidade:**
-- Funciona com ou sem venv
-- Instala dependências automaticamente
-- Mantém o contexto do diretório do usuário
-
-**Cross-platform:**
-- `ps3.bat` - Windows (NT/10/11)
-- `ps3.sh` - Linux, macOS, WSL, Git Bash
+- Validação automática de Python 3.8+
+- Suporte a ambientes virtuais (venv)
+- Instalação automática de dependências
+- Tratamento de erros
+- Compatível com Windows, Linux e macOS
 
 ### 📝 Personalização
 
@@ -564,24 +481,17 @@ fi
 
 ---
 
-## 🛠️ Comandos Úteis
+## 🛠️ Comandos
 
 ```bash
 # Criar projeto
-ps3cli <path> <linguagem> <nome> [git-repo]
+ps3cli <path> <linguagem> <nome>
 
-# Exemplos
-ps3cli . python meu-app                    # No diretório atual
-ps3cli D:/Projects python meu-app          # Path específico
-ps3cli . python app https://github.com/... # Com Git
+# Exemplo
+ps3cli . python meu-app
 
-# Ver todas as linguagens
+# Interface visual
 python -m projectsetup3
-
-# Listar projetos existentes
-ps3cli list py      # Projetos Python
-ps3cli list web     # Projetos Web
-ps3cli list .       # Diretório atual
 
 # Executar com launchers
 ps3.bat             # Windows
