@@ -512,9 +512,6 @@ type %APPDATA%\PROJECTSETUP-3.O\History\history.json
 ```bash
 cat ~/.config/ProjectSetup/PROJECTSETUP-3.O/History/history.json
 ```
-ps3cli list web     # Projetos Web
-ps3cli list .       # Diretório atual
-```
 
 ---
 
