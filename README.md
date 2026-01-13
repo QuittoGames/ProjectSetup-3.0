@@ -358,7 +358,8 @@ READMEAvaliable = True
 
 Execute a interface visual:
 ```bash
-python -m projectsetup3
+ps3.bat #Windows
+ps3.sh #Linux / MacOS
 ```
 
 Durante a criação do projeto:
