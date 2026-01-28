@@ -1,32 +1,70 @@
-from dataclasses import dataclass
+from dataclasses import dataclass,fields
 from pathlib import Path
 import os
 import platform
 from urllib.parse import quote
+import json 
+from typing import get_args
 
 @dataclass
 class Config:
     modules_local = ["data","modules","Intefaces","Languages","Enums","Class"]
     Debug:str = False
 
-    appdata = Path(os.getenv("APPDATA")) if platform.system().lower() == "windows" else Path.home() / ".config" / "ProjectSetup"
+    appdata = Path(os.getenv("APPDATA")) if platform.system().lower() == "windows" else Path.home() / ".config" / "ProjectSetup3.0"
     BASE = Path(__file__).resolve().parent
 
-    basesCodesPath: Path = appdata / "PROJECTSETUP-3.O" / "Languages"
+    basesCodesPath: Path = appdata / "Languages"
 
-    DIRETORIO: Path = Path("D:/Projects/Python")
-    DIRETORIO_WEB: Path = Path("D:/Projects/Web")
-    DIRETORIO_CPP: Path = Path("D:/Projects/C++")
+    @staticmethod
+    def _resolve_path(win_path: str) -> Path:
+        """
+        Function made with IA sorry
+        Converte paths do Windows para Linux automaticamente.
+        Windows: D:/Projects/Python -> Linux: /mnt/d/Projects/Python ou /media/user/DATA/Projects/Python
+        """
+        if platform.system() == "Windows":
+            return Path(win_path)
+        
+        # No Linux, procura o ponto de montagem correto
+        drive_letter = win_path[0].lower()  # Ex: 'd' de 'D:/Projects'
+        rest_path = win_path[3:].replace('\\', '/')  # Remove 'D:/' e normaliza barras
+        
+        # Possíveis pontos de montagem no Linux
+        possible_mounts = [
+            Path(f"/mnt/{drive_letter}/{rest_path}"),  # Ex: /mnt/d/Projects/Python
+            Path(f"/media/{os.getlogin()}/{drive_letter.upper()}/{rest_path}"),  # Ex: /media/quitto/D/Projects/Python
+        ]
+        
+        # Busca montagens dinâmicas em /run/media
+        if Path("/run/media").exists():
+            for user_dir in Path("/run/media").iterdir():
+                if user_dir.is_dir():
+                    for mount in user_dir.iterdir():
+                        if mount.is_dir() and mount.name.upper().startswith(drive_letter.upper()):
+                            possible_mounts.insert(0, mount / rest_path)
+        
+        # Retorna o primeiro caminho que existe
+        for mount_path in possible_mounts:
+            if mount_path.exists() or mount_path.parent.exists():
+                return mount_path
+        
+        # Fallback: usa /mnt como padrão
+        return Path(f"/mnt/{drive_letter}/{rest_path}")
+
+    DIRETORIO: Path = _resolve_path("D:/Projects/Python")
+    DIRETORIO_WEB: Path = _resolve_path("D:/Projects/Web")
+    DIRETORIO_CPP: Path = _resolve_path("D:/Projects/C++")
 
     BASECODEEDITOR:str = "vscode"
 
     GitAvaliable:bool = False  
 
-    HistoryAvaliable:bool = True
+    HistoryAvaliable:bool = True  
 
-    READMEAvaliable:bool = True
+    READMEAvaliable:bool = False
 
-    if HistoryAvaliable:baseDiretoryHistory:Path = appdata / "PROJECTSETUP-3.O" / "History"
+    baseDiretoryHistory:Path = appdata / "History"
 
     Fonts: Path = BASE / "Fonts" if os.path.exists(BASE/ "Fonts") else None
 
@@ -225,6 +263,7 @@ class Config:
             return Path(Config.DIRETORIO_CPP)
         return Path(Config.DIRETORIO)
     
+    @staticmethod
     def get_editor_link(editor: str, project_path: Path) -> str:
         # Normaliza para URI (especialmente no Windows):
         # - caminho absoluto
@@ -249,3 +288,96 @@ class Config:
         }
 
         return editors.get(editor.lower(), f"vscode://file/{encoded_path}")
+
+
+    @classmethod  
+    def getCofig(cls) -> dict:
+        """Carrega configurações do arquivo JSON ou cria padrões"""
+        config_dir = cls.appdata / "Config"
+        config_file = config_dir / "config.json"
+
+        config_dir.mkdir(parents=True, exist_ok=True)
+
+        if config_file.exists():
+            try:
+                with open(config_file, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except json.JSONDecodeError as e:
+                print(f"[ERROR] Invalid JSON in config file: {e}")
+            except Exception as e:
+                print(f"[ERROR] Failed to load config: {e}")
+        
+        default_config = {
+            "Debug": cls.Debug,
+            "BASECODEEDITOR": cls.BASECODEEDITOR,
+            "GitAvaliable": cls.GitAvaliable,
+            "HistoryAvaliable": cls.HistoryAvaliable,
+            "READMEAvaliable": cls.READMEAvaliable,
+            "DIRETORIO": str(cls.DIRETORIO),
+            "DIRETORIO_WEB": str(cls.DIRETORIO_WEB),
+            "DIRETORIO_CPP": str(cls.DIRETORIO_CPP)
+        }
+    
+        with open(config_file, "w", encoding="utf-8") as f:
+            json.dump(default_config, f, indent=4, ensure_ascii=False)
+        
+        return default_config
+
+    
+    @staticmethod
+    def saveConfig(data_local:"Config") -> bool:
+        try:
+            config_dir = data_local.appdata / "Config"
+            config_file = config_dir / "config.json"
+            
+            config_dir.mkdir(parents=True, exist_ok=True)
+            
+            dict_Config = {
+                "Debug": data_local.Debug,
+                "BASECODEEDITOR": data_local.BASECODEEDITOR,
+                "GitAvaliable": data_local.GitAvaliable,
+                "HistoryAvaliable": data_local.HistoryAvaliable,
+                "READMEAvaliable": data_local.READMEAvaliable,
+                "DIRETORIO": str(data_local.DIRETORIO),
+                "DIRETORIO_WEB": str(data_local.DIRETORIO_WEB),
+                "DIRETORIO_CPP": str(data_local.DIRETORIO_CPP)
+            }
+
+            with open(config_file, "w", encoding="utf-8") as f:
+                json.dump(dict_Config, f, indent=4, ensure_ascii=False)
+            return True
+        except OSError as E:
+            print(f"[ERROR] OSError, Erro: {E}")
+            return False
+        except Exception as e:
+            print(f"[ERROR] Erro ao salvar config: {e}")
+            return False
+    
+    @classmethod
+    def from_dict(cls, data: dict) -> "Config":
+        kwargs = {}
+
+        for field in fields(cls):
+            name = field.name
+
+            if name not in data:
+                continue
+
+            value = data[name]
+            ftype = field.type
+
+            # Path support
+            if ftype == Path or Path in get_args(ftype):
+                value = Path(value)
+
+            # int safe cast
+            elif ftype == int:
+                value = int(value)
+
+            # bool safe cast
+            elif ftype == bool:
+                value = bool(value)
+
+            kwargs[name] = value
+
+        return cls(**kwargs)

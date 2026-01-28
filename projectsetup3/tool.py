@@ -1,4 +1,3 @@
-
 import os
 import platform
 from dataclasses import dataclass
@@ -36,7 +35,7 @@ class tool:
         try:
             for i in Config.modules_local:
                 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), i)))
-                if data_local.Debug:print(f"Module_local: {i}")
+                if Config.Debug:print(f"Module_local: {i}")
             return
         except Exception as E:
             print(f"Erro Al Adicionar Os Caminhos Brutos, Erro: {E}")
@@ -145,7 +144,7 @@ class tool:
 
         install_cmds = {
             "apt": lambda pkg: f"sudo apt update && sudo apt install -y {pkg}",
-            "dnf": lambda pkg: f"sudo dnf install -y {pkg}",
+            "dnf": lambda pkg: f"sudo update && sudo dnf install -y {pkg}",
             "pacman": lambda pkg: f"sudo pacman -Syu {pkg} --noconfirm",
             "zypper": lambda pkg: f"sudo zypper install -y {pkg}",
             "apk": lambda pkg: f"sudo apk add {pkg}",

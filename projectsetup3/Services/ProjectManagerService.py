@@ -46,7 +46,11 @@ class ProjectManagerService:
 
         try: 
             project = BaseProject()
-            project.setLanguage(ProjectType(language))
+            lang = ProjectType[language].value
+            if not lang:
+                raise ValueError(f"Language '{language}' not found in ProjectType enum")
+            
+            project.setLanguage(lang)
             project.openBaseCodeJson() # Not Nessesary more is safely
             return project.basestruture
         except Exception as E:

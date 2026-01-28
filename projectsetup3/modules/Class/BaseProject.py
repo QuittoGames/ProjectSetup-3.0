@@ -38,7 +38,7 @@ class BaseProject:
 
             # Gera README.md usando IA se READMEAvaliable estiver ativo e conteúdo foi fornecido
             if Config.READMEAvaliable and content and file == "README.md":
-                code = READMEService.genereteREADME(content, name, self.language.value)
+                code = READMEService.genereteREADME(content, name, self.language.value,self.basestruture)
 
             if not re.match(r".+\..+$", str(full_path)):
                 full_path.mkdir(parents=True, exist_ok=True)
@@ -69,10 +69,16 @@ class BaseProject:
         if not os.path.exists(Config.basesCodesPath):
             raise ModuleNotFoundError("Diretory of base codes in json files not found")
             
+        # Tenta primeiro pelo nome do enum (ex: python.json)
         projectPath: Path = Config.basesCodesPath / f"{self.language.name.lower()}.json"
 
+        # Se não existir, tenta pelo value sem o ponto (ex: py.json)
         if not os.path.isfile(projectPath):
-            raise FileNotFoundError(f"Json file of {self.language.value} not found")
+            value_name = self.language.value.lstrip('.')
+            projectPath = Config.basesCodesPath / f"{value_name}.json"
+        
+        if not os.path.isfile(projectPath):
+            raise FileNotFoundError(f"Json file for {self.language.name} (tried: {self.language.name.lower()}.json) not found in {Config.basesCodesPath}")
         
         try:
             with open(projectPath,"r",encoding="UTF-8") as file:

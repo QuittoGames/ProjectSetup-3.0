@@ -1,7 +1,0 @@
-{
-    ".gitignore": "# Elm\nelm-stuff/\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
-
-    "src/Main.elm": "module Main exposing (main)\n\nimport Html exposing (text)\n\nmain =\n    text \"Hello, World!\"\n",
-
-    "README.md": ""
-}

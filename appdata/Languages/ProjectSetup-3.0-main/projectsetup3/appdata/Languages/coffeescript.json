@@ -1,7 +1,0 @@
-{
-    ".gitignore": "# Node\nnode_modules/\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
-
-    "src/main.coffee": "console.log 'Hello, World!'\n",
-
-    "README.md": ""
-}

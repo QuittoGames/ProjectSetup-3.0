@@ -14,33 +14,52 @@ class InstallService:
     def install(config: Config) -> None:
         appdata_local = Path(os.getcwd()) / "appdata" / "Languages"
 
-        if not appdata_local.exists():
+        if not appdata_local.exists() or not all((appdata_local / f).exists() for f in ["python.json","java.json"]):
             InstallService.checkDependencies()
             InstallService.getData()
     
-        Path(config.appdata / "PROJECTSETUP-3.O").parent.mkdir(parents=True, exist_ok=True)
-        Path(config.appdata / "History").parent.mkdir(parents=True,exist_ok=True)
+        # Cria diretórios necessários
+        dest_languages = config.appdata / "Languages"
+        dest_languages.mkdir(parents=True, exist_ok=True)
+        
+        dest_history = config.appdata / "History"
+        dest_history.mkdir(parents=True, exist_ok=True)
 
-        dest = config.appdata / "PROJECTSETUP-3.O" / "Languages"
-        shutil.copytree(appdata_local, dest, dirs_exist_ok=True)
+        # Remove estruturas antigas incorretas se existirem
+        old_structures = [
+            config.appdata / "PROJECTSETUP-3.O",
+            config.appdata / "Languages" / "ProjectSetup-3.0-main"
+        ]
+        
+        for old_path in old_structures:
+            if old_path.exists():
+                shutil.rmtree(old_path)
+        
+        # Copia todos os arquivos .json
+        for json_file in appdata_local.glob("*.json"):
+            shutil.copy2(json_file, dest_languages / json_file.name)
     
         InstallService.setEnv()
 
     @staticmethod
     def setEnv() -> None:
-        command = (
-            f'setx PATH "%PATH%;{os.getcwd()}"'
-            if platform.system() == "Windows"
-            else f'echo \'export PATH="$PATH:{os.getcwd()}"\' >> ~/.bashrc'
-        )
-
+        path = os.getcwd()
+        
         try:
-            subprocess.run(command, shell=True, check=True)
+            if platform.system() == "Windows":
+                command = f'setx PATH "%PATH%;{path}"'
+                subprocess.run(command, shell=True, check=True)
+            else:
+                # Linux/Unix: adiciona ao .bashrc se não existir
+                command = f'grep -qxF \'export PATH="$PATH:{path}"\' ~/.bashrc || echo \'export PATH="$PATH:{path}"\' >> ~/.bashrc'
+                subprocess.run(command, shell=True, check=True, executable='/bin/bash')
         except subprocess.CalledProcessError as e:
             console = Console()
             console.print(f"[bold red]Erro ao configurar PATH:[/bold red] {e}")
     
+    @staticmethod
     def checkDependencies():
+        tool.clear_screen()
         console = Console()
         deps = ["curl", "unzip"] if platform.system() != "Windows" else []
         for dep in deps:
@@ -69,29 +88,38 @@ class InstallService:
                 
     @staticmethod
     def getData():
+        console = Console()
+        
         if platform.system() == "Windows":
             powershell_path = r"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
             command = (
                 f'curl -L https://github.com/QuittoGames/ProjectSetup-3.0/archive/refs/heads/main.zip -o repo.zip && '
-                f'"{powershell_path}" -Command "Expand-Archive -Force repo.zip repo; '
-                'New-Item -ItemType Directory -Force appdata | Out-Null; '
-                'Move-Item repo\\ProjectSetup-3.0-main\\projectsetup3\\appdata\\Languages appdata\\Languages"'
+                f'"{powershell_path}" -Command "Expand-Archive -Force repo.zip .; '
+                'New-Item -ItemType Directory -Force appdata\\Languages | Out-Null; '
+                'Copy-Item ProjectSetup-3.0-main\\projectsetup3\\appdata\\Languages\\*.json appdata\\Languages\\ -Force; '
+                'Remove-Item -Recurse -Force ProjectSetup-3.0-main, repo.zip"'
             )
         else:
-            Path("appdata/Languages").mkdir(parents=True, exist_ok=True) if not os.path.exists("appdata/Languages") else None
+            # Cria diretório se não existir
+            Path("appdata/Languages").mkdir(parents=True, exist_ok=True)
 
             command = (
                 'curl -L https://github.com/QuittoGames/ProjectSetup-3.0/archive/refs/heads/main.zip -o repo.zip && '
-                'unzip -o repo.zip '
-                '"ProjectSetup-3.0-main/projectsetup3/appdata/Languages/*" '
-                '-d appdata/Languages && '
-                'rm repo.zip'
+                'unzip -o repo.zip && '
+                'cp ProjectSetup-3.0-main/projectsetup3/appdata/Languages/*.json appdata/Languages/ && '
+                'rm -rf ProjectSetup-3.0-main repo.zip'
             )
 
-        subprocess.run(command, shell=True, check=True)
+        try:
+            subprocess.run(command, shell=True, check=True)
+            console.print("[bold green]✓[/bold green] Arquivos de linguagem baixados com sucesso!")
+        except subprocess.CalledProcessError as e:
+            console.print(f"[bold red]✘ Erro ao baixar dados:[/bold red] {e}")
+            raise
         
     @staticmethod
     def isIstall(config: Config) -> bool:
-        if Path(config.appdata / "PROJECTSETUP-3.O").exists():
+        languages_path = config.appdata / "Languages"
+        if languages_path.exists() and any(languages_path.glob("*.json")):
             return True
         return False

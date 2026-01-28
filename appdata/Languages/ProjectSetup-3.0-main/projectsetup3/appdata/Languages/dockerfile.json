@@ -1,7 +1,0 @@
-{
-    "Dockerfile": "# Base image can vary per project type\nFROM alpine:3.20\n\nWORKDIR /app\n\n# Copy project files\nCOPY . .\n\nCMD [\"sh\", \"-c\", \"echo Hello from __PROJECT_NAME__\"]\n",
-
-    ".dockerignore": "# Common\n.git\n.gitignore\n.vscode\n.idea\nnode_modules\ndist\nbuild\n__pycache__\n.venv\nvenv\n",
-
-    "README.md": ""
-}
