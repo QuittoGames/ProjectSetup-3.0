@@ -11,7 +11,7 @@ class Config:
     modules_local = ["data","modules","Intefaces","Languages","Enums","Class"]
     Debug:str = False
 
-    appdata = Path(os.getenv("APPDATA")) if platform.system().lower() == "windows" else Path.home() / ".config" / "ProjectSetup3.0"
+    appdata = Path(os.getenv("APPDATA")) / "ProjectSetup3.0" if platform.system().lower() == "windows" else Path.home() / ".config" / "ProjectSetup3.0"
     BASE = Path(__file__).resolve().parent
 
     basesCodesPath: Path = appdata / "Languages"

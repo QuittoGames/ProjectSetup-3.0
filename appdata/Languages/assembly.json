@@ -1,0 +1,15 @@
+{
+    ".gitignore": "# Build\n*.o\n*.obj\n*.exe\n*.out\n*.elf\n*.bin\n*.iso\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "README.md": "# __PROJECT_NAME__ - Assembly Project\n\n## Supported Assemblers\n\n- **NASM** (Netwide Assembler)\n- **FASM** (Flat Assembler)\n- **GAS** (GNU Assembler)\n- **MASM** (Microsoft Macro Assembler)\n\n## Build Examples\n\n### Linux x86_64 (NASM)\n```bash\nnasm -f elf64 src/main.asm -o main.o\nld main.o -o main\n./main\n```\n\n### Windows x64 (NASM)\n```bash\nnasm -f win64 src/main_win.asm -o main.obj\nlink main.obj /subsystem:console /entry:main\n```\n\n### Bootloader (NASM)\n```bash\nnasm -f bin src/boot.asm -o boot.bin\nqemu-system-x86_64 -drive format=raw,file=boot.bin\n```\n",
+
+    "src/main.asm": "; Linux x86_64 - NASM syntax\n; Build: nasm -f elf64 main.asm -o main.o && ld main.o -o main\n\nsection .data\n    msg db 'Hello, Assembly World!', 0xA\n    len equ $ - msg\n\nsection .text\n    global _start\n\n_start:\n    ; write(1, msg, len)\n    mov rax, 1          ; sys_write\n    mov rdi, 1          ; stdout\n    mov rsi, msg        ; buffer\n    mov rdx, len        ; length\n    syscall\n\n    ; exit(0)\n    mov rax, 60         ; sys_exit\n    xor rdi, rdi        ; status 0\n    syscall\n",
+
+    "src/main_win.asm": "; Windows x64 - NASM syntax\n; Build: nasm -f win64 main_win.asm -o main.obj && link main.obj /subsystem:console /entry:main\n\nextern ExitProcess\nextern GetStdHandle\nextern WriteConsoleA\n\nsection .data\n    msg db 'Hello, Assembly World!', 0xD, 0xA\n    len equ $ - msg\n\nsection .bss\n    written resq 1\n\nsection .text\n    global main\n\nmain:\n    sub rsp, 40         ; Shadow space + alignment\n\n    ; GetStdHandle(STD_OUTPUT_HANDLE)\n    mov rcx, -11\n    call GetStdHandle\n\n    ; WriteConsoleA(handle, msg, len, &written, NULL)\n    mov rcx, rax        ; handle\n    lea rdx, [msg]      ; buffer\n    mov r8d, len        ; length\n    lea r9, [written]   ; written\n    mov qword [rsp+32], 0  ; reserved\n    call WriteConsoleA\n\n    ; ExitProcess(0)\n    xor ecx, ecx\n    call ExitProcess\n",
+
+    "src/boot.asm": "; Simple bootloader example - NASM\n; Build: nasm -f bin boot.asm -o boot.bin\n; Test: qemu-system-x86_64 -drive format=raw,file=boot.bin\n\nBITS 16\nORG 0x7C00\n\nstart:\n    ; Setup segments\n    xor ax, ax\n    mov ds, ax\n    mov es, ax\n    mov ss, ax\n    mov sp, 0x7C00\n\n    ; Print message\n    mov si, msg\n    call print_string\n\n    ; Halt\n    cli\n    hlt\n\nprint_string:\n    lodsb\n    or al, al\n    jz .done\n    mov ah, 0x0E\n    int 0x10\n    jmp print_string\n.done:\n    ret\n\nmsg db 'Booting __PROJECT_NAME__...', 0xD, 0xA, 0\n\ntimes 510-($-$$) db 0\ndw 0xAA55\n",
+
+    "Makefile": "# Assembly Project Makefile\n\n.PHONY: all clean linux windows boot\n\nall: linux\n\nlinux:\n\tnasm -f elf64 src/main.asm -o main.o\n\tld main.o -o main\n\nwindows:\n\tnasm -f win64 src/main_win.asm -o main.obj\n\tlink main.obj /subsystem:console /entry:main\n\nboot:\n\tnasm -f bin src/boot.asm -o boot.bin\n\nclean:\n\trm -f *.o *.obj *.bin main main.exe\n",
+
+    "README.md": ""
+}

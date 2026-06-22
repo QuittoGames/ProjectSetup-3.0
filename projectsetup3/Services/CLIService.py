@@ -3,6 +3,14 @@ import subprocess
 import os
 import asyncio
 from pathlib import Path
+# Ensure package can be imported when running script directly
+try:
+    import projectsetup3  # pragma: no cover
+except ModuleNotFoundError:
+    current = Path(__file__).resolve()
+    repo_root = current.parents[2]
+    sys.path.insert(0, str(repo_root))
+    
 from projectsetup3.tool import tool
 from projectsetup3.Config import Config
 from projectsetup3.Services.ProjectManagerService import ProjectManagerService
@@ -55,7 +63,6 @@ class CLIService:
             if not path.is_dir():
                 print("[ERROR] O caminho precisa ser um diretório válido")
                 return
-            
             if data_local.GitAvaliable and gitRepoLink and (not tool.verifyURL(url = gitRepoLink)):
                 print(f"[ERROR] O URL nao e valida: {gitRepoLink}")
                 return

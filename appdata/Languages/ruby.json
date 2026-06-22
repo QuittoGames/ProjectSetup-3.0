@@ -1,0 +1,13 @@
+{
+    ".gitignore": "# Gem files\n*.gem\n*.rbc\n.bundle\n.config\nvendor/bundle/\n\n# Documentation\n/.yardoc\n/_yardoc/\n/doc/\n/rdoc/\n\n# Test results\n/coverage/\n/InstalledFiles\n/pkg/\n/spec/reports/\n/test/tmp/\n/test/version_tmp/\n/tmp/\n\n# RVM / rbenv\n.ruby-version\n.ruby-gemset\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "main.rb": "require_relative 'data/data'\nrequire_relative 'tool/tool'\n\nputs 'Hello, World!'\n\ntool = Tool.new\ndata = Data.new",
+
+    "data/data.rb": "class Data\n  # Your data class\nend",
+
+    "tool/tool.rb": "class Tool\n  # Your tool class\nend",
+
+    "Gemfile": "source 'https://rubygems.org'\n\nruby '>= 3.0.0'\n\n# Add your gems here",
+
+    "README.md": ""
+}

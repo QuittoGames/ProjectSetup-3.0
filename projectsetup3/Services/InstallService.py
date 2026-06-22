@@ -18,23 +18,12 @@ class InstallService:
             InstallService.checkDependencies()
             InstallService.getData()
     
-        # Cria diretórios necessários
-        dest_languages = config.appdata / "Languages"
+        dest_languages = Config.appdata / "Languages"
         dest_languages.mkdir(parents=True, exist_ok=True)
         
-        dest_history = config.appdata / "History"
+        dest_history = Config.appdata / "History"
         dest_history.mkdir(parents=True, exist_ok=True)
-
-        # Remove estruturas antigas incorretas se existirem
-        old_structures = [
-            config.appdata / "PROJECTSETUP-3.O",
-            config.appdata / "Languages" / "ProjectSetup-3.0-main"
-        ]
-        
-        for old_path in old_structures:
-            if old_path.exists():
-                shutil.rmtree(old_path)
-        
+    
         # Copia todos os arquivos .json
         for json_file in appdata_local.glob("*.json"):
             shutil.copy2(json_file, dest_languages / json_file.name)
@@ -119,7 +108,8 @@ class InstallService:
         
     @staticmethod
     def isIstall(config: Config) -> bool:
-        languages_path = config.appdata / "Languages"
+        # Usa Config class diretamente para garantir o caminho correto
+        languages_path = Config.appdata / "Languages"
         if languages_path.exists() and any(languages_path.glob("*.json")):
             return True
         return False

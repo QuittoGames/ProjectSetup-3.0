@@ -27,6 +27,7 @@ class ProjectType(Enum):
     JSON        = ".json"
     YAML        = ".yaml"
     MARKDOWN    = ".md"
+    TEXT        = ".txt"
     TEX         = ".tex"
     ASSEMBLY    = ".asm"
     V           = ".v"
@@ -49,6 +50,8 @@ class ProjectType(Enum):
     WEB = "web"
     MOBILE = "mobile"
     GAME_DEV = "game_dev"
+    FASTAPI     = "fastapi"
     SQL         = ".sql"
     SPRING      = "spring"
+    RESQ        = "resq" # Research
     

@@ -1,0 +1,7 @@
+{
+  "index.qmd": "---\ntitle: \"[TITLE]\"\nauthor:\n  - \"Autor 1\"\n  - \"Autor 2\"\n\ndate: \"2026-01-01\"\nlang: pt-BR\n\nformat:\n  pdf:\n    pdf-engine: xelatex\n    keep-tex: true\n    df-print: default\n    cite-method: biblatex\n    tbl-cap-location: top\n    highlight-style: github\n\ncsl: csl/associacao-brasileira-de-normas-tecnicas.csl\nciteproc: false\n---\n\n# Introdução\n\nEste documento apresenta uma análise geral sobre padrões, estruturas e desafios relacionados ao tema estudado.\n\n# Problema de Pesquisa\n\nQuais são os principais padrões e desafios observados dentro do contexto analisado?\n\n# Objetivos\n\n## Geral\nRealizar uma análise crítica sobre o tema proposto.\n\n## Específicos\n- Identificar padrões relevantes\n- Analisar possíveis impactos\n- Propor interpretações gerais\n\n# Referencial Teórico\n\n- Conceitos fundamentais do tema\n- Estruturas básicas relacionadas\n- Abordagens gerais de análise\n\n# Metodologia\n\n- Revisão geral de informações\n- Análise descritiva\n- Interpretação qualitativa\n\n# Resultados Esperados\n\nEspera-se compreender melhor os padrões e estruturas gerais do tema analisado.\n",
+
+  "bib/bibliografia.bib": "",
+
+  "csl/associacao-brasileira-de-normas-tecnicas.csl": ""
+}

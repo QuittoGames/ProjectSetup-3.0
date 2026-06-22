@@ -53,17 +53,7 @@ class BaseProject:
             tool.init_git_repository(gitRepoLink)
 
         if Config.HistoryAvaliable:
-            history = HistoryService.getHistory()
-            history["projects"].append({
-                "name": name,
-                "language": self.language.value if self.language else None,
-                "path": str(project_path.resolve()),
-                "git": bool(gitRepoLink),
-                "gitRepo": gitRepoLink,
-                "created_at": datetime.datetime.now().isoformat()
-            })
-
-            HistoryService.run(history)
+            self.add_History(name=name,gitRepoLink=gitRepoLink,project_path=project_path)
 
     def openBaseCodeJson(self) -> None:
         if not os.path.exists(Config.basesCodesPath):
@@ -76,7 +66,7 @@ class BaseProject:
         if not os.path.isfile(projectPath):
             value_name = self.language.value.lstrip('.')
             projectPath = Config.basesCodesPath / f"{value_name}.json"
-        
+    
         if not os.path.isfile(projectPath):
             raise FileNotFoundError(f"Json file for {self.language.name} (tried: {self.language.name.lower()}.json) not found in {Config.basesCodesPath}")
         
@@ -88,4 +78,17 @@ class BaseProject:
 
     def setLanguage(self,language:ProjectType):
         self.language = language
-        
+
+    def add_History(self,name:str,gitRepoLink:Path,project_path:Path) -> None:
+        history = HistoryService.getHistory()
+        history["projects"].append({
+            "name": name,
+            "language": self.language.value if self.language else None,
+            "path": str(project_path.resolve()),
+            "git": bool(gitRepoLink),
+            "gitRepo": gitRepoLink,
+            "created_at": datetime.datetime.now().isoformat()
+        })
+
+        HistoryService.run(history)
+    

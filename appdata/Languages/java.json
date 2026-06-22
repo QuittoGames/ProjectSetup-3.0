@@ -1,0 +1,13 @@
+{
+    ".gitignore": "# Compiled class files\n*.class\n\n# Log files\n*.log\n\n# BlueJ files\n*.ctxt\n\n# Mobile Tools for Java (J2ME)\n.mtj.tmp/\n\n# Package Files\n*.jar\n*.war\n*.nar\n*.ear\n*.zip\n*.tar.gz\n*.rar\n\n# Virtual machine crash logs\nhs_err_pid*\nreplay_pid*\n\n# Maven\ntarget/\npom.xml.tag\npom.xml.releaseBackup\npom.xml.versionsBackup\npom.xml.next\nrelease.properties\ndependency-reduced-pom.xml\nbuildNumber.properties\n.mvn/timing.properties\n.mvn/wrapper/maven-wrapper.jar\n\n# Gradle\n.gradle/\nbuild/\n!gradle/wrapper/gradle-wrapper.jar\n!**/src/main/**/build/\n!**/src/test/**/build/\n\n# IntelliJ IDEA\n.idea/\n*.iws\n*.iml\n*.ipr\nout/\n\n# Eclipse\n.classpath\n.project\n.settings/\nbin/\n\n# NetBeans\nnbproject/private/\nbuild/\nnbbuild/\ndist/\nnbdist/\n.nb-gradle/\n\n# VS Code\n.vscode/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main/java/com/project/Main.java": "package com.project;\n\nimport com.project.data.Data;\nimport com.project.tool.Tool;\n\npublic class Main {\n    private Tool toolClass = new Tool();\n\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
+
+    "src/main/java/com/project/tool/Tool.java": "package com.project.tool;\n\npublic class Tool {\n}",
+
+    "src/main/java/com/project/data/Data.java": "package com.project.data;\n\npublic class Data {\n}",
+
+    "pom.xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>com.project</groupId>\n    <artifactId>project</artifactId>\n    <version>1.0-SNAPSHOT</version>\n\n    <properties>\n        <maven.compiler.source>17</maven.compiler.source>\n        <maven.compiler.target>17</maven.compiler.target>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n    </properties>\n\n    <dependencies>\n        <!-- Add your dependencies here -->\n    </dependencies>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>org.apache.maven.plugins</groupId>\n                <artifactId>maven-compiler-plugin</artifactId>\n                <version>3.11.0</version>\n            </plugin>\n        </plugins>\n    </build>\n</project>",
+
+    "README.md": ""
+}

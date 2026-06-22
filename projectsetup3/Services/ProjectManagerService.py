@@ -32,7 +32,8 @@ class ProjectManagerService:
 
         try:
             project = BaseProject()
-            project.setLanguage(ProjectType(language))
+            language = ProjectManagerService.normalize_language(language)
+            project.setLanguage(language)
             project.openBaseCodeJson()
             project.create(path=path, name=name, gitRepoLink=gitRepoLink, content=content)
         except Exception as e:
@@ -46,12 +47,9 @@ class ProjectManagerService:
 
         try: 
             project = BaseProject()
-            lang = ProjectType[language].value
-            if not lang:
-                raise ValueError(f"Language '{language}' not found in ProjectType enum")
-            
-            project.setLanguage(lang)
-            project.openBaseCodeJson() # Not Nessesary more is safely
+            project_type = ProjectManagerService.normalize_language(language)
+            project.setLanguage(project_type)
+            project.openBaseCodeJson()
             return project.basestruture
         except Exception as E:
             raise RuntimeError(f"Error retrieving base structure: {E}")
@@ -59,3 +57,22 @@ class ProjectManagerService:
     @staticmethod
     def list_supported_languages() -> list[str]:
         return [project_type.value for project_type in ProjectType]
+    
+    @staticmethod
+    def normalize_language(language: str) -> ProjectType:
+        """Normaliza string de linguagem para ProjectType enum"""
+        if not language:
+            raise ValueError("Language cannot be empty.")
+        
+        language = language.strip().lower()
+        
+        if language in ProjectType.__members__:
+            return ProjectType[language]
+        
+        # Tenta por valor (ex: ".py", "py")
+        language_with_dot = f".{language}" if not language.startswith(".") else language
+        for project_type in ProjectType:
+            if project_type.value == language_with_dot or project_type.value == language:
+                return project_type
+        
+        raise ValueError(f"Language '{language}' not supported")

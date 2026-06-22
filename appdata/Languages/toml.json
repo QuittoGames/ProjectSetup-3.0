@@ -1,0 +1,5 @@
+{
+    "config.toml": "# Example TOML\nname = \"__PROJECT_NAME__\"\nversion = \"0.1.0\"\n",
+
+    "README.md": ""
+}

@@ -1077,7 +1077,7 @@ def create_project_interactive():
     
     # Linguagem (mesma tela)
     console.print()
-    console.print(Align.center(f"[{text_dim}]Linguagem (python/web/lua) [padrão: python][/]"))
+    console.print(Align.center(f"[{text_dim}]Linguagem (python/web/lua/fastapi) [padrão: python][/]"))
     console.print()
     raw_type = input(f"{' ' * 32}▸ ").strip().lower() or "python"
     type_project = tool.type_to_extension(raw_type)
@@ -1251,7 +1251,18 @@ def create_project_interactive():
         console.print(Align.center(dir_panel))
         console.print()
 
-        base = ProjectManagerService.get_base_structure(type_project)
+        try:
+            base = ProjectManagerService.get_base_structure(type_project)
+        except Exception as e:
+            console.print()
+            console.print(Align.center(f"[{warning_color}]⚠️ Aviso: Falha ao carregar estrutura base ({e}), usando fallback 'TEXT'[/]"))
+            time.sleep(1)
+            # Fallback para arquivos de texto
+            try:
+                base = ProjectManagerService.get_base_structure('txt')
+                display_lang = 'TEXT'
+            except Exception:
+                base = {}
 
         # Painel de arquivos a serem criados
         files_text = Text()

@@ -1,0 +1,13 @@
+{
+    ".gitignore": "# Build results\n.build/\nbuild/\nDerivedData/\n\n# Swift Package Manager\n.swiftpm/\nPackages/\n*.xcodeproj\nxcuserdata/\n\n# CocoaPods\nPods/\n*.xcworkspace\n!default.xcworkspace\nPodfile.lock\n\n# Carthage\nCarthage/Build/\n\n# Accio\nDependencies/\n.accio/\n\n# IDE\n.vscode/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "Sources/main.swift": "import Foundation\n\nprint(\"Hello, World!\")\n\nlet tool = Tool()\nlet data = Data()",
+
+    "Sources/Data.swift": "import Foundation\n\nclass Data {\n    // Your data class\n}",
+
+    "Sources/Tool.swift": "import Foundation\n\nclass Tool {\n    // Your tool class\n}",
+
+    "Package.swift": "// swift-tools-version: 5.9\nimport PackageDescription\n\nlet package = Package(\n    name: \"project\",\n    platforms: [\n        .macOS(.v13)\n    ],\n    targets: [\n        .executableTarget(\n            name: \"project\",\n            path: \"Sources\"\n        )\n    ]\n)",
+
+    "README.md": ""
+}

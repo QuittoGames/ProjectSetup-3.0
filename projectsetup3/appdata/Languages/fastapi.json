@@ -1,0 +1,27 @@
+{
+  ".gitignore": "__pycache__/\n*.py[cod]\n*.log\nvenv/\n.venv/\n.env/\n.vscode/\n.idea/\n.DS_Store\nThumbs.db\n",
+
+  "README.md": "# Generic FastAPI Template\n\nTemplate base MVC para projetos FastAPI.\n\n## Rodar\n\n1) Instalar dependências\n\n```bash\npip install -r requirements/requirements.txt\n```\n\n2) Subir o servidor (modo dev)\n\n```bash\npython -m uvicorn index:app --reload --app-dir src\n```\n\n## Rotas\n\n- `GET /`\n- `GET /ping`\n- `GET /system/status`\n",
+
+  "requirements/requirements.txt": "fastapi\nuvicorn\npydantic\n",
+
+  "src/index.py": "from fastapi import FastAPI\nfrom controllers.MainController import router as main_router\nfrom controllers.SystemController import router as system_router\nfrom data import data\nfrom tool import tool\n\ndata_local = data()\n\napp = FastAPI(title=\"Generic API\")\n\napp.include_router(main_router)\napp.include_router(system_router)\n\n@app.on_event(\"startup\")\nasync def startup():\n    await main()\n\nasync def main():\n    try:\n        await tool.add_path_modules(data_local)\n        if data_local.Debug:\n            await tool.verify_modules()\n    except Exception as e:\n        print(f\"[ERROR] {e}\")\n",
+
+  "src/data.py": "from dataclasses import dataclass\n\n\n@dataclass\nclass data:\n    Debug: bool = True\n    modules_local = [\"./controllers\", \"./services\", \"./models\"]\n",
+
+  "src/tool.py": "import asyncio\nimport os\nimport platform\nimport sys\nfrom dataclasses import dataclass\n\n\n@dataclass\nclass tool:\n\n    @staticmethod\n    def clear_screen():\n        os.system('cls' if platform.system() == \"Windows\" else 'clear')\n\n    @staticmethod\n    async def verify_modules():\n        try:\n            req_path = os.path.abspath(os.path.join(os.path.dirname(__file__), \"../requirements/requirements.txt\"))\n\n            process = await asyncio.create_subprocess_exec(\n                sys.executable, \"-m\", \"pip\", \"install\", \"-r\", req_path,\n                stdout=asyncio.subprocess.PIPE,\n                stderr=asyncio.subprocess.PIPE,\n            )\n            stdout, stderr = await process.communicate()\n\n            if process.returncode != 0:\n                if stdout:\n                    print(stdout.decode(errors=\"replace\"))\n                if stderr:\n                    print(stderr.decode(errors=\"replace\"))\n                raise RuntimeError(f\"pip install failed with exit code {process.returncode}\")\n\n        except Exception as e:\n            print(f\"[ERROR verify_modules] {e}\")\n            raise\n\n    @staticmethod\n    async def add_path_modules(data_local):\n        try:\n            for path in getattr(data_local, 'modules_local', []) or []:\n                abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), path))\n                if abs_path not in sys.path:\n                    sys.path.append(abs_path)\n                    if getattr(data_local, 'Debug', False):\n                        print(f\"[PATH] {abs_path}\")\n        except Exception as e:\n            print(f\"[ERROR add_path] {e}\")\n            raise\n",
+
+  "src/controllers/__init__.py": "",
+
+  "src/controllers/MainController.py": "from fastapi import APIRouter\n\nrouter = APIRouter()\n\n\n@router.get(\"/\")\ndef root():\n    return {\"status\": \"ok\"}\n\n\n@router.get(\"/ping\")\ndef ping():\n    return {\"ok\": True}\n",
+
+  "src/controllers/SystemController.py": "from fastapi import APIRouter\nimport time\n\nrouter = APIRouter(prefix=\"/system\", tags=[\"system\"])\n\nSTART_TIME = time.time()\n\n\n@router.get(\"/status\")\ndef status():\n    return {\n        \"uptime\": time.time() - START_TIME\n    }\n",
+
+  "src/services/__init__.py": "",
+
+  "src/services/ExampleService.py": "class ExampleService:\n\n    @staticmethod\n    def get_data():\n        return {\n            \"message\": \"example service working\"\n        }\n",
+
+  "src/models/__init__.py": "",
+
+  "src/models/ExampleModel.py": "from pydantic import BaseModel\n\n\nclass ExampleModel(BaseModel):\n    name: str\n    value: int\n"
+}
