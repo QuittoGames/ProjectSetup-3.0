@@ -10,7 +10,7 @@ from io import StringIO
 # Ensure project root is in path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from projectsetup3.src.core.Services.Egine.Logger.LoggerService import (
+from projectsetup3.src.core.Services.Engine.Logger.LoggerService import (
     LoggerService,
     JsonFormatter,
     ConsoleFormatter,

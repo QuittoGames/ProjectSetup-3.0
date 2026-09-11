@@ -1,14 +1,15 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Generic, Optional, TypeVar
 
 TClient = TypeVar("TClient")
 
+
 @dataclass
 class AIClient(ABC, Generic[TClient]):
-    model: str
-    key: str
-    client: TClient
+    model: str = ""
+    key: str = ""
+    client: Optional[TClient] = None
 
     def configClient(self) -> bool:
         raise NotImplementedError("Feature not implemented")
@@ -26,5 +27,21 @@ class AIClient(ABC, Generic[TClient]):
         raise NotImplementedError
 
     @abstractmethod
-    def switch_model(self, model_id: str) -> bool:
+    async def list_models(self) -> list[str]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def cachead_models_list(self, models: list[str]) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def cachead_models_list(self, models: list[str]) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def switch_model(self, model_id: str) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def switch_model(self, model_id: str) -> None:
         raise NotImplementedError
