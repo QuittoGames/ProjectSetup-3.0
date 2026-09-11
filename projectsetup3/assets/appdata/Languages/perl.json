@@ -1,0 +1,11 @@
+{
+    ".gitignore": "# Perl\nblib/\n.build/\n_build/\ncover_db/\ninc/\nBuild\nBuild.bat\n.last_cover_stats\nManifest\nManifest.skip\nMETA.yml\nMETA.json\nMYMETA.yml\nMYMETA.json\nnytprof.out\npm_to_blib\n*.o\n*.bs\n*.tar.gz\n*.tgz\n*.zip\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "main.pl": "#!/usr/bin/perl\nuse strict;\nuse warnings;\n\nuse lib 'lib';\nuse Data::Data;\nuse Tool::Tool;\n\nprint \"Hello, World!\\n\";\n\nmy $tool = Tool::Tool->new();\nmy $data = Data::Data->new();",
+
+    "lib/Data/Data.pm": "package Data::Data;\nuse strict;\nuse warnings;\n\nsub new {\n    my $class = shift;\n    my $self = {};\n    bless $self, $class;\n    return $self;\n}\n\n1;",
+
+    "lib/Tool/Tool.pm": "package Tool::Tool;\nuse strict;\nuse warnings;\n\nsub new {\n    my $class = shift;\n    my $self = {};\n    bless $self, $class;\n    return $self;\n}\n\n1;",
+
+    "README.md": ""
+}

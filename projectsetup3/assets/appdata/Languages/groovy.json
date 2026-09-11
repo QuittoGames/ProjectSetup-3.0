@@ -1,0 +1,7 @@
+{
+    ".gitignore": "# Gradle\n.gradle/\nbuild/\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main.groovy": "println 'Hello, World!'\n",
+
+    "README.md": ""
+}

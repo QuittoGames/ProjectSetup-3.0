@@ -1,5 +1,0 @@
-{
-    "Makefile": "# Simple Makefile template\nPROJECT ?= __PROJECT_NAME__\n\n.PHONY: help\nhelp:\n\t@echo \"Targets: help\"\n",
-
-    "README.md": ""
-}

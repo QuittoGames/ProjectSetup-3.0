@@ -1,9 +1,0 @@
-{
-    ".gitignore": "# Binaries for programs and plugins\n*.exe\n*.exe~\n*.dll\n*.so\n*.dylib\n\n# Test binary\n*.test\n\n# Output of the go coverage tool\n*.out\n\n# Dependency directories\nvendor/\n\n# Go workspace file\ngo.work\n\n# Build output\nbin/\n\n# IDE\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n\n# OS\n.DS_Store\nThumbs.db\n",
-
-    "main.go": "package main\n\nimport \"fmt\"\n\nfunc main() {\n    fmt.Println(\"Hello, World!\")\n}",
-
-    "go.mod": "module project\n\ngo 1.21\n",
-
-    "README.md": ""
-}

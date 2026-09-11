@@ -1,0 +1,7 @@
+{
+    ".gitignore": "# Build artifacts\n*.o\n*.obj\n*.a\n*.lib\n*.so\n*.dll\n*.dylib\n*.exe\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
+
+    "src/main.c": "#include <stdio.h>\n\nint main(void) {\n    printf(\"Hello, World!\\n\");\n    return 0;\n}\n",
+
+    "README.md": ""
+}

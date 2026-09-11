@@ -14,8 +14,8 @@ except ModuleNotFoundError:
 	repo_root = Path(__file__).resolve().parents[1]
 	sys.path.insert(0, str(repo_root))
 
-from projectsetup3.Config import Config
-from projectsetup3.Services.ProjectManagerService import ProjectManagerService
+from projectsetup3.src.config.Config import Config
+from projectsetup3.src.Services.core.ProjectManagerService import ProjectManagerService
 
 
 def main():
