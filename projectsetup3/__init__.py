@@ -6,6 +6,7 @@ __version__ = "1.0.0"
 __author__ = "QuittoGames"
 __license__ = "MIT"
 
-from projectsetup3.cli import main
+# Não importar cli aqui — quebra o pytest
+# from projectsetup3.cli import main
 
-__all__ = ["main", "__version__"]
+__all__ = ["__version__"]
