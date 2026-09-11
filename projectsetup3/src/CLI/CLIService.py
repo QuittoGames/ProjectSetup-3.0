@@ -14,10 +14,12 @@ except ModuleNotFoundError:
 
 from projectsetup3.src.core.tool import tool
 from projectsetup3.src.config.Config import Config
-from projectsetup3.src.Services.core.ProjectManagerService import ProjectManagerService
+from projectsetup3.src.core.Services.Engine.core.ProjectService import (
+    ProjectService as ProjectManagerService,
+)
 from projectsetup3.src.UI.Icons import Icons
-from projectsetup3.src.index import run
-from projectsetup3.src.core.Services.Egine.Logger.LoggerService import LoggerService
+from projectsetup3.index import run
+from projectsetup3.src.core.Services.Engine.Logger.LoggerService import LoggerService
 
 from rich.console import Console
 from rich.table import Table

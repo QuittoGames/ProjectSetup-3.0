@@ -1,10 +1,13 @@
 from dataclasses import dataclass
-from projectsetup3.src.Services.AI.GeminiClient import GeminiClient
+from projectsetup3.src.core.Services.AI.Provaiders.GeminiClient import GeminiClient
+
 
 @dataclass
 class READMEService:
     @staticmethod
-    def genereteREADME(content:str,project_name:str,language:str,strutureProject:dict):
+    def genereteREADME(
+        content: str, project_name: str, language: str, strutureProject: dict
+    ):
         # Formata a estrutura do projeto em formato de árvore
         structure_tree = "```\n"
         structure_tree += f"{project_name}/\n"
@@ -797,5 +800,5 @@ class READMEService:
 
         """
 
-        IAService = GeminiClient() #Modify Model if you want
+        IAService = GeminiClient()  # Modify Model if you want
         return IAService.generteText(README_PROMPT)
