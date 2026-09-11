@@ -1,0 +1,159 @@
+{
+  "runId": "ProjectSetup-3.0-logger-service-mtw64imv",
+  "feature": "logger-service",
+  "agent": "opencode",
+  "modo": "paralelo",
+  "paralelizar": null,
+  "modeloForcado": null,
+  "esforcoForcado": null,
+  "geradoEm": "2026-09-10 23:38",
+  "branchTrabalho": "spec/logger-service",
+  "baseDir": ".spec/features/logger-service",
+  "specDir": ".spec",
+  "repoName": "ProjectSetup-3.0",
+  "logsDir": "../onp-worktrees/ProjectSetup-3.0-logger-service-logs",
+  "ondas": [
+    [
+      "faixa-1",
+      "faixa-2",
+      "faixa-3"
+    ]
+  ],
+  "faixas": [
+    {
+      "id": "faixa-1",
+      "branch": "spec/logger-service-faixa-1",
+      "worktree": "../onp-worktrees/ProjectSetup-3.0-logger-service-faixa-1",
+      "tarefas": [
+        {
+          "id": "T-001",
+          "titulo": "Implementar LoggerService singleton com get_logger(category)",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "projectsetup3/src/core/Services/Egine/Logger/LoggerService.py"
+          ],
+          "refs": [
+            "US-001",
+            "AC-001",
+            "AC-002"
+          ]
+        },
+        {
+          "id": "T-002",
+          "titulo": "Configurar handlers: JSON stdout + RichHandler (TUI) + StreamHandler (CLI)",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "projectsetup3/src/core/Services/Egine/Logger/LoggerService.py"
+          ],
+          "refs": [
+            "US-004",
+            "AC-008",
+            "AC-009"
+          ]
+        },
+        {
+          "id": "T-003",
+          "titulo": "File handler condicional (Config.Debug) → logs/nLog.log",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "projectsetup3/src/core/Services/Egine/Logger/LoggerService.py"
+          ],
+          "refs": [
+            "US-003",
+            "AC-006",
+            "AC-007"
+          ]
+        },
+        {
+          "id": "T-004",
+          "titulo": "Níveis: INFO default, DEBUG quando Config.Debug=True",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "projectsetup3/src/core/Services/Egine/Logger/LoggerService.py"
+          ],
+          "refs": [
+            "US-002",
+            "AC-003",
+            "AC-004"
+          ]
+        },
+        {
+          "id": "T-005",
+          "titulo": "Formatter JSON estruturado para stdout",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "projectsetup3/src/core/Services/Egine/Logger/LoggerService.py"
+          ],
+          "refs": [
+            "US-003",
+            "AC-005"
+          ]
+        },
+        {
+          "id": "T-006",
+          "titulo": "Context manager timer() para performance logging",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "projectsetup3/src/core/Services/Egine/Logger/LoggerService.py"
+          ],
+          "refs": [
+            "US-005",
+            "AC-010",
+            "AC-011"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-2",
+      "branch": "spec/logger-service-faixa-2",
+      "worktree": "../onp-worktrees/ProjectSetup-3.0-logger-service-faixa-2",
+      "tarefas": [
+        {
+          "id": "T-007",
+          "titulo": "Testes unitários cobrindo AC-001 a AC-011",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "tests/unit/test_logger_service.py"
+          ],
+          "refs": [
+            "US-006",
+            "AC-012"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "faixa-3",
+      "branch": "spec/logger-service-faixa-3",
+      "worktree": "../onp-worktrees/ProjectSetup-3.0-logger-service-faixa-3",
+      "tarefas": [
+        {
+          "id": "T-008",
+          "titulo": "Integração: expor LoggerService nos serviços legados",
+          "modelo": "",
+          "esforco": "medium",
+          "arquivos": [
+            "projectsetup3/src/core/Services/Egine/ProjectFactory.py",
+            "projectsetup3/src/CLI/CLIService.py"
+          ],
+          "refs": [
+            "US-001",
+            "AC-001",
+            "AC-002"
+          ]
+        }
+      ]
+    }
+  ],
+  "sequenciais": [],
+  "concluidas": [],
+  "avisos": []
+}
