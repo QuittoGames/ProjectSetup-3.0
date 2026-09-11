@@ -25,15 +25,16 @@ if exist "%SCRIPT_DIR%venv\Scripts\activate.bat" (
     call "%SCRIPT_DIR%venv\Scripts\activate.bat" >nul 2>&1
 )
 
-REM Verifica se CLIService.py existe
-set "CLI_SCRIPT=%SCRIPT_DIR%\Services\CLIService.py"
-if not exist "!CLI_SCRIPT!" (
-    echo [ERRO] CLIService.py nao encontrado em: %SCRIPT_DIR%projectsetup3\Services\
+REM Verifica se o modulo CLI existe
+set "CLI_MODULE=%SCRIPT_DIR%src\CLI\CLIService.py"
+if not exist "%CLI_MODULE%" (
+    echo [ERRO] CLIService.py nao encontrado em: %SCRIPT_DIR%src\CLI\
     exit /b 1
 )
 
-REM Executa o CLI (usa python.exe, não pythonw, para manter console)
-python "!CLI_SCRIPT!" %*
+REM Executa o CLI como modulo a partir da raiz do repositorio
+cd /d "%SCRIPT_DIR%.."
+python -m projectsetup3.src.CLI.CLIService %*
 
 REM Captura o código de saída
 set "EXIT_CODE=%ERRORLEVEL%"

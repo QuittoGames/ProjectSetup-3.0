@@ -5,10 +5,6 @@ import sys
 import os
 import json
 
-# Add src to path for src layout
-src_path = Path(__file__).parent / "src"
-sys.path.insert(0, str(src_path))
-
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
@@ -18,12 +14,14 @@ from rich.tree import Tree
 from rich.padding import Padding
 from rich.align import Align
 
-from projectsetup3.core.tool import tool
-from projectsetup3.config.Config import Config
-from projectsetup3.Services.UI.ArrowsService import ArrrowsService
-from projectsetup3.Services.core.ProjectManagerService import ProjectManagerService
-from projectsetup3.UI.Icons import Icons
-from projectsetup3.Services.InstallManager.InstallService import InstallService
+from projectsetup3.src.core.tool import tool
+from projectsetup3.src.config.Config import Config
+from projectsetup3.src.core.Services.UI.ArrowsService import ArrrowsService
+from projectsetup3.src.core.Services.Engine.core.ProjectService import (
+    ProjectService as ProjectManagerService,
+)
+from projectsetup3.src.UI.Icons import Icons
+from projectsetup3.src.core.Services.InstallManager.InstallService import InstallService
 
 # =======================================================
 # TEMA MODERNO - AZUL E PRETO (Inspirado NeoVim)
@@ -775,7 +773,7 @@ def toggle_readme_config():
 
 def view_history():
     """Visualiza o histórico de projetos criados"""
-    from projectsetup3.src.Services.core.HistoryServices.History import (
+    from projectsetup3.src.core.Services.HistoryServices.History import (
         History as HistoryService,
     )
 

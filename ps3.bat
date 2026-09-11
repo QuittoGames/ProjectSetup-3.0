@@ -34,6 +34,9 @@ REM --- Ativa venv se existir ---
 if exist "%SCRIPT_DIR%venv\Scripts\activate.bat" (
     echo [INFO] Ativando venv...
     call "%SCRIPT_DIR%venv\Scripts\activate.bat"
+) else if exist "%SCRIPT_DIR%.venv\Scripts\activate.bat" (
+    echo [INFO] Ativando .venv...
+    call "%SCRIPT_DIR%.venv\Scripts\activate.bat"
 ) else (
     echo [INFO] Usando Python global
 )
