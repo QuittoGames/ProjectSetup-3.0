@@ -10,8 +10,8 @@ base_dir = Path(SPECPATH)
 
 # Coletar todos os arquivos de dados necessários
 datas = [
-    # Incluir pasta appdata com todos os arquivos JSON de linguagens
-    (str(base_dir / 'appdata'), 'appdata'),
+    # Incluir pasta assets/appdata com todos os arquivos JSON de linguagens
+    (str(base_dir / 'assets' / 'appdata'), 'assets/appdata'),
     # Incluir pasta Fonts
     (str(base_dir / 'Fonts'), 'Fonts'),
     # Incluir LICENSE se necessário
@@ -31,19 +31,21 @@ hiddenimports = [
     'rich.align',
     'projectsetup3',
     'projectsetup3.cli',
-    'projectsetup3.Config',
-    'projectsetup3.tool',
     'projectsetup3.index',
-    'projectsetup3.Services',
-    'projectsetup3.Services.ArrowsService',
-    'projectsetup3.Services.CLIService',
-    'projectsetup3.Services.ProjectManagerService',
-    'projectsetup3.modules',
-    'projectsetup3.modules.Class',
-    'projectsetup3.modules.Class.BaseProject',
-    'projectsetup3.modules.Class.Icons',
-    'projectsetup3.modules.Enums',
-    'projectsetup3.modules.Enums.ProjectType',
+    'projectsetup3.src.config.Config',
+    'projectsetup3.src.core.tool',
+    'projectsetup3.src.CLI.CLIService',
+    'projectsetup3.src.UI.Icons',
+    'projectsetup3.src.core.Services.UI.ArrowsService',
+    'projectsetup3.src.core.Services.InstallManager.InstallService',
+    'projectsetup3.src.core.Services.HistoryServices.History',
+    'projectsetup3.src.core.Services.HistoryServices.HistoryManager',
+    'projectsetup3.src.core.Services.AI.READMEService',
+    'projectsetup3.src.core.Services.Engine.core.ProjectFactory',
+    'projectsetup3.src.core.Services.Engine.core.ProjectService',
+    'projectsetup3.src.core.Services.Engine.Logger.LoggerService',
+    'projectsetup3.src.core.models.Enums.RegistredProjectType',
+    'projectsetup3.src.core.models.Projects.Project',
 ]
 
 a = Analysis(
