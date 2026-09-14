@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 from projectsetup3.src.core.models.AI.AIClient import AIClient
-from projectsetup3.src.config.Config import Config
+from projectsetup3.src.core.config.Config import Config
 from ollama import AsyncClient
 import asyncio
 import aiofiles

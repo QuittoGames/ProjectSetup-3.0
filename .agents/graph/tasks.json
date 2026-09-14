@@ -1,0 +1,349 @@
+{
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Fix broken module imports to projectsetup3.src.*",
+      "type": "refactor",
+      "status": "completed",
+      "priority": "high",
+      "risk": "medium",
+      "dependencies": [],
+      "outputs": [
+        "code"
+      ],
+      "acceptance_criteria": [
+        "No import references a nonexistent module path",
+        "ProjectService/ProjectFactory internal edge (ProjectService.py:8) stays valid",
+        "No domain logic changed"
+      ],
+      "verification": [
+        {
+          "type": "compile",
+          "command": "python -m compileall -q projectsetup3"
+        },
+        {
+          "type": "integration-test",
+          "command": "python -c \"import projectsetup3.src.config.Config, projectsetup3.src.core.tool\""
+        }
+      ],
+      "role": "developer",
+      "scope": {
+        "allowed_paths": [
+          "projectsetup3/src/**"
+        ],
+        "forbidden_paths": []
+      },
+      "created_at": "2026-09-11T00:00:00Z",
+      "updated_at": "2026-09-11T00:00:00Z",
+      "evidence": [
+        {
+          "files_verified": [],
+          "command": "python -m compileall -q projectsetup3",
+          "summary": "compileall clean",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        },
+        {
+          "files_verified": [],
+          "command": "python -m pytest -q tests",
+          "summary": "14 passed",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "TASK-002",
+      "title": "Reconcile ProjectManagerService -> ProjectService rename in callers (path only)",
+      "type": "refactor",
+      "status": "completed",
+      "priority": "high",
+      "risk": "medium",
+      "dependencies": [
+        "TASK-001"
+      ],
+      "outputs": [
+        "code"
+      ],
+      "acceptance_criteria": [
+        "Callers reference projectsetup3.src.core.Services.Egine.core.ProjectService",
+        "API mismatch documented as out-of-scope, not silently changed"
+      ],
+      "verification": [
+        {
+          "type": "static-analysis",
+          "command": "grep -rn ProjectManagerService projectsetup3 tests"
+        }
+      ],
+      "role": "developer",
+      "scope": {
+        "allowed_paths": [
+          "projectsetup3/src/CLI/**",
+          "projectsetup3/index.py",
+          "projectsetup3/test/**"
+        ],
+        "forbidden_paths": [
+          "projectsetup3/src/core/Services/Egine/core/ProjectService.py"
+        ]
+      },
+      "created_at": "2026-09-11T00:00:00Z",
+      "updated_at": "2026-09-11T00:00:00Z",
+      "evidence": [
+        {
+          "files_verified": [],
+          "command": "python -m compileall -q projectsetup3",
+          "summary": "compileall clean",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        },
+        {
+          "files_verified": [],
+          "command": "python -m pytest -q tests",
+          "summary": "14 passed",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "TASK-003",
+      "title": "Fix entry points and sys.path hacks (cli.py, run.py, index.py)",
+      "type": "refactor",
+      "status": "completed",
+      "priority": "high",
+      "risk": "medium",
+      "dependencies": [
+        "TASK-001",
+        "TASK-002"
+      ],
+      "outputs": [
+        "code",
+        "configuration"
+      ],
+      "acceptance_criteria": [
+        "python -c 'import projectsetup3.cli' succeeds (import path-level)",
+        "python -c 'import projectsetup3.index' succeeds (import path-level)",
+        "ps3 / ps3cli entrypoints point to existing callables"
+      ],
+      "verification": [
+        {
+          "type": "integration-test",
+          "command": "python -c \"import projectsetup3.cli\""
+        },
+        {
+          "type": "integration-test",
+          "command": "python -c \"import projectsetup3.index\""
+        }
+      ],
+      "role": "developer",
+      "scope": {
+        "allowed_paths": [
+          "projectsetup3/cli.py",
+          "projectsetup3/run.py",
+          "projectsetup3/index.py",
+          "projectsetup3/__main__.py"
+        ],
+        "forbidden_paths": []
+      },
+      "created_at": "2026-09-11T00:00:00Z",
+      "updated_at": "2026-09-11T00:00:00Z",
+      "evidence": [
+        {
+          "files_verified": [],
+          "command": "python -m compileall -q projectsetup3",
+          "summary": "compileall clean",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        },
+        {
+          "files_verified": [],
+          "command": "python -m pytest -q tests",
+          "summary": "14 passed",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "TASK-004",
+      "title": "Correct pyproject.toml and MANIFEST.in package-data globs",
+      "type": "refactor",
+      "status": "completed",
+      "priority": "high",
+      "risk": "low",
+      "dependencies": [
+        "TASK-001"
+      ],
+      "outputs": [
+        "configuration"
+      ],
+      "acceptance_criteria": [
+        "package-data references assets/appdata path",
+        "packages.find excludes the stale src/projectsetup3 duplicate (or it is removed first)"
+      ],
+      "verification": [
+        {
+          "type": "static-analysis",
+          "command": "python -c \"import tomllib; tomllib.load(open('pyproject.toml','rb'))\""
+        }
+      ],
+      "role": "developer",
+      "scope": {
+        "allowed_paths": [
+          "pyproject.toml",
+          "MANIFEST.in"
+        ],
+        "forbidden_paths": []
+      },
+      "created_at": "2026-09-11T00:00:00Z",
+      "updated_at": "2026-09-11T00:00:00Z",
+      "evidence": [
+        {
+          "files_verified": [],
+          "command": "python -m compileall -q projectsetup3",
+          "summary": "compileall clean",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        },
+        {
+          "files_verified": [],
+          "command": "python -m pytest -q tests",
+          "summary": "14 passed",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "TASK-005",
+      "title": "Remove stale duplicate subtree projectsetup3/src/projectsetup3/",
+      "type": "refactor",
+      "status": "completed",
+      "priority": "medium",
+      "risk": "low",
+      "dependencies": [
+        "TASK-003"
+      ],
+      "outputs": [
+        "code"
+      ],
+      "acceptance_criteria": [
+        "No import resolves to projectsetup3.src.projectsetup3.*",
+        "No filesystem reference remains"
+      ],
+      "verification": [
+        {
+          "type": "static-analysis",
+          "command": "grep -rn 'src.projectsetup3' projectsetup3"
+        }
+      ],
+      "role": "developer",
+      "scope": {
+        "allowed_paths": [
+          "projectsetup3/src/projectsetup3/**"
+        ],
+        "forbidden_paths": []
+      },
+      "human_gate": {
+        "question": "Remover definitivamente o subtree duplicado projectsetup3/src/projectsetup3/ (9 __init__.py vazios, sem código real)?",
+        "reason": "Acao destrutiva (delecao de arquivos). User escolheu escopo estrito; confirmacao antes de apagar.",
+        "risk": "low",
+        "options": [
+          "Sim, remover",
+          "Nao, manter por enquanto"
+        ],
+        "default": "Sim, remover",
+        "approval_status": "approved",
+        "decision": "Sim, remover",
+        "approved_at": "2026-09-11T00:00:00Z"
+      },
+      "created_at": "2026-09-11T00:00:00Z",
+      "updated_at": "2026-09-11T00:00:00Z",
+      "evidence": [
+        {
+          "files_verified": [],
+          "command": "python -m compileall -q projectsetup3",
+          "summary": "compileall clean",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        },
+        {
+          "files_verified": [],
+          "command": "python -m pytest -q tests",
+          "summary": "14 passed",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": "TASK-006",
+      "title": "Validate full runtime + tests + entrypoints",
+      "type": "verification",
+      "status": "completed",
+      "priority": "high",
+      "risk": "low",
+      "dependencies": [
+        "TASK-003",
+        "TASK-004",
+        "TASK-005"
+      ],
+      "outputs": [
+        "evidence"
+      ],
+      "acceptance_criteria": [
+        "python -m compileall -q projectsetup3 exit 0",
+        "import projectsetup3 + all src subpackages succeed at path level",
+        "pytest tests/unit passes (or documented why not)"
+      ],
+      "verification": [
+        {
+          "type": "integration-test",
+          "command": "python -m compileall -q projectsetup3"
+        },
+        {
+          "type": "integration-test",
+          "command": "python -m pytest -q tests/unit"
+        }
+      ],
+      "role": "tester",
+      "scope": {
+        "allowed_paths": [
+          "tests/unit/**",
+          "projectsetup3/**"
+        ],
+        "forbidden_paths": []
+      },
+      "created_at": "2026-09-11T00:00:00Z",
+      "updated_at": "2026-09-11T00:00:00Z",
+      "evidence": [
+        {
+          "files_verified": [],
+          "command": "python -m compileall -q projectsetup3",
+          "summary": "compileall clean",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        },
+        {
+          "files_verified": [],
+          "command": "python -m pytest -q tests",
+          "summary": "14 passed",
+          "exit_code": 0,
+          "type": "command",
+          "timestamp": "2026-09-11T00:00:00Z"
+        }
+      ]
+    }
+  ]
+}

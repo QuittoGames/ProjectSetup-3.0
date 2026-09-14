@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "graph_id": "ps3-pkg-norm",
+  "project": {
+    "name": "ProjectSetup-3.0",
+    "root": "D:/Projects/Python/ProjectSetup-3.0",
+    "repository": "https://github.com/QuittoGames/ProjectSetup-3.0",
+    "default_branch": "dev"
+  },
+  "created_at": "2026-09-11T00:00:00Z",
+  "updated_at": "2026-09-11T00:00:00Z",
+  "task_registry": "tasks.json",
+  "decision_registry": "decisions.json",
+  "status": "active",
+  "execution": { "max_parallel_tasks": 1 },
+  "policies": {
+    "require_verification": true,
+    "require_human_gate_for_destructive_actions": true,
+    "allow_dynamic_task_creation": true
+  }
+}

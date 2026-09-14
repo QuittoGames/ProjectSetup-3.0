@@ -1,0 +1,36 @@
+{
+  "decisions": [
+    {
+      "id": "ADR-001",
+      "title": "Import strategy: absolute projectsetup3.src.* (keep src/ as subpackage)",
+      "status": "accepted",
+      "context": "After manual reorg (commit af132c3 + moves into src/core/Services/Egine/core/), imports split into three conflicting styles (projectsetup3.src.*, projectsetup3.core.*, bare core.*). Layout is hybrid: pyproject uses packages.find where=['.'] include=['projectsetup3*'], so src/ is a real subpackage (projectsetup3.src), not a true src-layout.",
+      "decision": "Canonical imports become absolute projectsetup3.src.* (e.g. projectsetup3.src.core.tool, projectsetup3.src.config.Config). Do NOT move src/* into the package root; src/ stays as a subpackage.",
+      "alternatives": [
+        "absolute_flat projectsetup3.* (would require moving src/* to package root - rejected by user)",
+        "relative imports (not project convention)"
+      ],
+      "consequences": [
+        "All broken imports normalized to projectsetup3.src.*",
+        "sys.path hacks that shadow the real package must be neutralized",
+        "stale duplicate subtree src/projectsetup3/ removed"
+      ],
+      "related_tasks": ["TASK-001", "TASK-003", "TASK-004", "TASK-005"],
+      "created_at": "2026-09-11T00:00:00Z"
+    },
+    {
+      "id": "ADR-002",
+      "title": "Scope: strict package/import/runtime/packaging normalization",
+      "status": "accepted",
+      "context": "ProjectManagerService was renamed ProjectService (git-verified: same class, same API). But ProjectService.create_project changed from @staticmethod to instance method, and domain model methods (Project.openBaseCodeJson/create/add_History/getBasestruture, Project.setLanguage writing self.language, ProjectFactory referencing self.language with no fields) are broken pre-existing logic bugs.",
+      "decision": "This task only normalizes package/import/runtime/packaging consistency. Domain/API logic bugs (Project, ProjectFactory, ProjectService static-vs-instance) are OUT-OF-SCOPE and documented, not fixed.",
+      "alternatives": ["Expand scope to fix domain logic (rejected by user: 'pure' scope)."],
+      "consequences": [
+        "Path renames only (ProjectManagerService -> ProjectService import path), no behavior change",
+        "test/t.py and full end-to-end CLI creation flow remain broken at the domain level"
+      ],
+      "related_tasks": ["TASK-002"],
+      "created_at": "2026-09-11T00:00:00Z"
+    }
+  ]
+}

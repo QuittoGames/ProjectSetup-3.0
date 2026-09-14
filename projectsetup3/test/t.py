@@ -14,10 +14,12 @@ except ModuleNotFoundError:
     repo_root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(repo_root))
 
-from projectsetup3.src.config.Config import Config
-from projectsetup3.src.core.Services.Engine.core.ProjectService import (
+from projectsetup3.src.core.config.Config import Config
+from projectsetup3.src.core.Services.Engine.ProjectService import (
     ProjectService as ProjectManagerService,
 )
+
+project_service = ProjectManagerService()
 
 
 def main():
@@ -28,9 +30,7 @@ def main():
 
     print(f"Creating project '{name}' (language={language}) in {base_path}")
     try:
-        ProjectManagerService.create_project(
-            name=name, language=language, path=base_path
-        )
+        project_service.create_project(name=name, language=language, path=base_path)
     except Exception as e:
         print(f"Error creating project: {e}")
         tmp.cleanup()

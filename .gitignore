@@ -112,7 +112,7 @@ base_codes_json/
 data/data_diretory.txt
 
 # Projetos gerados
-Projects/
+/Projects/
 Generated/
 output/
 generated_projects/
@@ -214,6 +214,6 @@ tmp/
 # Qualquer arquivo gerado automaticamente
 generated/
 auto/
-runtime/
+/runtime/
 cache/
 temp/
