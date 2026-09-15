@@ -1,16 +1,7 @@
 from dataclasses import dataclass
-import os
-import json
-from pathlib import Path
-from projectsetup3.src.core.config.Config import Config
 from projectsetup3.src.core.models.Enums.RegistredProjectType import (
     RegistredProjectType as ProjectType,
 )
-from projectsetup3.src.core.Services.READMEservice import READMEService
-from projectsetup3.src.core.Services.History import History as HistoryService
-from projectsetup3.src.core.Services.tool import tool
-import datetime
-import re
 
 
 @dataclass

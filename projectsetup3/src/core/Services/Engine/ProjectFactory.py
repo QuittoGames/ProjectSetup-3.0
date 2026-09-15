@@ -5,17 +5,26 @@ from projectsetup3.src.core.Services.tool import tool
 from projectsetup3.src.core.models.Enums.RegistredProjectType import (
     RegistredProjectType as ProjectType,
 )
-from projectsetup3.src.core.Services.READMEservice import READMEService
-from projectsetup3.src.core.Services.History import History as HistoryService
+from projectsetup3.src.core.Services.README.READMEservice import READMEService
 import re
 import os
 import json
-import datetime
 from pathlib import Path
 
 
 @dataclass
 class ProjectFactory:
+    config: Config = None
+    readmeService: READMEService = None
+
+    def __init__(
+        self,
+        config: Config = None,
+        readmeService: READMEService = None,
+    ):
+        self.config = config or Config
+        self.readmeService = readmeService or READMEService()
+
     def create(
         self,
         project_raw: Project,
@@ -34,7 +43,10 @@ class ProjectFactory:
         for file, code in project.getBasestruture().items():
             full_path = project_path / file
 
-            if Config.READMEAvaliable and content and file == "README.md":
+            if (
+                self.readmeService.isActive() is content is not None
+                and file == "README.md"
+            ):
                 code = READMEService.genereteREADME(
                     content,
                     name,
@@ -51,10 +63,10 @@ class ProjectFactory:
             with full_path.open("w", encoding="UTF-8") as fileInProject:
                 fileInProject.write(code)
 
-        if Config.GitAvaliable and gitRepoLink:
+        if self.config.GitAvaliable and gitRepoLink:
             tool.init_git_repository(gitRepoLink)
 
-        if Config.HistoryAvaliable:
+        if self.config.HistoryAvaliable:
             project.add_History(
                 name=name, gitRepoLink=gitRepoLink, project_path=project_path
             )
@@ -68,7 +80,7 @@ class ProjectFactory:
         - json.JSONDecodeError: se o JSON for inválido
         - OSError: erros de leitura/escrita de arquivo (permissão, disco cheio, etc.)
         """
-        if not os.path.exists(Config.basesCodesPath):
+        if not os.path.exists(self.config.basesCodesPath):
             raise ModuleNotFoundError("Directory of base codes in json files not found")
 
         # Try first by enum name (ex: python.json)
@@ -78,17 +90,17 @@ class ProjectFactory:
                 "Project language must be set before loading its configuration"
             )
 
-        projectPath: Path = Config.basesCodesPath / f"{language.name.lower()}.json"
+        projectPath: Path = self.config.basesCodesPath / f"{language.name.lower()}.json"
 
         # If not exist, try by value without the dot (ex: py.json)
         if not os.path.isfile(projectPath):
             value_name = language.value.lstrip(".")
-            projectPath = Config.basesCodesPath / f"{value_name}.json"
+            projectPath = self.config.basesCodesPath / f"{value_name}.json"
 
         if not os.path.isfile(projectPath):
             raise FileNotFoundError(
                 f"Json file for {language.name} "
-                f"(tried: {language.name.lower()}.json) not found in {Config.basesCodesPath}"
+                f"(tried: {language.name.lower()}.json) not found in {self.config.basesCodesPath}"
             )
 
         with open(projectPath, "r", encoding="UTF-8") as file:

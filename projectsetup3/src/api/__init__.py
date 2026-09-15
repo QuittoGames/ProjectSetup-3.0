@@ -1,3 +1,3 @@
-from projectsetup3.src.core.api.ProjectManager import ProjectManager
+from projectsetup3.src.api.ProjectManager import ProjectManager
 
 __all__ = ["ProjectManager"]

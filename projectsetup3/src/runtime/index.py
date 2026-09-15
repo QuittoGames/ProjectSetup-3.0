@@ -8,10 +8,9 @@ import json
 from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
-from rich.box import ROUNDED, HEAVY, DOUBLE
+from rich.box import ROUNDED, HEAVY
 from rich.table import Table
 from rich.tree import Tree
-from rich.padding import Padding
 from rich.align import Align
 
 from projectsetup3.src.core.Services.tool import tool

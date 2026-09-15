@@ -1,5 +1,4 @@
 import sys
-import subprocess
 import os
 import asyncio
 from pathlib import Path
