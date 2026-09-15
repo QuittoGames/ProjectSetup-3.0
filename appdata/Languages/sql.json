@@ -1,5 +1,0 @@
-{
-    "schema.sql": "-- __PROJECT_NAME__\n-- Example SQL\n\nCREATE TABLE example (\n    id INTEGER PRIMARY KEY,\n    name TEXT NOT NULL\n);\n",
-
-    "README.md": ""
-}

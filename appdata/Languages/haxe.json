@@ -1,7 +1,0 @@
-{
-    ".gitignore": "# Haxe\n*.n\n*.swp\n/bin/\n\n# IDE\n.vscode/\n.idea/\n\n# OS\n.DS_Store\nThumbs.db\n",
-
-    "src/Main.hx": "class Main {\n    static public function main():Void {\n        trace('Hello, World!');\n    }\n}\n",
-
-    "README.md": ""
-}
