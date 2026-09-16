@@ -8,7 +8,7 @@ class READMEService:
     config: Config = None
     client: AIClient = None
 
-    def __init__(self, config: Config, client: AIClient):
+    def __init__(self, config: Config = None, client: AIClient = None):
         self.config = config
         self.client = client
 
