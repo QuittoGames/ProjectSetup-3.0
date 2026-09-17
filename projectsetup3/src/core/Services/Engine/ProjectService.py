@@ -48,7 +48,7 @@ class ProjectService:
             project = Project(name=name, basestruture={})
             project.setLanguage(project_type)
 
-            self.loadProjectConfiguration(project=project)
+            self.getProjectConfiguration(project=project)
             self.factory.create(
                 project_raw=project,
                 path=path,
@@ -59,7 +59,7 @@ class ProjectService:
         except Exception as e:
             raise Exception(f"[ERROR] Error creating project: {e}")
 
-    def get_base_structure(self, language: str) -> dict | None:
+    def loadProjectConfiguration(self, language: str) -> dict | None:
         try:
             if not language:
                 raise ValueError("Language cannot be empty.")
@@ -67,13 +67,17 @@ class ProjectService:
             project_type = ProjectService.normalize_language(language)
             project = Project(name="", basestruture={})
             project.setLanguage(project_type)
-            self.loadProjectConfiguration(project=project)
+            self.factory.loadProjectConfiguration(project=project)
 
             return project.getBasestruture()
         except Exception as E:
             raise RuntimeError(f"Error retrieving base structure: {E}")
+        except ModuleNotFoundError as MNF:
+            raise RuntimeError(f"Error in read of base structure: {MNF}")
+        except FileNotFoundError as FNFE:
+            raise
 
-    def loadProjectConfiguration(self, project: Project) -> Project:
+    def getProjectConfiguration(self, project: Project) -> Project:
         try:
             return self.factory.loadProjectConfiguration(project=project)
         except ModuleNotFoundError as MNF:

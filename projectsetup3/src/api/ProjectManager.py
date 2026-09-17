@@ -25,7 +25,7 @@ class ProjectManager:
 
     def loadProjectConfiguration(self, project: Project) -> Project:
         try:
-            return self._service.loadProjectConfiguration(project=project)
+            return self._service.getProjectConfiguration(project=project)
         except ModuleNotFoundError as MNF:
             raise RuntimeError(f"ps3 | {type(e).__name__} | SDK: {e}")
         except FileNotFoundError as FNFE:
