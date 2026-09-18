@@ -97,8 +97,11 @@ class ProjectService:
 
         language = language.strip().lower()
 
-        if language in ProjectType.__members__:
-            return ProjectType[language]
+        # Tenta por nome do membro (ex: "python", "Python", "PYTHON")
+        try:
+            return ProjectType[language.upper()]
+        except KeyError:
+            pass
 
         # Tenta por valor (ex: ".py", "py")
         language_with_dot = f".{language}" if not language.startswith(".") else language

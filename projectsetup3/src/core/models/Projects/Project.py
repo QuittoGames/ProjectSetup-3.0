@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 from projectsetup3.src.core.models.Enums.RegistredProjectType import (
     RegistredProjectType as ProjectType,
 )
@@ -6,24 +7,22 @@ from projectsetup3.src.core.models.Enums.RegistredProjectType import (
 
 @dataclass
 class Project:
-    _language = None
+    _language: ProjectType | None = None
     _basestruture: dict | None = None
     _name: str = ""
 
-    def __init__(self):
-        pass
-
-    def __init__(self, name: str, basestruture: dict, language):
-        self._name = (name,)
-        self._basestruture = (basestruture,)
+    def __init__(
+        self,
+        name: str = "",
+        basestruture: dict | None = None,
+        language: ProjectType | None = None,
+    ):
+        self._name = name
+        self._basestruture = basestruture
         self._language = language
 
-    def __init__(self, name: str, basestruture: dict):
-        self._name = (name,)
-        self._basestruture = (basestruture,)
-
     def setLanguage(self, language: ProjectType):
-        self.language = language
+        self._language = language
 
     def getLanguage(self) -> ProjectType | None:
         return self._language
