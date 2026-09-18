@@ -20,7 +20,7 @@ from projectsetup3.src.core.Services.Engine.ProjectService import (
     ProjectService as ProjectManagerService,
 )
 from projectsetup3.src.app.UI.Icons import Icons
-from projectsetup3.src.core.Services.InstallService import InstallService
+from projectsetup3.src.core.Services.Installer.InstallService import InstallService
 
 project_service = ProjectManagerService()
 
@@ -774,7 +774,7 @@ def toggle_readme_config():
 
 def view_history():
     """Visualiza o histórico de projetos criados"""
-    from projectsetup3.src.core.Services.History import (
+    from projectsetup3.src.core.models.History import (
         History as HistoryService,
     )
 
@@ -1434,7 +1434,7 @@ def create_project_interactive():
         console.print()
 
         try:
-            base = project_service.get_base_structure(type_project)
+            base = project_service.loadProjectConfiguration(type_project)
         except Exception as e:
             console.print()
             console.print(
@@ -1445,7 +1445,7 @@ def create_project_interactive():
             time.sleep(1)
             # Fallback para arquivos de texto
             try:
-                base = project_service.get_base_structure("txt")
+                base = project_service.loadProjectConfiguration("txt")
                 display_lang = "TEXT"
             except Exception:
                 base = {}

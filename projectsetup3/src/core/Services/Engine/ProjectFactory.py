@@ -6,6 +6,7 @@ from projectsetup3.src.core.models.Enums.RegistredProjectType import (
     RegistredProjectType as ProjectType,
 )
 from projectsetup3.src.core.Services.README.READMEservice import READMEService
+from projectsetup3.src.core.Services.History.HistoryManager import HistoryManager
 import re
 import os
 import json
@@ -14,16 +15,19 @@ from pathlib import Path
 
 @dataclass
 class ProjectFactory:
-    config: Config = None
-    readmeService: READMEService = None
+    _config: Config = None
+    _readmeService: READMEService = None
+    _historyManager: HistoryManager = None
 
     def __init__(
         self,
         config: Config = None,
-        readmeService: READMEService = None,
+        _readmeService: READMEService = None,
+        _historyManager: HistoryManager = None,
     ):
-        self.config = config or Config
-        self.readmeService = readmeService or READMEService()
+        self._config = config or Config
+        self._readmeService = _readmeService or READMEService(config=self._config)
+        self._historyManager = _historyManager or HistoryManager()
 
     def create(
         self,
@@ -44,7 +48,7 @@ class ProjectFactory:
             full_path = project_path / file
 
             if (
-                self.readmeService.isActive() is content is not None
+                self._readmeService.isActive() is content is not None
                 and file == "README.md"
             ):
                 code = READMEService.genereteREADME(
@@ -63,12 +67,15 @@ class ProjectFactory:
             with full_path.open("w", encoding="UTF-8") as fileInProject:
                 fileInProject.write(code)
 
-        if self.config.GitAvaliable and gitRepoLink:
+        if self._config.GitAvaliable and gitRepoLink:
             tool.init_git_repository(gitRepoLink)
 
-        if self.config.HistoryAvaliable:
-            project.add_History(
-                name=name, gitRepoLink=gitRepoLink, project_path=project_path
+        if self._config.HistoryAvaliable:
+            self.addHistory(
+                name=name,
+                language=project_raw.getLanguage(),
+                gitRepoLink=gitRepoLink,
+                project_path=project_path,
             )
 
     def loadProjectConfiguration(self, project: Project) -> Project | None:
@@ -80,7 +87,7 @@ class ProjectFactory:
         - json.JSONDecodeError: se o JSON for inválido
         - OSError: erros de leitura/escrita de arquivo (permissão, disco cheio, etc.)
         """
-        if not os.path.exists(self.config.basesCodesPath):
+        if not os.path.exists(self._config.basesCodesPath):
             raise ModuleNotFoundError("Directory of base codes in json files not found")
 
         # Try first by enum name (ex: python.json)
@@ -90,17 +97,19 @@ class ProjectFactory:
                 "Project language must be set before loading its configuration"
             )
 
-        projectPath: Path = self.config.basesCodesPath / f"{language.name.lower()}.json"
+        projectPath: Path = (
+            self._config.basesCodesPath / f"{language.name.lower()}.json"
+        )
 
         # If not exist, try by value without the dot (ex: py.json)
         if not os.path.isfile(projectPath):
             value_name = language.value.lstrip(".")
-            projectPath = self.config.basesCodesPath / f"{value_name}.json"
+            projectPath = self._config.basesCodesPath / f"{value_name}.json"
 
         if not os.path.isfile(projectPath):
             raise FileNotFoundError(
                 f"Json file for {language.name} "
-                f"(tried: {language.name.lower()}.json) not found in {self.config.basesCodesPath}"
+                f"(tried: {language.name.lower()}.json) not found in {self._config.basesCodesPath}"
             )
 
         with open(projectPath, "r", encoding="UTF-8") as file:
@@ -110,11 +119,22 @@ class ProjectFactory:
 
     def setFlags(self, project: Project) -> Project:
         # Pass in basestruture for trade flag for name of project
+        structure = project.getBasestruture() or {}
         updated_structure = {
             file.replace("___PROJECTNAME__", project.getName()): code.replace(
                 "___PROJECTNAME__", project.getName()
             )
-            for file, code in project.basestruture.items()
+            for file, code in structure.items()
         }
-        project.basestruture = updated_structure
+        project.setBasestruture(updated_structure)
         return project
+
+    def addHistory(
+        self, name: str, language, gitRepoLink: str, project_path: Path | None = None
+    ):
+        self._historyManager.add_History(
+            name=name,
+            language=language,
+            gitRepoLink=gitRepoLink,
+            project_path=project_path,
+        )
