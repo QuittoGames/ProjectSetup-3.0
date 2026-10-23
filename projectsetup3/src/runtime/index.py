@@ -1508,7 +1508,7 @@ def create_project_interactive():
         console.print()
         console.print(Align.center(f"[{success_color}]▸ Criando projeto...[/]"))
         with console.status("", spinner="dots"):
-            project_service.create_project(
+            project_service.create(
                 name=name,
                 language=type_project,
                 path=path,

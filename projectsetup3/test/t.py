@@ -30,7 +30,7 @@ def main():
 
     print(f"Creating project '{name}' (language={language}) in {base_path}")
     try:
-        project_service.create_project(name=name, language=language, path=base_path)
+        project_service.create(name=name, language=language, path=base_path)
     except Exception as e:
         print(f"Error creating project: {e}")
         tmp.cleanup()

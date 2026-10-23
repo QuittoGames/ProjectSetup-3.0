@@ -87,7 +87,7 @@ class CLIService:
                 return
 
             self._logger.info("Projeto criado com sucesso", name=name, type=typeProject)
-            project_service.create_project(
+            project_service.create(
                 name=name, language=typeProject, path=path, gitRepoLink=gitRepoLink
             )
         except ValueError as VE:

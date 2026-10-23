@@ -4,7 +4,6 @@ from projectsetup3.src.core.models.Enums.RegistredProjectType import (
     RegistredProjectType as ProjectType,
 )
 
-
 @dataclass
 class Project:
     _language: ProjectType | None = None

@@ -69,7 +69,7 @@ def test_load_project_configuration():
 def test_create_project(tmp_path):
     service = ProjectService()
     try:
-        service.create_project(name="TestProject", language="python", path=tmp_path)
+        service.create(name="TestProject", language="python", path=tmp_path)
     except Exception as e:
         print(f"[C] FAIL -> {type(e).__name__}: {e}")
         raise

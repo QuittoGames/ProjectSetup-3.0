@@ -6,17 +6,18 @@ from projectsetup3.src.core.models.Enums.RegistredProjectType import (
 )
 from projectsetup3.src.core.Services.tool import tool
 from projectsetup3.src.core.Services.Engine.ProjectFactory import ProjectFactory
+from projectsetup3.src.core.interfaces.ProjectProtocol import ProjectProtocol
 from pathlib import Path
 
 
 @dataclass
-class ProjectService:
+class ProjectService(ProjectProtocol):
     """Serviço para gerenciar criação de projetos"""
 
     def __init__(self, factory: ProjectFactory | None = None):
         self.factory = factory or ProjectFactory()
 
-    def create_project(
+    def create(
         self,
         name: str,
         language: str,

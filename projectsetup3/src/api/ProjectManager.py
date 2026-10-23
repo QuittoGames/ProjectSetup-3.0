@@ -1,9 +1,10 @@
 from projectsetup3.src.core.Services.Engine.ProjectService import ProjectService
 from projectsetup3.src.core.Services.Engine.ProjectFactory import ProjectFactory
 from projectsetup3.src.core.config.Config import Config
+from projectsetup3.src.core.interfaces.ProjectProtocol import ProjectProtocol
+from pathlib import Path
 
-
-class ProjectManager:
+class ProjectManager(ProjectProtocol):
     _service: ProjectService | None = None
     _config: Config | None = None
 
@@ -17,13 +18,16 @@ class ProjectManager:
     def create(
         self,
         name: str,
+        path:str,
         language: str,
         gitRepoLink: str | None = None,
         content: str | None = None,
     ) -> None:
         try:
-            self._service.create_project(
-                name=name, language=language, gitRepoLink=gitRepoLink, content=content
+            if path is None:
+                raise ValueError
+            self._service.create(
+                name=name,path=path, language=language, gitRepoLink=gitRepoLink, content=content
             )
         except ValueError as e:
             raise ValueError(f"ps3 | {type(e).__name__} | SDK: {e}")
