@@ -1,0 +1,274 @@
+{
+  "report": "test-audit-projectsetup",
+  "version": "1.0",
+  "generated_at": "2026-10-18",
+  "agent": "unit-test-engineer",
+  "mode": "BUILD/REVIEW",
+  "project": {
+    "name": "ProjectSetup-3.0",
+    "path": "D:\\Projects\\Python\\ProjectSetup-3.0",
+    "package": "projectsetup3",
+    "version_pyproject": "1.0.3",
+    "entrypoints": {
+      "ps3cli": "projectsetup3.cli:main",
+      "ps3": "projectsetup3.index:main"
+    }
+  },
+
+  "tests_executed": {
+    "existing_suite": {
+      "file": "tests/integration/test_project_service.py",
+      "result": "5 passed (0.61s)"
+    },
+    "environment_note": "Repositório .venv é layout Linux, inutilizável no Windows. Venv funcional criado em %TEMP%\\opencode\\ps3-venv (Windows Python 3.14.7 + rich + pytest). Python do PATH é MSYS2 sem rich/pytest.",
+    "unit_tests_dir": "tests/unit/ — VAZIO",
+    "probes": {
+      "script": "%TEMP%\\opencode\\ps3_probes.py",
+      "total": 16,
+      "executed": 16,
+      "internal_failures": 0
+    }
+  },
+
+  "git_state": {
+    "modified_uncommitted": [".gitignore", "src/core/Services/Engine/ProjectFactory.py"],
+    "note": "Diff de ProjectFactory.py remove apenas linha em branco — baixo risco, tratar como escopo humano ativo.",
+    "tracked_env": "projectsetup3/.env está tracked (vazio); .env raiz gitignoreado com GEMINI_API_KEY."
+  },
+
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "CRITICAL",
+      "status": "CONFIRMED (probe P06)",
+      "title": "Geração de README nunca dispara — comparação 'is' encadeada incorreta",
+      "location": "projectsetup3/src/core/Services/Engine/ProjectFactory.py:50",
+      "detail": "Linha: `self._readmeService.isActive() is content is not None`. Em Python isso vira `(self._readmeService.isActive() is content) and (content is not None)`. Como `isActive()` retorna bool e content é str, `bool is str` é sempre False. Resultado: README nunca é gerado, mesmo com READMEAvaliable=True e content preenchido.",
+      "evidence": "P06: README permaneceu igual ao template original após create().",
+      "expected_fix": "`self._readmeService.isActive() and content is not None`"
+    },
+    {
+      "id": "F2",
+      "severity": "CRITICAL",
+      "status": "CONFIRMED (probe P05)",
+      "title": "TypeError ao criar projeto com Git ativado — init_git_repository chamado com argumento faltando",
+      "location": "projectsetup3/src/core/Services/Engine/ProjectFactory.py:70",
+      "detail": "`tool.init_git_repository(gitRepoLink)` é chamado com 1 argumento; a assinatura exige `(link, path)`. Qualquer projeto criado com Git ativo + gitRepoLink crasha com TypeError.",
+      "evidence": "P05: `TypeError: tool.init_git_repository() missing 1 required positional argument: 'path'`",
+      "expected_fix": "`tool.init_git_repository(gitRepoLink, str(project_path))`"
+    },
+    {
+      "id": "F3",
+      "severity": "CRITICAL",
+      "status": "CONFIRMED (probe P07)",
+      "title": "NameError: GeminiClient não importado — geração de README via IA quebra se F1 for corrigido",
+      "location": "projectsetup3/src/core/Services/README/READMEservice.py:814",
+      "detail": "`GeminiClient()` é instanciado mas nunca importado (só `AIClient` está no topo do arquivo). Além disso, `GeminiClient.py` é stub legado que lança exceção 'API legada'. Corrigir F1 expõe este bug.",
+      "evidence": "P07: `NameError: name 'GeminiClient' is not defined`",
+      "expected_fix": "Importar GeminiClient ou migrar para AIClient/GeminiClient atual"
+    },
+    {
+      "id": "F4",
+      "severity": "HIGH",
+      "status": "CONFIRMED (probe P03)",
+      "title": "Console script 'ps3' roda uma coroutine sem await — não faz nada",
+      "location": "pyproject.toml → scripts.ps3 = projectsetup3.index:main",
+      "detail": "`projectsetup3.index.main` é `async def main()`. Console script chama síncronamente, retorna coroutine sem executar. `python -m projectsetup3` funciona (vai para cli.main). `run()` é o wrapper síncrono correto.",
+      "evidence": "P03: `inspect.iscoroutinefunction(main) == True`",
+      "expected_fix": "Apontar script para `projectsetup3.run:main` ou usar `asyncio.run` no wrapper"
+    },
+    {
+      "id": "F5",
+      "severity": "HIGH",
+      "status": "CONFIRMED (probe P09)",
+      "title": "create_project engole todas as exceções em Exception genérica — tipos perdidos",
+      "location": "projectsetup3/src/core/Services/Engine/ProjectService.py:59-60",
+      "detail": "`except Exception as e: raise Exception(f'[ERROR] Error creating project: {e}')`. ValueError, NotADirectoryError, FileNotFoundError viram Exception genérica. CLIService.startProject:93-98 captura apenas ValueError/NotADirectoryError — o resto vaza como traceback cru.",
+      "evidence": "P09: `Exception: '[ERROR] Error creating project: Project name cannot be empty.'` (ValueError original perdida)",
+      "expected_fix": "Re-levantar o tipo original ou usar exceção de domínio específica"
+    },
+    {
+      "id": "F6",
+      "severity": "HIGH",
+      "status": "CONFIRMED (análise estática)",
+      "title": "except Exception antes de except ModuleNotFoundError/FileNotFoundError — handlers mortos",
+      "location": "projectsetup3/src/core/Services/Engine/ProjectService.py:73-78",
+      "detail": "`except Exception:` na linha 73 captura tudo antes dos handlers específicos (ModuleNotFoundError, FileNotFoundError) nas linhas seguintes — nunca executam. Docstring promete FileNotFoundError.",
+      "evidence": "Ordem de except: Exception (73) cobre ModuleNotFoundError e FileNotFoundError declarados depois.",
+      "expected_fix": "Reordenar: específicos antes de Exception"
+    },
+    {
+      "id": "F7",
+      "severity": "HIGH",
+      "status": "CONFIRMED (probes P01, P02)",
+      "title": "api/ProjectManager.py legada totalmente quebrada",
+      "location": "projectsetup3/src/api/ProjectManager.py",
+      "detail": "Múltiplos bugs: (a) `__init__` sem `self` — TypeError ao instanciar; (b) anotação `Project` sem import — import funciona no 3.14 por lazy annotations (PEP 649), quebraria em 3.10-3.13; (c) handlers de except usam variável `e` indefinida (linhas 40-41); (d) `create()` chama `create_project` sem o argumento obrigatório `path`.",
+      "evidence": "P01: import OK no 3.14 (anotações lazy). P02: `TypeError: ProjectManager.__init__() takes 2 positional arguments but 3 were given`.",
+      "expected_fix": "Remover módulo legado ou refatorar completamente"
+    },
+    {
+      "id": "F8",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED (probe P04)",
+      "title": "getIsntallCommand retorna lambda/None, nunca str — InstallService.checkDependencies quebra",
+      "location": "projectsetup3/src/core/Services/tool.py (getIsntallCommand); Installer/InstallService.py:80",
+      "detail": "Na plataforma Windows retorna None; no Linux retorna lambda. `subprocess.run(cmd, shell=True)` recebe None/lambda — crash ou comportamento imprevisível. Entrada 'dnf' no dict tem typo `sudo update &&` (falta 'dnf').",
+      "evidence": "P04: `retorno=None tipo=NoneType`",
+      "expected_fix": "Retornar string de comando correta por plataforma; corrigir typo dnf"
+    },
+    {
+      "id": "F9",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED (probe P12)",
+      "title": "'ps3cli list' sem argumento extra causa IndexError",
+      "location": "projectsetup3/src/app/CLI/CLIService.py:101",
+      "detail": "`listDataProjects` acessa `sys.argv[2]` sem verificar o comprimento. `ps3cli list` sem mais argumentos → IndexError com traceback.",
+      "evidence": "P12: `IndexError: list index out of range`",
+      "expected_fix": "Verificar `len(sys.argv) > 2` antes de acessar, ou usar argparse"
+    },
+    {
+      "id": "F10",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED (probe P11)",
+      "title": "dispatch_path compara extensão com string literal — projeto C++ cai no diretório de Python",
+      "location": "projectsetup3/src/core/config/Config.py (dispatch_path)",
+      "detail": "A função compara com 'web'/'cpp' mas a TUI interativa passa a extensão (ex: '.cpp') de type_to_extension. '.cpp' != 'cpp' → cai no fallback Python.",
+      "evidence": "P11: `'.cpp' -> D:\\Projects\\Python` | `'cpp' -> D:\\Projects\\C++`",
+      "expected_fix": "Normalizar entrada (strip leading dot) ou alinhar contrato entre TUI e dispatch_path"
+    },
+    {
+      "id": "F11",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED (probe P13)",
+      "title": "verify_modules procura requirements.txt no path errado",
+      "location": "projectsetup3/src/core/Services/tool.py:30-34 (verify_modules)",
+      "detail": "Procura em `src/core/Services/requirements/requirements.txt` (não existe). O arquivo real está em `projectsetup3/requirements/requirements.txt`.",
+      "evidence": "P13: path procurado existe=False; path real existe=True",
+      "expected_fix": "Corrigir path para `projectsetup3/requirements/requirements.txt`"
+    },
+    {
+      "id": "F12",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED (probe P14)",
+      "title": "type_to_extension fallback silencioso para '.txt' — linguagem desconhecida vira TEXT sem aviso",
+      "location": "projectsetup3/src/core/Services/tool.py (type_to_extension)",
+      "detail": "Linguagem não mapeada retorna '.txt' silenciosamente. Explica o sintoma 'TEXT fallback' observado no teste de integração.",
+      "evidence": "P14: `banana -> '.txt'`",
+      "expected_fix": "Emitir warning ou lançar exceção para linguagem não suportada"
+    },
+    {
+      "id": "F13",
+      "severity": "MEDIUM",
+      "status": "CONFIRMED (probe P15)",
+      "title": "AIClient: list_models, cachead_models_list, switch_model cada um definido 2x",
+      "location": "projectsetup3/src/core/models/AI/AIClient.py",
+      "detail": "Cada método tem uma versão sync e uma async; a segunda definição (async) sobrescreve a primeira (sync). Código que chama `aIClient.list_models()` recebe coroutine, não lista.",
+      "evidence": "P15: `list_models:2 cachead:2 switch:2`",
+      "expected_fix": "Remover duplicatas ou renomear versões async (ex: `async_list_models`)"
+    },
+    {
+      "id": "F14",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "Config.getCofig typo + Debug:str = False tipo anotado errado",
+      "location": "projectsetup3/src/core/config/Config.py",
+      "detail": "Método `getCofig` (falta 'n'). Campo `Debug: str = False` — anotação diz str, default é bool. `Config.from_dict` funciona corretamente (probe P10 confirmou todos os campos).",
+      "evidence": "P10: campos OK, `GitAvaliable=True BASECODEEDITOR='cursor'`",
+      "expected_fix": "Renomear para getConfig; corrigir anotação para `Debug: bool = False`"
+    },
+    {
+      "id": "F15",
+      "severity": "LOW",
+      "status": "CONFIRMED (probe P16)",
+      "title": "Config.Fonts=None em runtime — path BASE/Fonts não existe",
+      "location": "projectsetup3/src/core/config/Config.py (Fonts); pyproject.toml",
+      "detail": "`Config.Fonts` é None em runtime. O pyproject empacota Fonts em `projectsetup3/Fonts`, não `BASE/Fonts`.",
+      "evidence": "P16: `Fonts=None`",
+      "expected_fix": "Apontar para path correto dos fonts empacotados"
+    },
+    {
+      "id": "F16",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "enum RESQ='resq' com comentário '# esearch' — naming suspeito",
+      "location": "projectsetup3/src/core/models/Enums/RegistredProjectType.py",
+      "detail": "`RESQ = 'resq'` com comment `# esearch`. Parece typo de 'search' ou 'REST' — naming confuso.",
+      "evidence": "Leitura direta do enum.",
+      "expected_fix": "Renomear ou esclarecer comentário"
+    },
+    {
+      "id": "F17",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "ps3cli.bat referencia path antigo src\\CLI\\CLIService.py — launcher quebrado",
+      "location": "ps3cli.bat",
+      "detail": "Referencia `src\\CLI\\CLIService.py` (path antigo; agora é `src/app/CLI/CLIService.py`). Executa `python -m projectsetup3.src.CLI.CLIService` — path errado.",
+      "evidence": "Leitura direta do .bat.",
+      "expected_fix": "Atualizar path para `projectsetup3.src.app.CLI.CLIService` ou usar entry point correto"
+    },
+    {
+      "id": "F18",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "Higiene de empacotamento: test/, .github, build/, dist/ dentro do pacote",
+      "location": "projectsetup3/test/, projectsetup3/.github/, projectsetup3/build/, projectsetup3/dist/",
+      "detail": "Diretórios de teste, CI, build e dist estão DENTRO do pacote `projectsetup3/`. Deviam estar na raiz do projeto, não no pacote instalável.",
+      "evidence": "Listagem de diretórios.",
+      "expected_fix": "Mover para raiz do projeto ou adicionar ao pyexclude"
+    },
+    {
+      "id": "F19",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "InstallService.setEnv usa setx PATH (truncamento 1024 chars); getData baixa de path errado",
+      "location": "projectsetup3/src/core/Services/Installer/InstallService.py",
+      "detail": "`setx PATH` tem limite de 1024 chars e mutação global. `getData` baixa zip do GitHub assumindo layout `projectsetup3/appdata/Languages` mas o repo real tem `assets/appdata/Languages` + `appdata/` na raiz.",
+      "evidence": "Leitura direta.",
+      "expected_fix": "Usar PowerShell [Environment]::SetEnvironmentVariable; corrigir URL/path de download"
+    },
+    {
+      "id": "F20",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "History.run grava em daemon thread — race/lost write possível",
+      "location": "projectsetup3/src/core/models/History.py (run)",
+      "detail": "Gravação em daemon thread — se o processo sair antes da thread completar, o write é perdido. Sem lock ou join.",
+      "evidence": "Leitura direta.",
+      "expected_fix": "Usar thread não-daemon com join, ou fila síncrona"
+    },
+    {
+      "id": "F21",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "Typos sistêmicos: basestruture, Registred, getCofig, Avaliable",
+      "location": "Múltiplos arquivos",
+      "detail": "`basestruture` (deveria ser `baseStructure`), `RegistredProjectType` (deveria ser `RegisteredProjectType`), `getCofig` (deveria ser `getConfig`), `GitAvaliable`/`HistoryAvaliable`/`READMEAvaliable` (deveria ser `Available`). Nomenclatura inconsistente.",
+      "evidence": "Leitura direta de múltiplos arquivos.",
+      "expected_fix": "Refatoração de nomes (opcional, depende de escopo)"
+    },
+    {
+      "id": "F22",
+      "severity": "LOW",
+      "status": "CONFIRMED (análise estática)",
+      "title": "ProjectFactory.create testa regex em path absoluto para decidir dir vs arquivo",
+      "location": "projectsetup3/src/core/Services/Engine/ProjectFactory.py:60",
+      "detail": "`re.match(r'.+\\..+$', str(full_path))` — se o path absoluto tem ancestral pontuado (ex: `D\\Projects\\C++.proj\\meu-projeto`), a detecção de diretório vs arquivo quebra.",
+      "evidence": "Leitura direta.",
+      "expected_fix": "Testar apenas o basename, não o path absoluto"
+    }
+  ],
+
+  "summary": {
+    "critical": 3,
+    "high": 4,
+    "medium": 6,
+    "low": 9,
+    "total": 22
+  },
+
+  "production_code_changed": false,
+  "architectural_impact": true,
+  "user_action_required": true,
+  "next_step": "Ver .agents/TODO.md para plano de correção priorizado"
+}

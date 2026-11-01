@@ -12,7 +12,6 @@ import os
 import json
 from pathlib import Path
 
-
 @dataclass
 class ProjectFactory:
     _config: Config = None

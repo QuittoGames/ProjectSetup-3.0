@@ -1,0 +1,10 @@
+[package]
+name = "nativeEgine"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "nativeEgine"
+path = "src/egine.rs"
+
+[dependencies]
